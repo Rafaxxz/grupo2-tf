@@ -1,0 +1,42 @@
+@import '../shared.css';
+
+.esp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+
+.esp-card {
+  background: #12121f; border: 1px solid #2a2a3e; border-radius: 14px;
+  padding: 20px; display: flex; flex-direction: column; align-items: center;
+  gap: 10px; text-align: center; transition: border-color 0.2s, transform 0.2s;
+}
+.esp-card:hover { border-color: #ff4d7d44; transform: translateY(-2px); }
+
+.esp-top { display: flex; gap: 8px; align-items: center; width: 100%; justify-content: space-between; }
+.esp-modalidad { font-size: 10px; letter-spacing: 1px; padding: 3px 8px; border-radius: 4px; font-weight: 600; background: #2a2a3e; color: #888; }
+.esp-modalidad.online { background: #4eca8b11; color: #4eca8b; }
+.esp-verificado { font-size: 11px; color: #4eca8b; }
+
+.esp-avatar {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: linear-gradient(135deg, #ff4d7d33, #ff4d7d11);
+  border: 2px solid #ff4d7d44;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 700; color: #ff4d7d;
+}
+
+.esp-nombre { font-size: 16px; font-weight: 600; color: #fff; margin: 0; }
+.esp-especialidad { font-size: 12px; color: #ff4d7d; background: #ff4d7d11; padding: 3px 10px; border-radius: 20px; }
+
+.esp-actions { display: flex; gap: 8px; align-items: center; width: 100%; margin-top: 4px; }
+.btn-agendar {
+  flex: 1; background: #ff4d7d; color: #fff; border-radius: 8px;
+  padding: 10px; text-align: center; text-decoration: none; font-size: 13px; font-weight: 600;
+  transition: background 0.2s;
+}
+.btn-agendar:hover { background: #e63d6d; }
+.btn-edit, .btn-del {
+  background: none; border: none; cursor: pointer; color: #555;
+  display: flex; padding: 6px; border-radius: 6px; text-decoration: none; transition: color 0.2s;
+}
+.btn-edit:hover { color: #fff; }
+.btn-del:hover { color: #f44336; }
+.btn-edit mat-icon, .btn-del mat-icon { font-size: 18px; width: 18px; height: 18px; }
+.empty { color: #666; padding: 24px 0; }

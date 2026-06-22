@@ -1,0 +1,68 @@
+.block-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at top, #1a0a0a 0%, #0d0d1a 60%);
+  padding: 24px;
+}
+
+.block-card {
+  background: #12121f;
+  border: 1px solid #f4433644;
+  border-radius: 20px;
+  padding: 48px 40px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+
+.lock-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #f44336;
+  margin-bottom: 16px;
+}
+
+.block-msg {
+  color: #aaa;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.block-msg strong { color: #fff; }
+
+.block-sub {
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 32px;
+}
+
+.btn-salir {
+  background: transparent;
+  border: 1px solid #f4433644;
+  color: #f44336;
+  padding: 12px 32px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-salir:hover {
+  background: #f4433622;
+  border-color: #f44336;
+}

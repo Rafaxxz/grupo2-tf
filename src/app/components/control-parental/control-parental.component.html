@@ -1,0 +1,86 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Control Parental</h1>
+      <p class="page-sub">Establece límites de tiempo y bloqueos para los usuarios del sistema</p>
+    </div>
+  </div>
+
+  @if (error) { <div class="msg-error">{{ error }}</div> }
+
+  <div class="cp-layout">
+    <div class="cp-form-section">
+      <h2 class="section-title"><mat-icon>timer</mat-icon> Asignar Límite</h2>
+      <div class="form-card">
+        <div class="form-group">
+          <label>Usuario</label>
+          <select [(ngModel)]="form.usuarioId">
+            <option [value]="0">— Selecciona un usuario —</option>
+            @for (u of usuarios; track u.idUsuario) {
+              <option [value]="u.idUsuario">{{ u.nombre }} ({{ u.username }})</option>
+            }
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Tipo de límite</label>
+            <select [(ngModel)]="form.tipo">
+              <option value="diario">Diario</option>
+              <option value="semanal">Semanal</option>
+              <option value="por_sesion">Por sesión</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tiempo máximo (minutos)</label>
+            <input type="number" [(ngModel)]="form.minutosMaximos" min="1" max="1440" />
+          </div>
+        </div>
+        <div class="toggle-row">
+          <input type="checkbox" [(ngModel)]="form.bloqueoActivo" id="bloqueo" />
+          <label for="bloqueo">Activar bloqueo inmediato</label>
+        </div>
+        <div class="toggle-row">
+          <input type="checkbox" [(ngModel)]="form.notificar" id="notificar" />
+          <label for="notificar">Enviar notificación al llegar al 80%</label>
+        </div>
+        @if (exito) { <div class="msg-exito">✓ {{ exito }}</div> }
+        <button class="btn-guardar" (click)="aplicar()">
+          <mat-icon>shield</mat-icon> Aplicar Límite
+        </button>
+      </div>
+    </div>
+
+    <div class="cp-usuarios-section">
+      <h2 class="section-title"><mat-icon>people</mat-icon> Estado de Usuarios</h2>
+      <div class="usuarios-list">
+        @for (u of usuarios; track u.idUsuario) {
+          <div class="usuario-card" [class.bloqueado]="limiteDeUsuario(u.idUsuario)?.bloqueoActivo">
+            <div class="usuario-avatar">{{ u.nombre[0] }}</div>
+            <div class="usuario-info">
+              <span class="usuario-nombre">{{ u.nombre }}</span>
+              <span class="usuario-username">{{ u.username }}</span>
+            </div>
+            <div class="usuario-limite">
+              @let limite = limiteDeUsuario(u.idUsuario);
+              @if (limite) {
+                <div class="limite-info">
+                  <span class="limite-tiempo">{{ horasTexto(limite.minutosMaximos) }}</span>
+                  <span class="limite-tipo">{{ limite.tipo }}</span>
+                  <button class="btn-toggle" [class.activo]="limite.bloqueoActivo" (click)="toggleBloqueo(limite)"
+                    [title]="limite.bloqueoActivo ? 'Desbloquear' : 'Bloquear'">
+                    <mat-icon>{{ limite.bloqueoActivo ? 'lock' : 'lock_open' }}</mat-icon>
+                    {{ limite.bloqueoActivo ? 'Bloqueado' : 'Activo' }}
+                  </button>
+                </div>
+              } @else {
+                <span class="sin-limite">Sin límite</span>
+              }
+            </div>
+          </div>
+        } @empty {
+          <p class="empty">No hay usuarios en el sistema.</p>
+        }
+      </div>
+    </div>
+  </div>
+</div>

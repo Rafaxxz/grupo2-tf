@@ -1,0 +1,68 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ editando ? 'Editar' : 'Nuevo' }} Reto</h1>
+      <p class="page-sub">{{ editando ? 'Modifica el reto' : 'Crea un nuevo desafío' }}</p>
+    </div>
+    <a routerLink="/retos" class="btn-back"><mat-icon>arrow_back</mat-icon> Volver</a>
+  </div>
+  <div class="form-card">
+    <div class="form-group">
+      <label>Título *</label>
+      <input [(ngModel)]="reto.titulo" placeholder="Título del reto" />
+    </div>
+    <div class="form-group">
+      <label>Descripción</label>
+      <textarea [(ngModel)]="reto.descripcion" rows="3" placeholder="Describe el reto"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Tipo *</label>
+        <select [(ngModel)]="reto.tipo">
+          <option value="familiar">Familiar</option>
+          <option value="individual">Individual</option>
+          <option value="grupal">Grupal</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Dificultad *</label>
+        <select [(ngModel)]="reto.dificultad">
+          <option value="fácil">Fácil</option>
+          <option value="medio">Medio</option>
+          <option value="difícil">Difícil</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Duración (días) *</label>
+        <input type="number" [(ngModel)]="reto.duracionDias" min="1" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Recompensa (opcional)</label>
+        <select [(ngModel)]="reto.recompensaId">
+          <option [value]="null">— Sin recompensa —</option>
+          @for (r of recompensas; track r.idRecompensa) {
+            <option [value]="r.idRecompensa">{{ r.nombre }}</option>
+          }
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Logro (opcional)</label>
+        <select [(ngModel)]="reto.logroId">
+          <option [value]="null">— Sin logro —</option>
+          @for (l of logros; track l.idLogro) {
+            <option [value]="l.idLogro">{{ l.nombre }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <div class="toggle-row">
+      <input type="checkbox" [(ngModel)]="reto.activo" id="activo" />
+      <label for="activo">Reto activo</label>
+    </div>
+    <button class="btn-guardar" (click)="guardar()">
+      <mat-icon>save</mat-icon> {{ editando ? 'Guardar cambios' : 'Crear Reto' }}
+    </button>
+  </div>
+</div>

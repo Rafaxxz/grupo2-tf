@@ -1,0 +1,39 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>Alertas del Sistema</h1>
+      <p>{{ sinLeer() }} alerta(s) sin leer de {{ alertas.length }} total</p>
+    </div>
+    <button class="btn-refresh" (click)="cargar()"><mat-icon>refresh</mat-icon> Actualizar</button>
+  </div>
+
+  @if (cargando) {
+    <div class="loading"><mat-icon>hourglass_empty</mat-icon> Cargando alertas...</div>
+  } @else {
+    <div class="alertas-lista">
+      @for (a of alertas; track a.idAlerta) {
+        <div class="alerta-card" [class.no-leida]="!a.leida"
+          [style.border-left-color]="nivelColor(a.nivel)">
+          <div class="alerta-icon" [style.color]="nivelColor(a.nivel)">
+            <mat-icon>{{ tipoIcon(a.tipo) }}</mat-icon>
+          </div>
+          <div class="alerta-body">
+            <div class="alerta-header-row">
+              <span class="alerta-tipo">{{ a.tipo | uppercase }}</span>
+              <span class="alerta-nivel" [style.color]="nivelColor(a.nivel)">● {{ a.nivel }}</span>
+              <span class="alerta-fecha">{{ a.emitidaEn | date:'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+            <p class="alerta-mensaje">{{ a.mensaje }}</p>
+            <span class="alerta-usuario">Usuario ID: {{ a.usuarioId }}</span>
+          </div>
+          @if (!a.leida) { <span class="badge-nuevo">NUEVO</span> }
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <mat-icon>notifications_none</mat-icon>
+          <p>No hay alertas en el sistema.</p>
+        </div>
+      }
+    </div>
+  }
+</div>

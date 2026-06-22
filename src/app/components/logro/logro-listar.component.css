@@ -1,0 +1,28 @@
+@import '../shared.css';
+
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+
+.logro-card {
+  background: #12121f;
+  border: 1px solid #2a2a3e;
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  transition: border-color 0.2s;
+}
+.logro-card:hover { border-color: #ff4d7d44; }
+
+.logro-icon { font-size: 32px; flex-shrink: 0; }
+.logro-body { flex: 1; }
+.logro-nombre { font-size: 16px; font-weight: 600; color: #fff; margin: 0 0 6px; }
+.logro-desc { font-size: 13px; color: #888; margin: 0 0 12px; }
+.logro-meta { display: flex; align-items: center; gap: 10px; }
+
+.logro-actions { display: flex; flex-direction: column; }
+.logro-actions a, .logro-actions button { color: #666 !important; }
+.logro-actions a:hover { color: #fff !important; }
+.btn-delete { color: #f44336 !important; }
+
+.empty { color: #666; padding: 24px 0; }

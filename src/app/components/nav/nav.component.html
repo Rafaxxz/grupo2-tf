@@ -1,0 +1,59 @@
+<nav class="sidebar">
+  <div class="logo">
+    <span class="logo-icon">🛡️</span>
+    <div>
+      <span class="logo-title">PlayControl</span>
+      <span class="logo-sub">Panel Familiar</span>
+    </div>
+  </div>
+
+  <div class="user-badge">
+    <span class="user-avatar">{{ auth.getCurrentUsername().charAt(0).toUpperCase() }}</span>
+    <div class="user-info">
+      <span class="user-name">{{ auth.getCurrentUsername() }}</span>
+      <span class="user-role">{{ auth.getCurrentRole() }}</span>
+    </div>
+    @if (alertasNoLeidas > 0) {
+      <span class="notif-badge" title="Alertas no leídas">{{ alertasNoLeidas }}</span>
+    }
+  </div>
+
+  <ul class="nav-links">
+    <li><a routerLink="/dashboard" routerLinkActive="active"><mat-icon>dashboard</mat-icon> Dashboard</a></li>
+
+    @if (auth.isAdmin() || auth.isHijo()) {
+      <li class="nav-sep">GAMIFICACIÓN</li>
+      <li><a routerLink="/logros" routerLinkActive="active"><mat-icon>emoji_events</mat-icon> Logros</a></li>
+      <li><a routerLink="/recompensas" routerLinkActive="active"><mat-icon>card_giftcard</mat-icon> Recompensas</a></li>
+      <li><a routerLink="/retos" routerLinkActive="active"><mat-icon>flag</mat-icon> Retos</a></li>
+    }
+
+    <li class="nav-sep">FAMILIA</li>
+    <li><a routerLink="/mensajes" routerLinkActive="active"><mat-icon>chat</mat-icon> Mensajes</a></li>
+    @if (auth.isAdmin() || auth.isPadre()) {
+      <li><a routerLink="/control-parental" routerLinkActive="active"><mat-icon>family_restroom</mat-icon> Control Parental</a></li>
+    }
+
+    <li class="nav-sep">BIENESTAR</li>
+    <li><a routerLink="/especialistas" routerLinkActive="active"><mat-icon>psychology</mat-icon> Especialistas</a></li>
+    @if (auth.isAdmin() || auth.isPadre()) {
+      <li><a routerLink="/citas" routerLinkActive="active"><mat-icon>event</mat-icon> Citas</a></li>
+    }
+    <li><a routerLink="/guias" routerLinkActive="active"><mat-icon>menu_book</mat-icon> Guías</a></li>
+    @if (auth.isAdmin()) {
+      <li><a routerLink="/educacion" routerLinkActive="active"><mat-icon>school</mat-icon> Educación</a></li>
+    }
+
+    @if (auth.isAdmin()) {
+      <li class="nav-sep">ADMINISTRACIÓN</li>
+      <li><a routerLink="/alertas" routerLinkActive="active">
+        <mat-icon>notifications</mat-icon> Alertas
+        @if (alertasNoLeidas > 0) { <span class="nav-badge">{{ alertasNoLeidas }}</span> }
+      </a></li>
+    }
+  </ul>
+
+  <button class="btn-logout" (click)="auth.logout()">
+    <mat-icon>logout</mat-icon> Cerrar sesión
+  </button>
+</nav>

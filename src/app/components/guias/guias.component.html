@@ -1,0 +1,51 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>Guías y Recursos</h1>
+      <p>Contenido educativo para padres, hijos y especialistas</p>
+    </div>
+    @if (auth.isAdmin()) {
+      <a routerLink="/educacion/nuevo" class="btn-nuevo"><mat-icon>add</mat-icon> Nuevo</a>
+    }
+  </div>
+
+  <div class="filtros">
+    @for (cat of categorias; track cat) {
+      <button class="filtro-btn" [class.activo]="categoriaActiva === cat"
+        (click)="categoriaActiva = cat">
+        {{ tipoIcon(cat === 'todos' ? '' : cat) }} {{ tipoLabel(cat) }}
+      </button>
+    }
+  </div>
+
+  <div class="guias-grid">
+    @for (c of filtrados; track c.idContenido) {
+      <div class="guia-card">
+        <div class="guia-tipo-badge">
+          {{ tipoIcon(c.tipo) }} {{ tipoLabel(c.tipo) }}
+        </div>
+        <h3 class="guia-titulo">{{ c.titulo }}</h3>
+        @if (c.autor) { <p class="guia-autor">✍️ {{ c.autor }}</p> }
+        @if (c.fuente) { <p class="guia-fuente">📎 {{ c.fuente }}</p> }
+        @if (c.contenido) { <p class="guia-preview">{{ c.contenido }}</p> }
+        <div class="guia-footer">
+          @if (c.url) {
+            <a [href]="c.url" target="_blank" class="btn-ver">
+              <mat-icon>open_in_new</mat-icon> Ver recurso
+            </a>
+          }
+          @if (auth.isAdmin()) {
+            <a [routerLink]="['/educacion/editar', c.idContenido]" class="btn-editar">
+              <mat-icon>edit</mat-icon>
+            </a>
+          }
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <mat-icon>menu_book</mat-icon>
+        <p>No hay contenido disponible en esta categoría.</p>
+      </div>
+    }
+  </div>
+</div>

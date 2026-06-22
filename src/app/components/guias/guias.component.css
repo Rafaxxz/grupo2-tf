@@ -1,0 +1,77 @@
+@import '../shared.css';
+
+.page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+.page-header h1 { font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.page-header p { color: #888; font-size: 14px; }
+
+.filtros {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;
+}
+
+.filtro-btn {
+  padding: 8px 16px; border-radius: 20px; border: 1px solid #2a2a3e;
+  background: #1a1a2e; color: #888; font-size: 13px; cursor: pointer;
+  transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+}
+.filtro-btn:hover { border-color: #ff4d7d44; color: #ddd; }
+.filtro-btn.activo { background: #ff4d7d22; border-color: #ff4d7d; color: #ff4d7d; }
+
+.guias-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;
+}
+
+.guia-card {
+  background: #12121f; border: 1px solid #2a2a3e; border-radius: 14px;
+  padding: 20px; display: flex; flex-direction: column; gap: 10px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.guia-card:hover { border-color: #ff4d7d44; transform: translateY(-2px); }
+
+.guia-tipo-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #ff4d7d15; border: 1px solid #ff4d7d33;
+  color: #ff4d7d; font-size: 11px; font-weight: 600;
+  padding: 3px 10px; border-radius: 20px; width: fit-content;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+.guia-titulo {
+  font-size: 15px; font-weight: 700; color: #fff; line-height: 1.4; margin: 0;
+}
+
+.guia-autor, .guia-fuente {
+  font-size: 12px; color: #666; margin: 0;
+}
+
+.guia-preview {
+  font-size: 13px; color: #aaa; margin: 0;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.guia-footer {
+  margin-top: auto; display: flex; align-items: center; gap: 8px;
+}
+
+.btn-ver {
+  display: flex; align-items: center; gap: 6px;
+  background: #ff4d7d; color: #fff; text-decoration: none;
+  padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  transition: background 0.2s; flex: 1; justify-content: center;
+}
+.btn-ver:hover { background: #e63d6d; }
+.btn-ver mat-icon { font-size: 14px; width: 14px; height: 14px; }
+
+.btn-editar {
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 8px;
+  background: #1a1a2e; border: 1px solid #2a2a3e;
+  color: #888; text-decoration: none; transition: all 0.2s;
+}
+.btn-editar:hover { border-color: #ff4d7d; color: #ff4d7d; }
+.btn-editar mat-icon { font-size: 16px; width: 16px; height: 16px; }
+
+.empty-state {
+  grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #444;
+}
+.empty-state mat-icon { font-size: 48px; width: 48px; height: 48px; display: block; margin: 0 auto 12px; }

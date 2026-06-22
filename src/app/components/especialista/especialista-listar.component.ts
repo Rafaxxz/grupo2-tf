@@ -1,0 +1,36 @@
+import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { EspecialistaService } from '../../services/especialista.service';
+import { UsuarioService } from '../../services/usuario.service';
+import { Especialista } from '../../models/especialista.model';
+
+@Component({
+  selector: 'app-especialista-listar',
+  standalone: true,
+  imports: [RouterLink, MatIconModule],
+  templateUrl: './especialista-listar.component.html',
+  styleUrl: './especialista-listar.component.css'
+})
+export class EspecialistaListarComponent implements OnInit {
+  especialistas: Especialista[] = [];
+  usuarios: any[] = [];
+
+  constructor(private svc: EspecialistaService, private usuarioSvc: UsuarioService) {}
+
+  ngOnInit() {
+    this.usuarioSvc.list().subscribe(u => {
+      this.usuarios = u;
+      this.svc.list().subscribe(e => this.especialistas = e);
+    });
+  }
+
+  nombreUsuario(id: number) {
+    return this.usuarios.find(u => u.idUsuario === id)?.nombre || `Especialista ${id}`;
+  }
+
+  eliminar(id: number) {
+    if (confirm('¿Eliminar este especialista?'))
+      this.svc.delete(id).subscribe(() => this.svc.list().subscribe(e => this.especialistas = e));
+  }
+}

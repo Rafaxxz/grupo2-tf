@@ -1,0 +1,31 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Especialistas Verificados</h1>
+      <p class="page-sub">Psicólogos, coaches y especialistas del sistema</p>
+    </div>
+    <a routerLink="/especialistas/nuevo" class="btn-nuevo">+ Nuevo Especialista</a>
+  </div>
+
+  <div class="esp-grid">
+    @for (e of especialistas; track e.idEspecialista) {
+      <div class="esp-card">
+        <div class="esp-top">
+          <span class="esp-modalidad" [class.online]="e.modalidad === 'virtual'">
+            {{ e.modalidad === 'virtual' ? 'EN LÍNEA' : 'PRESENCIAL' }}
+          </span>
+          @if (e.verificado) { <span class="esp-verificado">✓ Verificado</span> }
+        </div>
+        <div class="esp-avatar">{{ nombreUsuario(e.usuarioId!)[0] }}</div>
+        <h3 class="esp-nombre">{{ nombreUsuario(e.usuarioId!) }}</h3>
+        <span class="esp-especialidad">{{ e.especialidad }}</span>
+        <div class="esp-actions">
+          <a routerLink="/citas/nuevo" class="btn-agendar">Agendar Cita</a>
+          <a [routerLink]="['/especialistas/editar', e.idEspecialista]" class="btn-edit"><mat-icon>edit</mat-icon></a>
+          <button (click)="eliminar(e.idEspecialista!)" class="btn-del"><mat-icon>delete</mat-icon></button>
+        </div>
+      </div>
+    }
+    @empty { <p class="empty">No hay especialistas registrados.</p> }
+  </div>
+</div>

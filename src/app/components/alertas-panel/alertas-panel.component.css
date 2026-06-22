@@ -1,0 +1,51 @@
+@import '../shared.css';
+
+.page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+.page-header h1 { font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.page-header p { color: #888; font-size: 14px; }
+
+.btn-refresh {
+  display: flex; align-items: center; gap: 6px; padding: 10px 16px;
+  background: #1a1a2e; border: 1px solid #2a2a3e; border-radius: 8px;
+  color: #aaa; font-size: 13px; cursor: pointer; transition: all 0.2s;
+}
+.btn-refresh:hover { border-color: #ff4d7d; color: #ff4d7d; }
+.btn-refresh mat-icon { font-size: 16px; width: 16px; height: 16px; }
+
+.loading { color: #666; padding: 40px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+.alertas-lista { display: flex; flex-direction: column; gap: 10px; }
+
+.alerta-card {
+  background: #12121f; border: 1px solid #2a2a3e; border-left: 4px solid #888;
+  border-radius: 10px; padding: 16px 20px; display: flex; align-items: flex-start; gap: 14px;
+  position: relative; transition: border-color 0.2s;
+}
+.alerta-card.no-leida { background: #14141f; }
+.alerta-card:hover { border-color: #3a3a5e; }
+
+.alerta-icon mat-icon { font-size: 22px; width: 22px; height: 22px; }
+
+.alerta-body { flex: 1; min-width: 0; }
+
+.alerta-header-row {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 6px; flex-wrap: wrap;
+}
+
+.alerta-tipo { font-size: 11px; font-weight: 700; color: #aaa; letter-spacing: 1px; }
+.alerta-nivel { font-size: 12px; font-weight: 600; }
+.alerta-fecha { font-size: 11px; color: #555; margin-left: auto; }
+
+.alerta-mensaje { font-size: 14px; color: #ddd; margin: 0 0 6px; line-height: 1.5; }
+.alerta-usuario { font-size: 11px; color: #555; }
+
+.badge-nuevo {
+  position: absolute; top: 12px; right: 12px;
+  background: #ff4d7d; color: #fff; font-size: 9px; font-weight: 700;
+  padding: 2px 7px; border-radius: 10px; letter-spacing: 0.5px;
+}
+
+.empty-state {
+  text-align: center; padding: 60px 20px; color: #444;
+}
+.empty-state mat-icon { font-size: 48px; width: 48px; height: 48px; display: block; margin: 0 auto 12px; }

@@ -1,0 +1,32 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Catálogo de Recompensas</h1>
+      <p class="page-sub">Premios disponibles para canjear con puntos</p>
+    </div>
+    <a routerLink="/recompensas/nuevo" class="btn-nuevo">+ Nueva Recompensa</a>
+  </div>
+
+  <div class="catalog-grid">
+    @for (r of recompensas; track r.idRecompensa) {
+      <div class="reward-card">
+        <div class="reward-top">
+          <span class="reward-tipo">{{ r.tipo | uppercase }}</span>
+          <span class="reward-icon">{{ tipoIcon(r.tipo) }}</span>
+        </div>
+        <h3 class="reward-nombre">{{ r.nombre }}</h3>
+        <p class="reward-desc">{{ r.descripcion }}</p>
+        <div class="reward-footer">
+          <span class="reward-costo">🔴 {{ r.costoPuntos }} pts</span>
+          <div class="reward-btns">
+            <a [routerLink]="['/recompensas/editar', r.idRecompensa]" class="btn-edit"><mat-icon>edit</mat-icon></a>
+            <button (click)="eliminar(r.idRecompensa!)" class="btn-del"><mat-icon>delete</mat-icon></button>
+          </div>
+        </div>
+      </div>
+    }
+    @empty {
+      <p class="empty">No hay recompensas registradas.</p>
+    }
+  </div>
+</div>

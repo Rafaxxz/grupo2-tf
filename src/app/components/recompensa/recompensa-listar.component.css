@@ -1,0 +1,37 @@
+@import '../shared.css';
+
+.catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+
+.reward-card {
+  background: #12121f;
+  border: 1px solid #2a2a3e;
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.reward-card:hover { border-color: #ff4d7d44; transform: translateY(-2px); }
+
+.reward-top { display: flex; justify-content: space-between; align-items: center; }
+.reward-tipo { font-size: 10px; letter-spacing: 1.5px; color: #ff4d7d; font-weight: 600; background: #ff4d7d11; padding: 3px 8px; border-radius: 4px; }
+.reward-icon { font-size: 28px; }
+
+.reward-nombre { font-size: 16px; font-weight: 600; color: #fff; margin: 0; }
+.reward-desc { font-size: 13px; color: #888; margin: 0; flex: 1; }
+
+.reward-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
+.reward-costo { font-size: 14px; font-weight: 700; color: #ff4d7d; }
+
+.reward-btns { display: flex; gap: 4px; }
+.btn-edit, .btn-del {
+  background: none; border: none; cursor: pointer;
+  color: #555; display: flex; align-items: center; padding: 4px;
+  border-radius: 6px; text-decoration: none; transition: color 0.2s;
+}
+.btn-edit:hover { color: #fff; }
+.btn-del:hover { color: #f44336; }
+.btn-edit mat-icon, .btn-del mat-icon { font-size: 18px; width: 18px; height: 18px; }
+
+.empty { color: #666; padding: 24px 0; }

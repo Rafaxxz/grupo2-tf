@@ -1,0 +1,53 @@
+@import '../shared.css';
+@import '../form-shared.css';
+
+.cp-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+
+.section-title { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 600; color: #fff; margin: 0 0 16px; }
+.section-title mat-icon { font-size: 20px; width: 20px; height: 20px; color: #ff4d7d; }
+
+.msg-exito { background: #4eca8b22; border: 1px solid #4eca8b44; color: #4eca8b; padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
+
+.usuarios-list { display: flex; flex-direction: column; gap: 10px; }
+
+.usuario-card {
+  background: #12121f; border: 1px solid #2a2a3e; border-radius: 12px;
+  padding: 14px 16px; display: flex; align-items: center; gap: 14px;
+}
+
+.usuario-avatar {
+  width: 40px; height: 40px; border-radius: 50%; background: #ff4d7d22;
+  border: 1px solid #ff4d7d44; display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700; color: #ff4d7d; flex-shrink: 0;
+}
+
+.usuario-info { display: flex; flex-direction: column; flex: 1; }
+.usuario-nombre { font-size: 14px; font-weight: 600; color: #fff; }
+.usuario-username { font-size: 12px; color: #666; }
+
+.usuario-limite { text-align: right; }
+.limite-info { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.limite-tiempo { font-size: 15px; font-weight: 700; color: #ff4d7d; }
+.limite-tipo { font-size: 11px; color: #666; text-transform: capitalize; }
+.bloqueo-badge { font-size: 11px; color: #f44336; }
+.sin-limite { font-size: 12px; color: #555; }
+.empty { color: #666; padding: 16px 0; font-size: 13px; }
+
+.btn-toggle {
+  display: flex; align-items: center; gap: 5px; padding: 5px 10px;
+  border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;
+  border: 1px solid #2a2a3e; background: #1a1a2e; color: #888;
+  transition: all 0.2s;
+}
+.btn-toggle.activo {
+  background: #f4433622; border-color: #f4433644; color: #f44336;
+}
+.btn-toggle:not(.activo):hover { border-color: #ff4d7d; color: #ff4d7d; }
+.btn-toggle mat-icon { font-size: 14px; width: 14px; height: 14px; }
+
+.usuario-card.bloqueado { border-color: #f4433644; background: #f4433608; }
+
+.msg-error {
+  background: #f4433622; border: 1px solid #f4433644; color: #f44336;
+  padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 12px;
+}

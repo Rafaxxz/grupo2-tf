@@ -1,0 +1,38 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ editando ? 'Editar' : 'Nuevo' }} Especialista</h1>
+      <p class="page-sub">{{ editando ? 'Modifica el especialista' : 'Registra un nuevo especialista en el sistema' }}</p>
+    </div>
+    <a routerLink="/especialistas" class="btn-back"><mat-icon>arrow_back</mat-icon> Volver</a>
+  </div>
+  <div class="form-card">
+    <div class="form-group">
+      <label>Usuario *</label>
+      <select [(ngModel)]="especialista.usuarioId">
+        <option [value]="0">— Selecciona usuario —</option>
+        @for (u of usuarios; track u.idUsuario) {
+          <option [value]="u.idUsuario">{{ u.nombre }} ({{ u.username }})</option>
+        }
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Especialidad *</label>
+      <input [(ngModel)]="especialista.especialidad" placeholder="ej: Psicología Infantil, Nutrición, Coach" />
+    </div>
+    <div class="form-group">
+      <label>Modalidad *</label>
+      <select [(ngModel)]="especialista.modalidad">
+        <option value="virtual">En línea</option>
+        <option value="presencial">Presencial</option>
+      </select>
+    </div>
+    <div class="toggle-row">
+      <input type="checkbox" [(ngModel)]="especialista.verificado" id="verificado" />
+      <label for="verificado">Especialista verificado</label>
+    </div>
+    <button class="btn-guardar" (click)="guardar()">
+      <mat-icon>save</mat-icon> {{ editando ? 'Guardar cambios' : 'Registrar Especialista' }}
+    </button>
+  </div>
+</div>

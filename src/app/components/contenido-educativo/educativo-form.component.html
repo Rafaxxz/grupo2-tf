@@ -1,0 +1,44 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ editando ? 'Editar' : 'Nuevo' }} Contenido Educativo</h1>
+      <p class="page-sub">{{ editando ? 'Modifica el recurso' : 'Agrega un nuevo recurso educativo' }}</p>
+    </div>
+    <a routerLink="/educacion" class="btn-back"><mat-icon>arrow_back</mat-icon> Volver</a>
+  </div>
+  <div class="form-card">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Título *</label>
+        <input [(ngModel)]="contenido.titulo" placeholder="Título del contenido" />
+      </div>
+      <div class="form-group">
+        <label>Tipo *</label>
+        <select [(ngModel)]="contenido.tipo">
+          @for (t of tipos; track t) { <option [value]="t">{{ t }}</option> }
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Autor</label>
+        <input [(ngModel)]="contenido.autor" placeholder="Nombre del autor" />
+      </div>
+      <div class="form-group">
+        <label>Fuente</label>
+        <input [(ngModel)]="contenido.fuente" placeholder="Revista, institución, etc." />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>URL *</label>
+      <input [(ngModel)]="contenido.url" placeholder="https://..." />
+    </div>
+    <div class="form-group">
+      <label>Resumen / Contenido</label>
+      <textarea [(ngModel)]="contenido.contenido" rows="4" placeholder="Descripción o resumen del contenido"></textarea>
+    </div>
+    <button class="btn-guardar" (click)="guardar()">
+      <mat-icon>save</mat-icon> {{ editando ? 'Guardar cambios' : 'Crear Contenido' }}
+    </button>
+  </div>
+</div>
