@@ -1,8 +1,8 @@
 <div class="page">
   <div class="page-header">
     <div>
-      <h1 class="page-title">Control Parental</h1>
-      <p class="page-sub">Establece límites de tiempo y bloqueos para los usuarios del sistema</p>
+      <h1 class="page-title">{{ 'cp.title' | t }}</h1>
+      <p class="page-sub">{{ 'cp.subtitle' | t }}</p>
     </div>
   </div>
 
@@ -10,12 +10,12 @@
 
   <div class="cp-layout">
     <div class="cp-form-section">
-      <h2 class="section-title"><mat-icon>timer</mat-icon> Asignar Límite</h2>
+      <h2 class="section-title"><mat-icon>timer</mat-icon> {{ 'cp.assignLimit' | t }}</h2>
       <div class="form-card">
         <div class="form-group">
-          <label>Usuario</label>
+          <label>{{ 'cp.user' | t }}</label>
           <select [(ngModel)]="form.usuarioId">
-            <option [value]="0">— Selecciona un usuario —</option>
+            <option [value]="0">{{ 'cp.selectUser' | t }}</option>
             @for (u of usuarios; track u.idUsuario) {
               <option [value]="u.idUsuario">{{ u.nombre }} ({{ u.username }})</option>
             }
@@ -23,35 +23,35 @@
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>Tipo de límite</label>
+            <label>{{ 'cp.limitType' | t }}</label>
             <select [(ngModel)]="form.tipo">
-              <option value="diario">Diario</option>
-              <option value="semanal">Semanal</option>
-              <option value="por_sesion">Por sesión</option>
+              <option value="diario">{{ 'cp.daily' | t }}</option>
+              <option value="semanal">{{ 'cp.weekly' | t }}</option>
+              <option value="por_sesion">{{ 'cp.perSession' | t }}</option>
             </select>
           </div>
           <div class="form-group">
-            <label>Tiempo máximo (minutos)</label>
+            <label>{{ 'cp.maxTime' | t }}</label>
             <input type="number" [(ngModel)]="form.minutosMaximos" min="1" max="1440" />
           </div>
         </div>
         <div class="toggle-row">
           <input type="checkbox" [(ngModel)]="form.bloqueoActivo" id="bloqueo" />
-          <label for="bloqueo">Activar bloqueo inmediato</label>
+          <label for="bloqueo">{{ 'cp.blockNow' | t }}</label>
         </div>
         <div class="toggle-row">
           <input type="checkbox" [(ngModel)]="form.notificar" id="notificar" />
-          <label for="notificar">Enviar notificación al llegar al 80%</label>
+          <label for="notificar">{{ 'cp.notify80' | t }}</label>
         </div>
-        @if (exito) { <div class="msg-exito">✓ {{ exito }}</div> }
+        @if (exito) { <div class="msg-exito"><mat-icon>check_circle</mat-icon> {{ exito }}</div> }
         <button class="btn-guardar" (click)="aplicar()">
-          <mat-icon>shield</mat-icon> Aplicar Límite
+          <mat-icon>shield</mat-icon> {{ 'cp.applyLimit' | t }}
         </button>
       </div>
     </div>
 
     <div class="cp-usuarios-section">
-      <h2 class="section-title"><mat-icon>people</mat-icon> Estado de Usuarios</h2>
+      <h2 class="section-title"><mat-icon>people</mat-icon> {{ 'cp.usersStatus' | t }}</h2>
       <div class="usuarios-list">
         @for (u of usuarios; track u.idUsuario) {
           <div class="usuario-card" [class.bloqueado]="limiteDeUsuario(u.idUsuario)?.bloqueoActivo">
@@ -67,18 +67,18 @@
                   <span class="limite-tiempo">{{ horasTexto(limite.minutosMaximos) }}</span>
                   <span class="limite-tipo">{{ limite.tipo }}</span>
                   <button class="btn-toggle" [class.activo]="limite.bloqueoActivo" (click)="toggleBloqueo(limite)"
-                    [title]="limite.bloqueoActivo ? 'Desbloquear' : 'Bloquear'">
+                    [title]="(limite.bloqueoActivo ? 'cp.unblock' : 'cp.block') | t">
                     <mat-icon>{{ limite.bloqueoActivo ? 'lock' : 'lock_open' }}</mat-icon>
-                    {{ limite.bloqueoActivo ? 'Bloqueado' : 'Activo' }}
+                    {{ (limite.bloqueoActivo ? 'cp.blocked' : 'cp.activeState') | t }}
                   </button>
                 </div>
               } @else {
-                <span class="sin-limite">Sin límite</span>
+                <span class="sin-limite">{{ 'cp.noLimit' | t }}</span>
               }
             </div>
           </div>
         } @empty {
-          <p class="empty">No hay usuarios en el sistema.</p>
+          <p class="empty">{{ 'cp.emptyUsers' | t }}</p>
         }
       </div>
     </div>

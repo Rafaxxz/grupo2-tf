@@ -1,83 +1,83 @@
 <div class="dash-page">
   <div class="dash-header">
     <div>
-      <h1 class="dash-title">Buenas noches, Admin</h1>
-      <p class="dash-sub">Resumen general del sistema PlayControl</p>
+      <h1 class="dash-title">{{ 'dash.welcome' | t }}</h1>
+      <p class="dash-sub">{{ 'dash.subtitle' | t }}</p>
     </div>
   </div>
 
   <div class="stats-grid">
     <a routerLink="/logros" class="stat-card">
-      <div class="stat-icon">🏆</div>
+      <div class="stat-icon"><mat-icon>emoji_events</mat-icon></div>
       <div class="stat-info">
         <span class="stat-num">{{ stats.logros }}</span>
-        <span class="stat-label">Logros</span>
-        <span class="stat-desc">Achievements del sistema</span>
+        <span class="stat-label">{{ 'dash.logros' | t }}</span>
+        <span class="stat-desc">{{ 'dash.logrosDesc' | t }}</span>
       </div>
     </a>
     <a routerLink="/recompensas" class="stat-card accent">
-      <div class="stat-icon">🎁</div>
+      <div class="stat-icon"><mat-icon>card_giftcard</mat-icon></div>
       <div class="stat-info">
         <span class="stat-num">{{ stats.recompensas }}</span>
-        <span class="stat-label">Recompensas</span>
-        <span class="stat-desc">Premios disponibles</span>
+        <span class="stat-label">{{ 'dash.recompensas' | t }}</span>
+        <span class="stat-desc">{{ 'dash.recompensasDesc' | t }}</span>
       </div>
     </a>
     <a routerLink="/retos" class="stat-card">
-      <div class="stat-icon">🚩</div>
+      <div class="stat-icon"><mat-icon>flag</mat-icon></div>
       <div class="stat-info">
         <span class="stat-num">{{ stats.retos }}</span>
-        <span class="stat-label">Retos Activos</span>
-        <span class="stat-desc">Desafíos en curso</span>
+        <span class="stat-label">{{ 'dash.retos' | t }}</span>
+        <span class="stat-desc">{{ 'dash.retosDesc' | t }}</span>
       </div>
     </a>
     <a routerLink="/mensajes" class="stat-card" [class.alert-card]="stats.mensajes > 0">
-      <div class="stat-icon">💬</div>
+      <div class="stat-icon"><mat-icon>chat</mat-icon></div>
       <div class="stat-info">
         <span class="stat-num">{{ stats.mensajes }}</span>
-        <span class="stat-label">Mensajes sin leer</span>
-        <span class="stat-desc">Comunicación familiar</span>
+        <span class="stat-label">{{ 'dash.mensajes' | t }}</span>
+        <span class="stat-desc">{{ 'dash.mensajesDesc' | t }}</span>
       </div>
     </a>
     <a routerLink="/educacion" class="stat-card">
-      <div class="stat-icon">📚</div>
+      <div class="stat-icon"><mat-icon>menu_book</mat-icon></div>
       <div class="stat-info">
         <span class="stat-num">{{ stats.educacion }}</span>
-        <span class="stat-label">Contenido Educativo</span>
-        <span class="stat-desc">Artículos y videos</span>
+        <span class="stat-label">{{ 'dash.educacion' | t }}</span>
+        <span class="stat-desc">{{ 'dash.educacionDesc' | t }}</span>
       </div>
     </a>
     <a routerLink="/citas" class="stat-card" [class.alert-card]="stats.citas > 0">
-      <div class="stat-icon">🩺</div>
+      <div class="stat-icon"><mat-icon>medical_services</mat-icon></div>
       <div class="stat-info">
         <span class="stat-num">{{ stats.citas }}</span>
-        <span class="stat-label">Citas Pendientes</span>
-        <span class="stat-desc">Con especialistas</span>
+        <span class="stat-label">{{ 'dash.citas' | t }}</span>
+        <span class="stat-desc">{{ 'dash.citasDesc' | t }}</span>
       </div>
     </a>
   </div>
 
   <div class="dash-bottom">
     <div class="quick-actions">
-      <h2 class="section-title">Acciones rápidas</h2>
+      <h2 class="section-title">{{ 'dash.quickActions' | t }}</h2>
       <div class="action-list">
         <a routerLink="/logros/nuevo" class="action-btn">
-          <mat-icon>add_circle</mat-icon> Nuevo Logro
+          <mat-icon>add_circle</mat-icon> {{ 'dash.newLogro' | t }}
         </a>
         <a routerLink="/recompensas/nuevo" class="action-btn">
-          <mat-icon>card_giftcard</mat-icon> Nueva Recompensa
+          <mat-icon>card_giftcard</mat-icon> {{ 'dash.newRecompensa' | t }}
         </a>
         <a routerLink="/retos/nuevo" class="action-btn">
-          <mat-icon>flag</mat-icon> Nuevo Reto
+          <mat-icon>flag</mat-icon> {{ 'dash.newReto' | t }}
         </a>
         <a routerLink="/educacion/nuevo" class="action-btn">
-          <mat-icon>school</mat-icon> Nuevo Contenido
+          <mat-icon>school</mat-icon> {{ 'dash.newContenido' | t }}
         </a>
         <a routerLink="/especialistas/nuevo" class="action-btn">
-          <mat-icon>person_add</mat-icon> Nuevo Especialista
+          <mat-icon>person_add</mat-icon> {{ 'dash.newEspecialista' | t }}
         </a>
         <a routerLink="/control-parental" class="action-btn highlight">
-          <mat-icon>family_restroom</mat-icon> Control Parental
+          <mat-icon>family_restroom</mat-icon> {{ 'dash.controlParental' | t }}
         </a>
       </div>
     </div>

@@ -18,6 +18,21 @@ import { ControlParentalComponent } from './components/control-parental/control-
 import { GuiasComponent } from './components/guias/guias.component';
 import { AlertasPanelComponent } from './components/alertas-panel/alertas-panel.component';
 import { BloqueadoComponent } from './components/bloqueado/bloqueado.component';
+import { UsuarioListarComponent } from './components/usuario/usuario-listar.component';
+import { UsuarioFormComponent } from './components/usuario/usuario-form.component';
+import { RolListarComponent } from './components/rol/rol-listar.component';
+import { RolFormComponent } from './components/rol/rol-form.component';
+import { CategoriaListarComponent } from './components/categoria-juego/categoria-listar.component';
+import { JuegoListarComponent } from './components/juego/juego-listar.component';
+import { JuegoFormComponent } from './components/juego/juego-form.component';
+import { SesionListarComponent } from './components/sesion-juego/sesion-listar.component';
+import { SesionFormComponent } from './components/sesion-juego/sesion-form.component';
+import { CanjeListarComponent } from './components/canje/canje-listar.component';
+import { CanjeFormComponent } from './components/canje/canje-form.component';
+import { LogroUsuarioListarComponent } from './components/logro-usuario/logro-usuario-listar.component';
+import { LogroUsuarioFormComponent } from './components/logro-usuario/logro-usuario-form.component';
+import { RetoUsuarioListarComponent } from './components/reto-usuario/reto-usuario-listar.component';
+import { RetoUsuarioFormComponent } from './components/reto-usuario/reto-usuario-form.component';
 import { authGuard } from './guards/auth.guard';
 import { bloqueoGuard } from './guards/bloqueo.guard';
 
@@ -61,6 +76,31 @@ export const routes: Routes = [
   { path: 'control-parental',        component: ControlParentalComponent,    canActivate: g },
 
   { path: 'alertas',                 component: AlertasPanelComponent,       canActivate: g },
+
+  { path: 'juegos',                  component: JuegoListarComponent,        canActivate: g },
+  { path: 'juegos/nuevo',            component: JuegoFormComponent,          canActivate: g },
+  { path: 'categorias',              component: CategoriaListarComponent,    canActivate: g },
+
+  { path: 'sesiones',                component: SesionListarComponent,       canActivate: g },
+  { path: 'sesiones/nuevo',          component: SesionFormComponent,         canActivate: g },
+
+  { path: 'canjes',                  component: CanjeListarComponent,        canActivate: g },
+  { path: 'canjes/nuevo',            component: CanjeFormComponent,          canActivate: g },
+
+  { path: 'logros-usuario',          component: LogroUsuarioListarComponent, canActivate: g },
+  { path: 'logros-usuario/nuevo',    component: LogroUsuarioFormComponent,   canActivate: g },
+
+  { path: 'retos-usuario',           component: RetoUsuarioListarComponent,  canActivate: g },
+  { path: 'retos-usuario/nuevo',     component: RetoUsuarioFormComponent,    canActivate: g },
+  { path: 'retos-usuario/editar/:id',component: RetoUsuarioFormComponent,    canActivate: g },
+
+  { path: 'usuarios',                component: UsuarioListarComponent,      canActivate: g },
+  { path: 'usuarios/nuevo',          component: UsuarioFormComponent,        canActivate: g },
+  { path: 'usuarios/editar/:id',     component: UsuarioFormComponent,        canActivate: g },
+
+  { path: 'roles',                   component: RolListarComponent,          canActivate: g },
+  { path: 'roles/nuevo',             component: RolFormComponent,            canActivate: g },
+  { path: 'roles/editar/:id',        component: RolFormComponent,            canActivate: g },
 
   { path: '**', redirectTo: 'dashboard' },
 ];

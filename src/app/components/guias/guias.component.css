@@ -15,6 +15,7 @@
 }
 .filtro-btn:hover { border-color: #ff4d7d44; color: #ddd; }
 .filtro-btn.activo { background: #ff4d7d22; border-color: #ff4d7d; color: #ff4d7d; }
+.filtro-btn mat-icon { font-size: 16px; width: 16px; height: 16px; }
 
 .guias-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;
@@ -34,6 +35,7 @@
   padding: 3px 10px; border-radius: 20px; width: fit-content;
   text-transform: uppercase; letter-spacing: 0.5px;
 }
+.guia-tipo-badge mat-icon { font-size: 14px; width: 14px; height: 14px; }
 
 .guia-titulo {
   font-size: 15px; font-weight: 700; color: #fff; line-height: 1.4; margin: 0;
@@ -41,7 +43,9 @@
 
 .guia-autor, .guia-fuente {
   font-size: 12px; color: #666; margin: 0;
+  display: inline-flex; align-items: center; gap: 5px;
 }
+.guia-autor mat-icon, .guia-fuente mat-icon { font-size: 13px; width: 13px; height: 13px; }
 
 .guia-preview {
   font-size: 13px; color: #aaa; margin: 0;

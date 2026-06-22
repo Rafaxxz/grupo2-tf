@@ -1,0 +1,36 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'categorias.title' | t }}</h1>
+      <p class="page-sub">{{ 'categorias.subtitle' | t }}</p>
+    </div>
+  </div>
+
+  <div class="add-bar">
+    <input [(ngModel)]="nueva.nombre" name="nueva" (keyup.enter)="agregar()"
+           [placeholder]="'categorias.new' | t" />
+    <button type="button" class="btn-nuevo" (click)="agregar()">+ {{ 'common.create' | t }}</button>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>{{ 'common.id' | t }}</th>
+          <th>{{ 'common.name' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (c of categorias; track c.idCategoria) {
+          <tr>
+            <td>{{ c.idCategoria }}</td>
+            <td>{{ c.nombre }}</td>
+          </tr>
+        }
+        @empty {
+          <tr class="empty-row"><td colspan="2">{{ 'common.empty' | t }}</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

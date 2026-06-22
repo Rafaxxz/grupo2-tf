@@ -1,16 +1,16 @@
 <div class="page">
   <div class="page-header">
     <div>
-      <h1 class="page-title">Logros</h1>
-      <p class="page-sub">Achievements disponibles en el sistema</p>
+      <h1 class="page-title">{{ 'logros.title' | t }}</h1>
+      <p class="page-sub">{{ 'logros.subtitle' | t }}</p>
     </div>
-    <a routerLink="/logros/nuevo" class="btn-nuevo">+ Nuevo Logro</a>
+    <a routerLink="/logros/nuevo" class="btn-nuevo">+ {{ 'logros.new' | t }}</a>
   </div>
 
   <div class="cards-grid">
     @for (logro of logros; track logro.idLogro) {
       <div class="logro-card">
-        <div class="logro-icon">{{ logro.iconoUrl || '🏆' }}</div>
+        <div class="logro-icon"><mat-icon>emoji_events</mat-icon></div>
         <div class="logro-body">
           <h3 class="logro-nombre">{{ logro.nombre }}</h3>
           <p class="logro-desc">{{ logro.descripcion }}</p>
@@ -26,7 +26,7 @@
       </div>
     }
     @empty {
-      <p class="empty">No hay logros registrados.</p>
+      <p class="empty">{{ 'common.empty' | t }}</p>
     }
   </div>
 </div>

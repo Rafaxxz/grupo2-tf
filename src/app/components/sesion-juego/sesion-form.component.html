@@ -1,0 +1,45 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'sesiones.formNew' | t }}</h1>
+      <p class="page-sub">{{ 'sesiones.subtitle' | t }}</p>
+    </div>
+    <a routerLink="/sesiones" class="btn-back"><mat-icon>arrow_back</mat-icon> {{ 'common.back' | t }}</a>
+  </div>
+
+  <div class="form-card">
+    <div class="form-row">
+      <div class="form-group">
+        <label>{{ 'sesiones.usuario' | t }} *</label>
+        <select [(ngModel)]="usuarioId" name="usuario">
+          <option [ngValue]="0" disabled>—</option>
+          @for (u of usuarios; track u.idUsuario) {
+            <option [ngValue]="u.idUsuario">{{ u.nombre }}</option>
+          }
+        </select>
+      </div>
+      <div class="form-group">
+        <label>{{ 'sesiones.juego' | t }} *</label>
+        <select [(ngModel)]="juegoId" name="juego">
+          <option [ngValue]="0" disabled>—</option>
+          @for (j of juegos; track j.idJuego) {
+            <option [ngValue]="j.idJuego">{{ j.nombre }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>{{ 'sesiones.inicio' | t }} *</label>
+        <input type="datetime-local" [(ngModel)]="inicioLocal" name="inicio" />
+      </div>
+      <div class="form-group">
+        <label>{{ 'sesiones.fin' | t }}</label>
+        <input type="datetime-local" [(ngModel)]="finLocal" name="fin" />
+      </div>
+    </div>
+    <button type="button" class="btn-guardar" (click)="guardar()">
+      <mat-icon>save</mat-icon> {{ 'common.create' | t }}
+    </button>
+  </div>
+</div>

@@ -10,7 +10,8 @@
 
 .edu-top { display: flex; justify-content: space-between; align-items: center; }
 .edu-tipo { font-size: 10px; letter-spacing: 1.5px; color: #4eca8b; background: #4eca8b11; padding: 3px 8px; border-radius: 4px; font-weight: 600; }
-.edu-icon { font-size: 24px; }
+.edu-icon { color: #4eca8b; display: flex; }
+.edu-icon mat-icon { font-size: 24px; width: 24px; height: 24px; }
 
 .edu-titulo { font-size: 15px; font-weight: 600; color: #fff; margin: 0; }
 .edu-autor { font-size: 12px; color: #666; margin: 0; }

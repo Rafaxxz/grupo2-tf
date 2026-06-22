@@ -18,10 +18,12 @@
 }
 
 .lock-icon {
-  font-size: 64px;
   margin-bottom: 20px;
   animation: pulse 2s infinite;
+  display: flex;
+  justify-content: center;
 }
+.lock-icon mat-icon { font-size: 64px; width: 64px; height: 64px; color: #ff4d7d; }
 
 @keyframes pulse {
   0%, 100% { transform: scale(1); }

@@ -1,0 +1,39 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'sesiones.title' | t }}</h1>
+      <p class="page-sub">{{ 'sesiones.subtitle' | t }}</p>
+    </div>
+    @if (auth.isAdmin()) {
+      <a routerLink="/sesiones/nuevo" class="btn-nuevo">+ {{ 'sesiones.new' | t }}</a>
+    }
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>{{ 'sesiones.usuario' | t }}</th>
+          <th>{{ 'sesiones.juego' | t }}</th>
+          <th>{{ 'sesiones.inicio' | t }}</th>
+          <th>{{ 'sesiones.fin' | t }}</th>
+          <th>{{ 'sesiones.duracion' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (s of sesiones; track s.idSesion) {
+          <tr>
+            <td>{{ nombreUsuario(s.usuarioId) }}</td>
+            <td>{{ nombreJuego(s.juegoId) }}</td>
+            <td>{{ s.inicio | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ s.fin ? (s.fin | date:'dd/MM/yyyy HH:mm') : '—' }}</td>
+            <td class="puntos">{{ s.duracionMinutos || 0 }} min</td>
+          </tr>
+        }
+        @empty {
+          <tr class="empty-row"><td colspan="5">{{ 'common.empty' | t }}</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

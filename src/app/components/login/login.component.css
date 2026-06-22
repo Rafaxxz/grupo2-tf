@@ -21,7 +21,6 @@
 }
 
 .brand-icon {
-  font-size: 40px;
   background: #1e1e3a;
   border: 1px solid #ff4d7d44;
   border-radius: 12px;
@@ -31,7 +30,9 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto 12px;
+  color: #ff4d7d;
 }
+.brand-icon mat-icon { font-size: 36px; width: 36px; height: 36px; }
 
 .brand h1 {
   font-size: 28px;
@@ -96,9 +97,11 @@
 
 .icon {
   padding: 0 12px;
-  color: #555;
-  font-size: 14px;
+  color: #777;
+  display: flex;
+  align-items: center;
 }
+.icon mat-icon { font-size: 20px; width: 20px; height: 20px; }
 
 .input-wrap input {
   flex: 1;
@@ -138,6 +141,8 @@
 
 .btn-login:hover { background: #e63d6d; }
 .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-login { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-login mat-icon { font-size: 20px; width: 20px; height: 20px; }
 
 .divider {
   display: flex; align-items: center; gap: 12px;
@@ -194,4 +199,9 @@
   font-size: 12px;
   text-align: center;
   flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
+.badge mat-icon { font-size: 16px; width: 16px; height: 16px; color: #ff4d7d; }

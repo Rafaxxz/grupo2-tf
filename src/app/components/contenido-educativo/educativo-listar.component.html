@@ -1,10 +1,10 @@
 <div class="page">
   <div class="page-header">
     <div>
-      <h1 class="page-title">Contenido Educativo</h1>
-      <p class="page-sub">Artículos, videos y guías para familias</p>
+      <h1 class="page-title">{{ 'educacion.title' | t }}</h1>
+      <p class="page-sub">{{ 'educacion.subtitle' | t }}</p>
     </div>
-    <a routerLink="/educacion/nuevo" class="btn-nuevo">+ Nuevo Contenido</a>
+    <a routerLink="/educacion/nuevo" class="btn-nuevo">+ {{ 'educacion.new' | t }}</a>
   </div>
 
   <div class="edu-grid">
@@ -12,7 +12,7 @@
       <div class="edu-card">
         <div class="edu-top">
           <span class="edu-tipo">{{ c.tipo | uppercase }}</span>
-          <span class="edu-icon">{{ tipoIcon(c.tipo) }}</span>
+          <span class="edu-icon"><mat-icon>{{ tipoIcon(c.tipo) }}</mat-icon></span>
         </div>
         <h3 class="edu-titulo">{{ c.titulo }}</h3>
         <p class="edu-autor">{{ c.autor }} · {{ c.fuente }}</p>
@@ -29,6 +29,6 @@
         </div>
       </div>
     }
-    @empty { <p class="empty">No hay contenido registrado.</p> }
+    @empty { <p class="empty">{{ 'common.empty' | t }}</p> }
   </div>
 </div>

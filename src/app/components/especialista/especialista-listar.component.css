@@ -12,7 +12,8 @@
 .esp-top { display: flex; gap: 8px; align-items: center; width: 100%; justify-content: space-between; }
 .esp-modalidad { font-size: 10px; letter-spacing: 1px; padding: 3px 8px; border-radius: 4px; font-weight: 600; background: #2a2a3e; color: #888; }
 .esp-modalidad.online { background: #4eca8b11; color: #4eca8b; }
-.esp-verificado { font-size: 11px; color: #4eca8b; }
+.esp-verificado { font-size: 11px; color: #4eca8b; display: inline-flex; align-items: center; gap: 3px; }
+.esp-verificado mat-icon { font-size: 13px; width: 13px; height: 13px; }
 
 .esp-avatar {
   width: 64px; height: 64px; border-radius: 50%;

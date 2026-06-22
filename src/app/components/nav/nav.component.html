@@ -1,9 +1,9 @@
 <nav class="sidebar">
   <div class="logo">
-    <span class="logo-icon">🛡️</span>
+    <span class="logo-icon"><mat-icon>shield</mat-icon></span>
     <div>
-      <span class="logo-title">PlayControl</span>
-      <span class="logo-sub">Panel Familiar</span>
+      <span class="logo-title">{{ 'app.title' | t }}</span>
+      <span class="logo-sub">{{ 'app.subtitle' | t }}</span>
     </div>
   </div>
 
@@ -19,41 +19,64 @@
   </div>
 
   <ul class="nav-links">
-    <li><a routerLink="/dashboard" routerLinkActive="active"><mat-icon>dashboard</mat-icon> Dashboard</a></li>
+    <li><a routerLink="/dashboard" routerLinkActive="active"><mat-icon>dashboard</mat-icon> {{ 'nav.dashboard' | t }}</a></li>
 
     @if (auth.isAdmin() || auth.isHijo()) {
-      <li class="nav-sep">GAMIFICACIÓN</li>
-      <li><a routerLink="/logros" routerLinkActive="active"><mat-icon>emoji_events</mat-icon> Logros</a></li>
-      <li><a routerLink="/recompensas" routerLinkActive="active"><mat-icon>card_giftcard</mat-icon> Recompensas</a></li>
-      <li><a routerLink="/retos" routerLinkActive="active"><mat-icon>flag</mat-icon> Retos</a></li>
+      <li class="nav-sep">{{ 'nav.gamification' | t }}</li>
+      <li><a routerLink="/logros" routerLinkActive="active"><mat-icon>emoji_events</mat-icon> {{ 'nav.logros' | t }}</a></li>
+      <li><a routerLink="/recompensas" routerLinkActive="active"><mat-icon>card_giftcard</mat-icon> {{ 'nav.recompensas' | t }}</a></li>
+      <li><a routerLink="/retos" routerLinkActive="active"><mat-icon>flag</mat-icon> {{ 'nav.retos' | t }}</a></li>
     }
 
-    <li class="nav-sep">FAMILIA</li>
-    <li><a routerLink="/mensajes" routerLinkActive="active"><mat-icon>chat</mat-icon> Mensajes</a></li>
+    <li class="nav-sep">{{ 'nav.family' | t }}</li>
+    <li><a routerLink="/mensajes" routerLinkActive="active"><mat-icon>chat</mat-icon> {{ 'nav.mensajes' | t }}</a></li>
     @if (auth.isAdmin() || auth.isPadre()) {
-      <li><a routerLink="/control-parental" routerLinkActive="active"><mat-icon>family_restroom</mat-icon> Control Parental</a></li>
+      <li><a routerLink="/control-parental" routerLinkActive="active"><mat-icon>family_restroom</mat-icon> {{ 'nav.controlParental' | t }}</a></li>
     }
 
-    <li class="nav-sep">BIENESTAR</li>
-    <li><a routerLink="/especialistas" routerLinkActive="active"><mat-icon>psychology</mat-icon> Especialistas</a></li>
+    <li class="nav-sep">{{ 'nav.wellbeing' | t }}</li>
+    <li><a routerLink="/especialistas" routerLinkActive="active"><mat-icon>psychology</mat-icon> {{ 'nav.especialistas' | t }}</a></li>
     @if (auth.isAdmin() || auth.isPadre()) {
-      <li><a routerLink="/citas" routerLinkActive="active"><mat-icon>event</mat-icon> Citas</a></li>
+      <li><a routerLink="/citas" routerLinkActive="active"><mat-icon>event</mat-icon> {{ 'nav.citas' | t }}</a></li>
     }
-    <li><a routerLink="/guias" routerLinkActive="active"><mat-icon>menu_book</mat-icon> Guías</a></li>
+    <li><a routerLink="/guias" routerLinkActive="active"><mat-icon>menu_book</mat-icon> {{ 'nav.guias' | t }}</a></li>
     @if (auth.isAdmin()) {
-      <li><a routerLink="/educacion" routerLinkActive="active"><mat-icon>school</mat-icon> Educación</a></li>
+      <li><a routerLink="/educacion" routerLinkActive="active"><mat-icon>school</mat-icon> {{ 'nav.educacion' | t }}</a></li>
+    }
+
+    <li class="nav-sep">{{ 'nav.catalog' | t }}</li>
+    <li><a routerLink="/juegos" routerLinkActive="active"><mat-icon>sports_esports</mat-icon> {{ 'nav.juegos' | t }}</a></li>
+    @if (auth.isAdmin()) {
+      <li><a routerLink="/categorias" routerLinkActive="active"><mat-icon>category</mat-icon> {{ 'nav.categorias' | t }}</a></li>
+    }
+    @if (auth.isAdmin() || auth.isPadre()) {
+      <li><a routerLink="/sesiones" routerLinkActive="active"><mat-icon>timer</mat-icon> {{ 'nav.sesiones' | t }}</a></li>
+    }
+    @if (auth.isAdmin() || auth.isHijo()) {
+      <li><a routerLink="/canjes" routerLinkActive="active"><mat-icon>redeem</mat-icon> {{ 'nav.canjes' | t }}</a></li>
+    }
+    @if (auth.isAdmin() || auth.isPadre()) {
+      <li><a routerLink="/logros-usuario" routerLinkActive="active"><mat-icon>military_tech</mat-icon> {{ 'nav.logrosUsuario' | t }}</a></li>
+      <li><a routerLink="/retos-usuario" routerLinkActive="active"><mat-icon>checklist</mat-icon> {{ 'nav.retosUsuario' | t }}</a></li>
     }
 
     @if (auth.isAdmin()) {
-      <li class="nav-sep">ADMINISTRACIÓN</li>
+      <li class="nav-sep">{{ 'nav.admin' | t }}</li>
+      <li><a routerLink="/usuarios" routerLinkActive="active"><mat-icon>group</mat-icon> {{ 'nav.usuarios' | t }}</a></li>
+      <li><a routerLink="/roles" routerLinkActive="active"><mat-icon>admin_panel_settings</mat-icon> {{ 'nav.roles' | t }}</a></li>
       <li><a routerLink="/alertas" routerLinkActive="active">
-        <mat-icon>notifications</mat-icon> Alertas
+        <mat-icon>notifications</mat-icon> {{ 'nav.alertas' | t }}
         @if (alertasNoLeidas > 0) { <span class="nav-badge">{{ alertasNoLeidas }}</span> }
       </a></li>
     }
   </ul>
 
+  <div class="lang-switch">
+    <button type="button" [class.active]="i18n.lang() === 'es'" (click)="i18n.use('es')">ES</button>
+    <button type="button" [class.active]="i18n.lang() === 'en'" (click)="i18n.use('en')">EN</button>
+  </div>
+
   <button class="btn-logout" (click)="auth.logout()">
-    <mat-icon>logout</mat-icon> Cerrar sesión
+    <mat-icon>logout</mat-icon> {{ 'nav.logout' | t }}
   </button>
 </nav>

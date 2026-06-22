@@ -5,11 +5,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { EspecialistaService } from '../../services/especialista.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { Especialista } from '../../models/especialista.model';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-especialista-form',
   standalone: true,
-  imports: [FormsModule, RouterLink, MatIconModule],
+  imports: [FormsModule, RouterLink, MatIconModule, TranslatePipe],
   templateUrl: './especialista-form.component.html',
   styleUrl: './especialista-form.component.css'
 })

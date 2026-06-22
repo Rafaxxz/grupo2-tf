@@ -4,11 +4,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { LogroService } from '../../services/logro.service';
 import { Logro } from '../../models/logro.model';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-logro-form',
   standalone: true,
-  imports: [FormsModule, RouterLink, MatIconModule],
+  imports: [FormsModule, RouterLink, MatIconModule, TranslatePipe],
   templateUrl: './logro-form.component.html',
   styleUrl: './logro-form.component.css'
 })
@@ -29,7 +30,7 @@ export class LogroFormComponent implements OnInit {
 
   guardar() {
     const obs = this.editando
-      ? this.svc.update(this.id!, this.logro)
+      ? this.svc.update(this.logro)
       : this.svc.insert(this.logro);
     obs.subscribe(() => this.router.navigate(['/logros']));
   }

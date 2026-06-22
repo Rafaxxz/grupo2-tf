@@ -1,43 +1,43 @@
 <div class="page">
   <div class="page-header">
     <div>
-      <h1 class="page-title">{{ editando ? 'Editar' : 'Nuevo' }} Logro</h1>
-      <p class="page-sub">{{ editando ? 'Modifica los datos del logro' : 'Registra un nuevo achievement' }}</p>
+      <h1 class="page-title">{{ (editando ? 'logros.formEdit' : 'logros.formNew') | t }}</h1>
+      <p class="page-sub">{{ (editando ? 'logros.formEditSub' : 'logros.formNewSub') | t }}</p>
     </div>
-    <a routerLink="/logros" class="btn-back"><mat-icon>arrow_back</mat-icon> Volver</a>
+    <a routerLink="/logros" class="btn-back"><mat-icon>arrow_back</mat-icon> {{ 'common.back' | t }}</a>
   </div>
 
   <div class="form-card">
     <div class="form-row">
       <div class="form-group">
-        <label>Nombre *</label>
-        <input [(ngModel)]="logro.nombre" placeholder="Nombre del logro" />
+        <label>{{ 'logros.fName' | t }} *</label>
+        <input [(ngModel)]="logro.nombre" name="nombre" />
       </div>
       <div class="form-group">
-        <label>Ícono (emoji)</label>
-        <input [(ngModel)]="logro.iconoUrl" placeholder="🏆" />
+        <label>{{ 'logros.fIcon' | t }}</label>
+        <input [(ngModel)]="logro.iconoUrl" name="icono" placeholder="https://..." />
       </div>
     </div>
     <div class="form-group">
-      <label>Descripción</label>
-      <textarea [(ngModel)]="logro.descripcion" placeholder="Describe cómo se obtiene este logro" rows="3"></textarea>
+      <label>{{ 'logros.fDesc' | t }}</label>
+      <textarea [(ngModel)]="logro.descripcion" name="desc" [placeholder]="'logros.fDescPh' | t" rows="3"></textarea>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>Criterio *</label>
-        <input [(ngModel)]="logro.criterio" placeholder="ej: sesiones, horas_juego, retos" />
+        <label>{{ 'logros.fCriterio' | t }} *</label>
+        <input [(ngModel)]="logro.criterio" name="criterio" [placeholder]="'logros.fCriterioPh' | t" />
       </div>
       <div class="form-group">
-        <label>Valor criterio *</label>
-        <input type="number" [(ngModel)]="logro.valorCriterio" min="1" />
+        <label>{{ 'logros.fValor' | t }} *</label>
+        <input type="number" [(ngModel)]="logro.valorCriterio" name="valor" min="1" />
       </div>
       <div class="form-group">
-        <label>Puntos otorgados</label>
-        <input type="number" [(ngModel)]="logro.puntosOtorgados" min="0" />
+        <label>{{ 'logros.fPuntos' | t }}</label>
+        <input type="number" [(ngModel)]="logro.puntosOtorgados" name="puntos" min="0" />
       </div>
     </div>
     <button class="btn-guardar" (click)="guardar()">
-      <mat-icon>save</mat-icon> {{ editando ? 'Guardar cambios' : 'Crear Logro' }}
+      <mat-icon>save</mat-icon> {{ (editando ? 'common.saveChanges' : 'logros.create') | t }}
     </button>
   </div>
 </div>

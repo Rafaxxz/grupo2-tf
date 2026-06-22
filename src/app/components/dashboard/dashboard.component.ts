@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 import { forkJoin } from 'rxjs';
 import { LogroService } from '../../services/logro.service';
 import { RecompensaService } from '../../services/recompensa.service';
@@ -12,7 +13,7 @@ import { CitaEspecialistaService } from '../../services/cita-especialista.servic
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, MatIconModule],
+  imports: [RouterLink, MatIconModule, TranslatePipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

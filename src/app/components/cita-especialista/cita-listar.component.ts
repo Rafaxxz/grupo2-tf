@@ -6,11 +6,13 @@ import { CitaEspecialistaService } from '../../services/cita-especialista.servic
 import { EspecialistaService } from '../../services/especialista.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { CitaEspecialista } from '../../models/cita-especialista.model';
+import { TranslateService } from '../../i18n/translate.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-cita-listar',
   standalone: true,
-  imports: [RouterLink, MatIconModule, DatePipe],
+  imports: [RouterLink, MatIconModule, DatePipe, TranslatePipe],
   templateUrl: './cita-listar.component.html',
   styleUrl: './cita-listar.component.css'
 })
@@ -22,7 +24,8 @@ export class CitaListarComponent implements OnInit {
   constructor(
     private svc: CitaEspecialistaService,
     private espSvc: EspecialistaService,
-    private usuarioSvc: UsuarioService
+    private usuarioSvc: UsuarioService,
+    private i18n: TranslateService
   ) {}
 
   ngOnInit() {
@@ -45,6 +48,6 @@ export class CitaListarComponent implements OnInit {
   }
 
   eliminar(id: number) {
-    if (confirm('¿Eliminar esta cita?')) this.svc.delete(id).subscribe(() => this.cargar());
+    if (confirm(this.i18n.t('common.confirmDelete'))) this.svc.delete(id).subscribe(() => this.cargar());
   }
 }

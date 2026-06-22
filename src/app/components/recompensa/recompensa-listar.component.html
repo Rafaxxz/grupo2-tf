@@ -1,10 +1,10 @@
 <div class="page">
   <div class="page-header">
     <div>
-      <h1 class="page-title">Catálogo de Recompensas</h1>
-      <p class="page-sub">Premios disponibles para canjear con puntos</p>
+      <h1 class="page-title">{{ 'recompensas.title' | t }}</h1>
+      <p class="page-sub">{{ 'recompensas.subtitle' | t }}</p>
     </div>
-    <a routerLink="/recompensas/nuevo" class="btn-nuevo">+ Nueva Recompensa</a>
+    <a routerLink="/recompensas/nuevo" class="btn-nuevo">+ {{ 'recompensas.new' | t }}</a>
   </div>
 
   <div class="catalog-grid">
@@ -12,12 +12,12 @@
       <div class="reward-card">
         <div class="reward-top">
           <span class="reward-tipo">{{ r.tipo | uppercase }}</span>
-          <span class="reward-icon">{{ tipoIcon(r.tipo) }}</span>
+          <span class="reward-icon"><mat-icon>{{ tipoIcon(r.tipo) }}</mat-icon></span>
         </div>
         <h3 class="reward-nombre">{{ r.nombre }}</h3>
         <p class="reward-desc">{{ r.descripcion }}</p>
         <div class="reward-footer">
-          <span class="reward-costo">🔴 {{ r.costoPuntos }} pts</span>
+          <span class="reward-costo"><mat-icon>toll</mat-icon> {{ r.costoPuntos }} {{ 'recompensas.pts' | t }}</span>
           <div class="reward-btns">
             <a [routerLink]="['/recompensas/editar', r.idRecompensa]" class="btn-edit"><mat-icon>edit</mat-icon></a>
             <button (click)="eliminar(r.idRecompensa!)" class="btn-del"><mat-icon>delete</mat-icon></button>
@@ -26,7 +26,7 @@
       </div>
     }
     @empty {
-      <p class="empty">No hay recompensas registradas.</p>
+      <p class="empty">{{ 'common.empty' | t }}</p>
     }
   </div>
 </div>

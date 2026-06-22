@@ -16,5 +16,4 @@ export class ContenidoEducativoService {
   insert(c: ContenidoEducativo) { return this.http.post(this.url, c); }
   update(id: number, c: ContenidoEducativo) { return this.http.put(`${this.url}/${id}`, c); }
   delete(id: number) { return this.http.delete(`${this.url}/${id}`, { responseType: 'text' }); }
-  getByTipo(tipo: string) { return this.http.get<ContenidoEducativo[]>(`${this.url}/tipo?tipo=${tipo}`); }
 }

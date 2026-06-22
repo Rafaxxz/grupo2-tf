@@ -12,5 +12,6 @@ export class UsuarioService {
   insert(u: Usuario) { return this.http.post<Usuario>(this.url, u); }
   update(id: number, u: Usuario) { return this.http.put<Usuario>(`${this.url}/${id}`, u); }
   delete(id: number) { return this.http.delete(`${this.url}/${id}`, { responseType: 'text' }); }
-  getByRol(rolId: number) { return this.http.get<Usuario[]>(`${this.url}/userByRol?rolId=${rolId}`); }
+  getByRol(nombre: string) { return this.http.get<Usuario[]>(`${this.url}/userByRol?nombre=${nombre}`); }
+  userLastDays() { return this.http.get<Usuario[]>(`${this.url}/userLastDays`); }
 }

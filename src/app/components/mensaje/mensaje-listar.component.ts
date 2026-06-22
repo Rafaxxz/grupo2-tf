@@ -6,11 +6,12 @@ import { MensajeService } from '../../services/mensaje.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { AuthService } from '../../services/auth.service';
 import { Mensaje } from '../../models/mensaje.model';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-mensaje-listar',
   standalone: true,
-  imports: [FormsModule, MatIconModule, DatePipe],
+  imports: [FormsModule, MatIconModule, DatePipe, TranslatePipe],
   templateUrl: './mensaje-listar.component.html',
   styleUrl: './mensaje-listar.component.css'
 })

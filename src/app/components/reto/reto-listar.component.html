@@ -1,10 +1,10 @@
 <div class="page">
   <div class="page-header">
     <div>
-      <h1 class="page-title">Retos</h1>
-      <p class="page-sub">Desafíos activos del sistema</p>
+      <h1 class="page-title">{{ 'retos.title' | t }}</h1>
+      <p class="page-sub">{{ 'retos.subtitle' | t }}</p>
     </div>
-    <a routerLink="/retos/nuevo" class="btn-nuevo">+ Nuevo Reto</a>
+    <a routerLink="/retos/nuevo" class="btn-nuevo">+ {{ 'retos.new' | t }}</a>
   </div>
 
   <div class="retos-grid">
@@ -12,13 +12,16 @@
       <div class="reto-card" [class.inactivo]="!r.activo">
         <div class="reto-header">
           <span class="reto-tipo">{{ r.tipo }}</span>
-          <span class="reto-activo">{{ r.activo ? '🟢 Activo' : '⚫ Inactivo' }}</span>
+          <span class="reto-activo" [class.on]="r.activo">
+            <mat-icon>{{ r.activo ? 'check_circle' : 'cancel' }}</mat-icon>
+            {{ (r.activo ? 'common.active' : 'common.inactive') | t }}
+          </span>
         </div>
         <h3 class="reto-titulo">{{ r.titulo }}</h3>
         <p class="reto-desc">{{ r.descripcion }}</p>
         <div class="reto-meta">
           <span class="reto-dif" [style.color]="difColor(r.dificultad || '')">{{ r.dificultad }}</span>
-          <span class="reto-dur">⏱ {{ r.duracionDias }} días</span>
+          <span class="reto-dur"><mat-icon>schedule</mat-icon> {{ r.duracionDias }} {{ 'retos.days' | t }}</span>
         </div>
         <div class="reto-actions">
           <a [routerLink]="['/retos/editar', r.idReto]" class="btn-edit"><mat-icon>edit</mat-icon></a>
@@ -26,6 +29,6 @@
         </div>
       </div>
     }
-    @empty { <p class="empty">No hay retos registrados.</p> }
+    @empty { <p class="empty">{{ 'common.empty' | t }}</p> }
   </div>
 </div>

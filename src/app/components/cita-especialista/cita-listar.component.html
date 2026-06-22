@@ -1,10 +1,10 @@
 <div class="page">
   <div class="page-header">
     <div>
-      <h1 class="page-title">Citas con Especialistas</h1>
-      <p class="page-sub">Agenda y estado de citas del sistema</p>
+      <h1 class="page-title">{{ 'citas.title' | t }}</h1>
+      <p class="page-sub">{{ 'citas.subtitle' | t }}</p>
     </div>
-    <a routerLink="/citas/nuevo" class="btn-nuevo">+ Nueva Cita</a>
+    <a routerLink="/citas/nuevo" class="btn-nuevo">+ {{ 'citas.new' | t }}</a>
   </div>
 
   <div class="citas-list">
@@ -13,24 +13,24 @@
         <div class="cita-left">
           <div class="cita-estado-badge" [class]="'badge-' + c.estado">{{ c.estado }}</div>
           <div class="cita-info">
-            <span class="cita-usuario">👤 {{ nombreUsuario(c.usuarioId) }}</span>
-            <span class="cita-esp">🩺 {{ nombreEsp(c.especialistaId) }}</span>
-            <span class="cita-fecha">📅 {{ c.fechaHora | date:'dd/MM/yyyy HH:mm' }}</span>
+            <span class="cita-usuario"><mat-icon>person</mat-icon> {{ nombreUsuario(c.usuarioId) }}</span>
+            <span class="cita-esp"><mat-icon>medical_services</mat-icon> {{ nombreEsp(c.especialistaId) }}</span>
+            <span class="cita-fecha"><mat-icon>event</mat-icon> {{ c.fechaHora | date:'dd/MM/yyyy HH:mm' }}</span>
           </div>
         </div>
         <div class="cita-actions">
           @if (c.estado === 'pendiente') {
-            <button class="btn-confirmar" (click)="cambiarEstado(c, 'confirmada')">Confirmar</button>
-            <button class="btn-cancelar" (click)="cambiarEstado(c, 'cancelada')">Cancelar</button>
+            <button class="btn-confirmar" (click)="cambiarEstado(c, 'confirmada')">{{ 'citas.confirm' | t }}</button>
+            <button class="btn-cancelar" (click)="cambiarEstado(c, 'cancelada')">{{ 'citas.cancel' | t }}</button>
           }
           @if (c.estado === 'confirmada') {
-            <button class="btn-confirmar" (click)="cambiarEstado(c, 'completada')">Completar</button>
+            <button class="btn-confirmar" (click)="cambiarEstado(c, 'completada')">{{ 'citas.complete' | t }}</button>
           }
           <a [routerLink]="['/citas/editar', c.idCita]" class="btn-edit"><mat-icon>edit</mat-icon></a>
           <button (click)="eliminar(c.idCita!)" class="btn-del"><mat-icon>delete</mat-icon></button>
         </div>
       </div>
     }
-    @empty { <p class="empty">No hay citas registradas.</p> }
+    @empty { <p class="empty">{{ 'citas.empty' | t }}</p> }
   </div>
 </div>

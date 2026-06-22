@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
 import { LimiteTiempoService } from '../../services/limite-tiempo.service';
 import { Router } from '@angular/router';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-bloqueado',
   standalone: true,
-  imports: [],
+  imports: [MatIconModule, TranslatePipe],
   templateUrl: './bloqueado.component.html',
   styleUrl: './bloqueado.component.css'
 })

@@ -6,7 +6,8 @@
 .section-title { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 600; color: #fff; margin: 0 0 16px; }
 .section-title mat-icon { font-size: 20px; width: 20px; height: 20px; color: #ff4d7d; }
 
-.msg-exito { background: #4eca8b22; border: 1px solid #4eca8b44; color: #4eca8b; padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
+.msg-exito { background: #4eca8b22; border: 1px solid #4eca8b44; color: #4eca8b; padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+.msg-exito mat-icon { font-size: 16px; width: 16px; height: 16px; }
 
 .usuarios-list { display: flex; flex-direction: column; gap: 10px; }
 

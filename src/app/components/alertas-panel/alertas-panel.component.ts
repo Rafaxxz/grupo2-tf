@@ -3,11 +3,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { DatePipe, UpperCasePipe } from '@angular/common';
 import { AlertaService } from '../../services/alerta.service';
 import { AuthService } from '../../services/auth.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-alertas-panel',
   standalone: true,
-  imports: [MatIconModule, DatePipe, UpperCasePipe],
+  imports: [MatIconModule, DatePipe, UpperCasePipe, TranslatePipe],
   templateUrl: './alertas-panel.component.html',
   styleUrl: './alertas-panel.component.css'
 })

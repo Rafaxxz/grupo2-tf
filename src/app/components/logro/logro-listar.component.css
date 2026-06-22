@@ -14,7 +14,12 @@
 }
 .logro-card:hover { border-color: #ff4d7d44; }
 
-.logro-icon { font-size: 32px; flex-shrink: 0; }
+.logro-icon {
+  flex-shrink: 0;
+  width: 48px; height: 48px; border-radius: 12px;
+  background: #ff4d7d18; display: flex; align-items: center; justify-content: center;
+}
+.logro-icon mat-icon { font-size: 26px; width: 26px; height: 26px; color: #ff4d7d; }
 .logro-body { flex: 1; }
 .logro-nombre { font-size: 16px; font-weight: 600; color: #fff; margin: 0 0 6px; }
 .logro-desc { font-size: 13px; color: #888; margin: 0 0 12px; }

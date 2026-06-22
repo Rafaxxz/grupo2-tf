@@ -26,7 +26,17 @@
 .stat-card.accent { border-color: #ff4d7d33; }
 .stat-card.alert-card { border-color: #ff9800; }
 
-.stat-icon { font-size: 36px; }
+.stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: #ff4d7d18;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.stat-icon mat-icon { font-size: 28px; width: 28px; height: 28px; color: #ff4d7d; }
 .stat-info { display: flex; flex-direction: column; gap: 2px; }
 .stat-num { font-size: 32px; font-weight: 700; color: #ff4d7d; line-height: 1; }
 .stat-label { font-size: 15px; font-weight: 600; color: #fff; }

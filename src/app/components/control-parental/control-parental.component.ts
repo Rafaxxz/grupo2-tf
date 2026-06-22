@@ -5,11 +5,12 @@ import { UsuarioService } from '../../services/usuario.service';
 import { LimiteTiempoService } from '../../services/limite-tiempo.service';
 import { AlertaService } from '../../services/alerta.service';
 import { AuthService } from '../../services/auth.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-control-parental',
   standalone: true,
-  imports: [FormsModule, MatIconModule],
+  imports: [FormsModule, MatIconModule, TranslatePipe],
   templateUrl: './control-parental.component.html',
   styleUrl: './control-parental.component.css'
 })
@@ -86,8 +87,8 @@ export class ControlParentalComponent implements OnInit {
       next: () => {
         limite.bloqueoActivo = nuevoEstado;
         const msg = nuevoEstado
-          ? '🔒 Tu cuenta ha sido bloqueada por control parental'
-          : '🔓 Tu cuenta ha sido desbloqueada';
+          ? 'Tu cuenta ha sido bloqueada por control parental'
+          : 'Tu cuenta ha sido desbloqueada';
         this.enviarAlerta(limite.usuarioId, msg);
       },
       error: (e: any) => this.error = e.error?.message || 'Error al cambiar bloqueo'

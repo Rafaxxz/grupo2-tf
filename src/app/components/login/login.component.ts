@@ -3,7 +3,10 @@ import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
+import { TranslateService } from '../../i18n/translate.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 declare const google: any;
 declare const FB: any;
@@ -11,7 +14,7 @@ declare const FB: any;
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, MatIconModule, TranslatePipe],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -27,7 +30,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   constructor(
     private auth: AuthService,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private i18n: TranslateService
   ) {}
 
   ngOnInit() {
@@ -68,7 +72,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   login() {
     if (!this.username || !this.password) {
-      this.error = 'Ingresa usuario y contraseña';
+      this.error = this.i18n.t('login.errEmpty');
       return;
     }
     this.loading = true;
@@ -76,7 +80,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.auth.login(this.username, this.password).subscribe({
       next: () => this.router.navigate(['/dashboard']),
       error: () => {
-        this.error = 'Usuario o contraseña incorrectos';
+        this.error = this.i18n.t('login.errInvalid');
         this.loading = false;
       }
     });
@@ -96,7 +100,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/dashboard']);
       },
       error: () => {
-        this.error = 'Error al iniciar sesión con Google';
+        this.error = this.i18n.t('login.errGoogle');
         this.loading = false;
       }
     });
@@ -109,11 +113,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
         if (r.authResponse) {
           this.handleFacebookLogin(r.authResponse.accessToken);
         } else {
-          this.error = 'Inicio de sesión con Facebook cancelado';
+          this.error = this.i18n.t('login.fbCancel');
         }
       }, { scope: 'public_profile,email' });
     } catch {
-      this.error = 'Facebook Login no disponible. Intenta más tarde.';
+      this.error = this.i18n.t('login.fbUnavailable');
     }
   }
 
@@ -126,7 +130,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/dashboard']);
       },
       error: () => {
-        this.error = 'Error al iniciar sesión con Facebook';
+        this.error = this.i18n.t('login.errFacebook');
         this.loading = false;
       }
     });

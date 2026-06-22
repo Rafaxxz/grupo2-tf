@@ -4,11 +4,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { RecompensaService } from '../../services/recompensa.service';
 import { Recompensa } from '../../models/recompensa.model';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-recompensa-form',
   standalone: true,
-  imports: [FormsModule, RouterLink, MatIconModule],
+  imports: [FormsModule, RouterLink, MatIconModule, TranslatePipe],
   templateUrl: './recompensa-form.component.html',
   styleUrl: './recompensa-form.component.css'
 })
@@ -26,7 +27,7 @@ export class RecompensaFormComponent implements OnInit {
   }
 
   guardar() {
-    const obs = this.editando ? this.svc.update(this.id!, this.recompensa) : this.svc.insert(this.recompensa);
+    const obs = this.editando ? this.svc.update(this.recompensa) : this.svc.insert(this.recompensa);
     obs.subscribe(() => this.router.navigate(['/recompensas']));
   }
 }

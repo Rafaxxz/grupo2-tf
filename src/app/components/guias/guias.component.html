@@ -1,19 +1,19 @@
 <div class="page">
   <div class="page-header">
     <div>
-      <h1>Guías y Recursos</h1>
-      <p>Contenido educativo para padres, hijos y especialistas</p>
+      <h1>{{ 'guias.title' | t }}</h1>
+      <p>{{ 'guias.subtitle' | t }}</p>
     </div>
     @if (auth.isAdmin()) {
-      <a routerLink="/educacion/nuevo" class="btn-nuevo"><mat-icon>add</mat-icon> Nuevo</a>
+      <a routerLink="/educacion/nuevo" class="btn-nuevo"><mat-icon>add</mat-icon> {{ 'common.new' | t }}</a>
     }
   </div>
 
   <div class="filtros">
     @for (cat of categorias; track cat) {
-      <button class="filtro-btn" [class.activo]="categoriaActiva === cat"
+      <button type="button" class="filtro-btn" [class.activo]="categoriaActiva === cat"
         (click)="categoriaActiva = cat">
-        {{ tipoIcon(cat === 'todos' ? '' : cat) }} {{ tipoLabel(cat) }}
+        <mat-icon>{{ tipoIcon(cat) }}</mat-icon> {{ tipoLabel(cat) | t }}
       </button>
     }
   </div>
@@ -22,16 +22,16 @@
     @for (c of filtrados; track c.idContenido) {
       <div class="guia-card">
         <div class="guia-tipo-badge">
-          {{ tipoIcon(c.tipo) }} {{ tipoLabel(c.tipo) }}
+          <mat-icon>{{ tipoIcon(c.tipo) }}</mat-icon> {{ tipoLabel(c.tipo) | t }}
         </div>
         <h3 class="guia-titulo">{{ c.titulo }}</h3>
-        @if (c.autor) { <p class="guia-autor">✍️ {{ c.autor }}</p> }
-        @if (c.fuente) { <p class="guia-fuente">📎 {{ c.fuente }}</p> }
+        @if (c.autor) { <p class="guia-autor"><mat-icon>edit</mat-icon> {{ c.autor }}</p> }
+        @if (c.fuente) { <p class="guia-fuente"><mat-icon>link</mat-icon> {{ c.fuente }}</p> }
         @if (c.contenido) { <p class="guia-preview">{{ c.contenido }}</p> }
         <div class="guia-footer">
           @if (c.url) {
             <a [href]="c.url" target="_blank" class="btn-ver">
-              <mat-icon>open_in_new</mat-icon> Ver recurso
+              <mat-icon>open_in_new</mat-icon> {{ 'guias.viewResource' | t }}
             </a>
           }
           @if (auth.isAdmin()) {
@@ -44,7 +44,7 @@
     } @empty {
       <div class="empty-state">
         <mat-icon>menu_book</mat-icon>
-        <p>No hay contenido disponible en esta categoría.</p>
+        <p>{{ 'guias.emptyState' | t }}</p>
       </div>
     }
   </div>

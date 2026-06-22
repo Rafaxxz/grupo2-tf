@@ -2,7 +2,7 @@
   <div class="chat-sidebar">
     <div class="chat-sidebar-header">
       <mat-icon>chat</mat-icon>
-      <span>Mensajes</span>
+      <span>{{ 'mensajes.title' | t }}</span>
     </div>
     <div class="contactos-list">
       @for (u of contactos; track u.idUsuario) {
@@ -14,7 +14,7 @@
           </div>
         </div>
       }
-      @empty { <p class="no-contactos">Sin conversaciones</p> }
+      @empty { <p class="no-contactos">{{ 'mensajes.noConv' | t }}</p> }
     </div>
   </div>
 
@@ -24,7 +24,7 @@
         <div class="avatar">{{ nombreUsuario(seleccionado)[0] }}</div>
         <div>
           <span class="chat-nombre">{{ nombreUsuario(seleccionado) }}</span>
-          <span class="chat-ctx">Canal familiar</span>
+          <span class="chat-ctx">{{ 'mensajes.channel' | t }}</span>
         </div>
       </div>
       <div class="messages-area">
@@ -36,16 +36,16 @@
             </div>
           </div>
         }
-        @empty { <p class="no-msgs">Sin mensajes. ¡Inicia la conversación!</p> }
+        @empty { <p class="no-msgs">{{ 'mensajes.noMsgs' | t }}</p> }
       </div>
       <div class="chat-input">
-        <input [(ngModel)]="nuevoMensaje" placeholder="Escribe un mensaje..." (keyup.enter)="enviar()" />
+        <input [(ngModel)]="nuevoMensaje" [placeholder]="'mensajes.placeholder' | t" [attr.aria-label]="'mensajes.placeholder' | t" (keyup.enter)="enviar()" />
         <button class="btn-send" (click)="enviar()"><mat-icon>send</mat-icon></button>
       </div>
     } @else {
       <div class="chat-empty">
         <mat-icon>forum</mat-icon>
-        <p>Selecciona una conversación</p>
+        <p>{{ 'mensajes.selectConv' | t }}</p>
       </div>
     }
   </div>
