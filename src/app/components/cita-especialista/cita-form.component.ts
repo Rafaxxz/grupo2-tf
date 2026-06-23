@@ -22,6 +22,8 @@ export class CitaFormComponent implements OnInit {
   usuarios: any[] = [];
   especialistas: any[] = [];
   estados = ['pendiente', 'confirmada', 'completada', 'cancelada'];
+  error = '';
+  guardando = false;
 
   constructor(
     private svc: CitaEspecialistaService,
@@ -35,7 +37,16 @@ export class CitaFormComponent implements OnInit {
     this.usuarioSvc.list().subscribe(u => this.usuarios = u);
     this.espSvc.list().subscribe(e => this.especialistas = e);
     this.id = this.route.snapshot.params['id'];
-    if (this.id) { this.editando = true; this.svc.getById(this.id).subscribe(d => this.cita = d); }
+    if (this.id) {
+      this.editando = true;
+      this.svc.getById(this.id).subscribe(d => {
+        // Convertir ISO → datetime-local (YYYY-MM-DDTHH:mm)
+        this.cita = {
+          ...d,
+          fechaHora: d.fechaHora ? d.fechaHora.substring(0, 16) : ''
+        };
+      });
+    }
   }
 
   nombreEsp(e: any) {
@@ -43,7 +54,38 @@ export class CitaFormComponent implements OnInit {
   }
 
   guardar() {
-    const obs = this.editando ? this.svc.update(this.id!, this.cita) : this.svc.insert(this.cita);
-    obs.subscribe(() => this.router.navigate(['/citas']));
+    const uid = Number(this.cita.usuarioId);
+    const eid = Number(this.cita.especialistaId);
+
+    if (!uid || !eid || !this.cita.fechaHora) {
+      this.error = 'Completa todos los campos obligatorios';
+      return;
+    }
+
+    this.error = '';
+    this.guardando = true;
+
+    // datetime-local da "YYYY-MM-DDTHH:mm" sin timezone.
+    // Convertir a ISO 8601 completo con offset local para que OffsetDateTime lo acepte.
+    const fechaISO = new Date(this.cita.fechaHora).toISOString();
+
+    const payload = {
+      ...this.cita,
+      usuarioId: uid,
+      especialistaId: eid,
+      fechaHora: fechaISO
+    };
+
+    const obs = this.editando
+      ? this.svc.update(this.id!, payload as any)
+      : this.svc.insert(payload as any);
+
+    obs.subscribe({
+      next: () => this.router.navigate(['/citas']),
+      error: (e: any) => {
+        this.error = e.error?.message || 'Error al guardar la cita. Intenta de nuevo.';
+        this.guardando = false;
+      }
+    });
   }
 }
