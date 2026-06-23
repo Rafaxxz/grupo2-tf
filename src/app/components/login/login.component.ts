@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment.development';
 
 declare const google: any;
 declare const FB: any;
@@ -22,7 +23,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
   loading = false;
 
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
-  private backendUrl = 'http://localhost:8080';
 
   constructor(
     private auth: AuthService,
@@ -82,15 +82,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
     });
   }
 
-  loginGoogle() {
-    // El botón de Google es renderizado por GIS directamente en #google-btn-container
-    // Este método no se necesita — el click es manejado por el SDK de Google
-  }
-
   private handleGoogleCredential(response: any) {
     this.loading = true;
     this.error = '';
-    this.http.post<{ jwttoken: string }>(`${this.backendUrl}/login/google`, { idToken: response.credential }).subscribe({
+    this.http.post<{ jwttoken: string }>(`${environment.base}/login/google`, { idToken: response.credential }).subscribe({
       next: res => {
         if (this.isBrowser) localStorage.setItem('token', res.jwttoken);
         this.router.navigate(['/dashboard']);
@@ -120,7 +115,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   private handleFacebookLogin(accessToken: string) {
     this.loading = true;
     this.error = '';
-    this.http.post<{ jwttoken: string }>(`${this.backendUrl}/login/facebook`, { accessToken }).subscribe({
+    this.http.post<{ jwttoken: string }>(`${environment.base}/login/facebook`, { accessToken }).subscribe({
       next: res => {
         if (this.isBrowser) localStorage.setItem('token', res.jwttoken);
         this.router.navigate(['/dashboard']);

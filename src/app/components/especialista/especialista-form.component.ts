@@ -28,7 +28,8 @@ export class EspecialistaFormComponent implements OnInit {
   }
 
   guardar() {
-    const obs = this.editando ? this.svc.update(this.id!, this.especialista) : this.svc.insert(this.especialista);
+    const payload = { ...this.especialista, usuarioId: Number(this.especialista.usuarioId) };
+    const obs = this.editando ? this.svc.update(this.id!, payload) : this.svc.insert(payload);
     obs.subscribe(() => this.router.navigate(['/especialistas']));
   }
 }
