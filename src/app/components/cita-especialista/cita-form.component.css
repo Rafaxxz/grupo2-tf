@@ -1,2 +1,12 @@
 @import '../shared.css';
 @import '../form-shared.css';
+
+.form-error {
+  background: #f4433622;
+  border: 1px solid #f4433644;
+  color: #f44336;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
