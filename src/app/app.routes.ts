@@ -23,6 +23,7 @@ import { UsuarioFormComponent } from './components/usuario/usuario-form.componen
 import { RolListarComponent } from './components/rol/rol-listar.component';
 import { RolFormComponent } from './components/rol/rol-form.component';
 import { CategoriaListarComponent } from './components/categoria-juego/categoria-listar.component';
+import { CategoriaFormComponent } from './components/categoria-juego/categoria-form.component';
 import { JuegoListarComponent } from './components/juego/juego-listar.component';
 import { JuegoFormComponent } from './components/juego/juego-form.component';
 import { SesionListarComponent } from './components/sesion-juego/sesion-listar.component';
@@ -80,6 +81,8 @@ export const routes: Routes = [
   { path: 'juegos',                  component: JuegoListarComponent,        canActivate: g },
   { path: 'juegos/nuevo',            component: JuegoFormComponent,          canActivate: g },
   { path: 'categorias',              component: CategoriaListarComponent,    canActivate: g },
+  { path: 'categorias/nuevo',        component: CategoriaFormComponent,      canActivate: g },
+  { path: 'categorias/editar/:id',   component: CategoriaFormComponent,      canActivate: g },
 
   { path: 'sesiones',                component: SesionListarComponent,       canActivate: g },
   { path: 'sesiones/nuevo',          component: SesionFormComponent,         canActivate: g },

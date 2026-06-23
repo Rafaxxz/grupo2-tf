@@ -1,0 +1,19 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ (editando ? 'categorias.formEdit' : 'categorias.formNew') | t }}</h1>
+      <p class="page-sub">{{ 'categorias.subtitle' | t }}</p>
+    </div>
+    <a routerLink="/categorias" class="btn-back"><mat-icon>arrow_back</mat-icon> {{ 'common.back' | t }}</a>
+  </div>
+
+  <div class="form-card">
+    <div class="form-group">
+      <label>{{ 'common.name' | t }} *</label>
+      <input [(ngModel)]="categoria.nombre" name="nombre" placeholder="Acción, Educativo, Deportes..." />
+    </div>
+    <button type="button" class="btn-guardar" (click)="guardar()">
+      <mat-icon>save</mat-icon> {{ (editando ? 'common.saveChanges' : 'common.create') | t }}
+    </button>
+  </div>
+</div>

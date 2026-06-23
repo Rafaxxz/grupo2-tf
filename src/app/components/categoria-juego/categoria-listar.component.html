@@ -4,12 +4,7 @@
       <h1 class="page-title">{{ 'categorias.title' | t }}</h1>
       <p class="page-sub">{{ 'categorias.subtitle' | t }}</p>
     </div>
-  </div>
-
-  <div class="add-bar">
-    <input [(ngModel)]="nueva.nombre" name="nueva" (keyup.enter)="agregar()"
-           [placeholder]="'categorias.new' | t" />
-    <button type="button" class="btn-nuevo" (click)="agregar()">+ {{ 'common.create' | t }}</button>
+    <a routerLink="/categorias/nuevo" class="btn-nuevo">+ {{ 'categorias.new' | t }}</a>
   </div>
 
   <div class="table-container">
@@ -18,6 +13,7 @@
         <tr>
           <th>{{ 'common.id' | t }}</th>
           <th>{{ 'common.name' | t }}</th>
+          <th>{{ 'common.actions' | t }}</th>
         </tr>
       </thead>
       <tbody>
@@ -25,10 +21,16 @@
           <tr>
             <td>{{ c.idCategoria }}</td>
             <td>{{ c.nombre }}</td>
+            <td>
+              <div class="row-actions">
+                <a class="icon-btn" [routerLink]="['/categorias/editar', c.idCategoria]"><mat-icon>edit</mat-icon></a>
+                <button type="button" class="icon-btn danger" (click)="eliminar(c.idCategoria!)"><mat-icon>delete</mat-icon></button>
+              </div>
+            </td>
           </tr>
         }
         @empty {
-          <tr class="empty-row"><td colspan="2">{{ 'common.empty' | t }}</td></tr>
+          <tr class="empty-row"><td colspan="3">{{ 'common.empty' | t }}</td></tr>
         }
       </tbody>
     </table>
