@@ -9,7 +9,10 @@ export class CategoriaJuegoService {
   constructor(private http: HttpClient) {}
 
   list() { return this.http.get<CategoriaJuego[]>(this.url); }
+  getById(id: number) { return this.http.get<CategoriaJuego>(`${this.url}/${id}`); }
   insert(c: CategoriaJuego) { return this.http.post<CategoriaJuego>(this.url, c); }
+  update(id: number, c: CategoriaJuego) { return this.http.put<CategoriaJuego>(`${this.url}/${id}`, c); }
+  delete(id: number) { return this.http.delete(`${this.url}/${id}`, { responseType: 'text' }); }
   buscarPorNombre(nombre: string) { return this.http.get<CategoriaJuego[]>(`${this.url}/buscar?nombre=${nombre}`); }
   existePorNombre(nombre: string) { return this.http.get<boolean>(`${this.url}/existe?nombre=${nombre}`); }
 }
