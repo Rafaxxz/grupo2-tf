@@ -39,8 +39,17 @@
         </select>
       </div>
     </div>
+<<<<<<< HEAD
     <button class="btn-guardar" (click)="guardar()">
       <mat-icon>save</mat-icon> {{ (editando ? 'common.saveChanges' : 'citas.book') | t }}
+=======
+
+    @if (error) { <div class="form-error">{{ error }}</div> }
+
+    <button class="btn-guardar" (click)="guardar()" [disabled]="guardando">
+      <mat-icon>save</mat-icon>
+      {{ guardando ? 'Guardando...' : (editando ? 'Guardar cambios' : 'Agendar Cita') }}
+>>>>>>> origin/alex-huillca
     </button>
   </div>
 </div>
