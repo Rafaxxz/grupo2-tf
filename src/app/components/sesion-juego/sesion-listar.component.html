@@ -18,6 +18,7 @@
           <th>{{ 'sesiones.inicio' | t }}</th>
           <th>{{ 'sesiones.fin' | t }}</th>
           <th>{{ 'sesiones.duracion' | t }}</th>
+          @if (auth.isAdmin()) { <th></th> }
         </tr>
       </thead>
       <tbody>
@@ -28,10 +29,16 @@
             <td>{{ s.inicio | date:'dd/MM/yyyy HH:mm' }}</td>
             <td>{{ s.fin ? (s.fin | date:'dd/MM/yyyy HH:mm') : '—' }}</td>
             <td class="puntos">{{ s.duracionMinutos || 0 }} min</td>
+            @if (auth.isAdmin()) {
+              <td class="acciones">
+                <a [routerLink]="['/sesiones/editar', s.idSesion]" class="btn-edit"><mat-icon>edit</mat-icon></a>
+                <button (click)="eliminar(s.idSesion!)" class="btn-del"><mat-icon>delete</mat-icon></button>
+              </td>
+            }
           </tr>
         }
         @empty {
-          <tr class="empty-row"><td colspan="5">{{ 'common.empty' | t }}</td></tr>
+          <tr class="empty-row"><td colspan="6">{{ 'common.empty' | t }}</td></tr>
         }
       </tbody>
     </table>

@@ -1,7 +1,7 @@
 <div class="page">
   <div class="page-header">
     <div>
-      <h1 class="page-title">{{ 'sesiones.formNew' | t }}</h1>
+      <h1 class="page-title">{{ (editando ? 'sesiones.formEdit' : 'sesiones.formNew') | t }}</h1>
       <p class="page-sub">{{ 'sesiones.subtitle' | t }}</p>
     </div>
     <a routerLink="/sesiones" class="btn-back"><mat-icon>arrow_back</mat-icon> {{ 'common.back' | t }}</a>
@@ -38,8 +38,11 @@
         <input type="datetime-local" [(ngModel)]="finLocal" name="fin" />
       </div>
     </div>
-    <button type="button" class="btn-guardar" (click)="guardar()">
-      <mat-icon>save</mat-icon> {{ 'common.create' | t }}
+    @if (error) {
+      <p class="form-error"><mat-icon>error_outline</mat-icon> {{ error }}</p>
+    }
+    <button type="button" class="btn-guardar" (click)="guardar()" [disabled]="guardando">
+      <mat-icon>save</mat-icon> {{ guardando ? 'Guardando...' : (editando ? ('common.saveChanges' | t) : ('common.create' | t)) }}
     </button>
   </div>
 </div>

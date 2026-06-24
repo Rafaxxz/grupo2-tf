@@ -11,6 +11,8 @@ export class SesionJuegoService {
   list() { return this.http.get<SesionJuego[]>(this.url); }
   getById(id: number) { return this.http.get<SesionJuego>(`${this.url}/${id}`); }
   insert(s: SesionJuego) { return this.http.post<SesionJuego>(this.url, s); }
+  update(id: number, s: SesionJuego) { return this.http.put<SesionJuego>(`${this.url}/${id}`, s); }
+  delete(id: number) { return this.http.delete<void>(`${this.url}/${id}`); }
   historial(usuarioId: number) { return this.http.get<SesionJuego[]>(`${this.url}/historial/${usuarioId}`); }
   porUsuario(usuarioId: number) { return this.http.get<SesionJuego[]>(`${this.url}/usuario/${usuarioId}`); }
   porJuego(juegoId: number) { return this.http.get<SesionJuego[]>(`${this.url}/juego/${juegoId}`); }

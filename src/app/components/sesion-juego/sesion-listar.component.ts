@@ -42,4 +42,9 @@ export class SesionListarComponent implements OnInit {
 
   nombreUsuario(id: number) { return this.usuarios.find(u => u.idUsuario === id)?.nombre || `#${id}`; }
   nombreJuego(id: number) { return this.juegos.find(j => j.idJuego === id)?.nombre || `#${id}`; }
+
+  eliminar(id: number) {
+    if (!confirm('¿Eliminar esta sesión?')) return;
+    this.svc.delete(id).subscribe(() => this.sesiones = this.sesiones.filter(s => s.idSesion !== id));
+  }
 }
