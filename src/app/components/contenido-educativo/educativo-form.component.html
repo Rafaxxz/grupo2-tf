@@ -31,14 +31,24 @@
     </div>
     <div class="form-group">
       <label>URL *</label>
-      <input [(ngModel)]="contenido.url" placeholder="https://..." />
+      <div class="url-row">
+        <input [(ngModel)]="contenido.url" placeholder="https://..." />
+        @if (urlValida()) {
+          <button type="button" class="btn-probar" (click)="probarEnlace()" title="Probar enlace">
+            <mat-icon>open_in_new</mat-icon> Probar
+          </button>
+        }
+      </div>
     </div>
     <div class="form-group">
       <label>Resumen / Contenido</label>
       <textarea [(ngModel)]="contenido.contenido" rows="4" placeholder="Descripción o resumen del contenido"></textarea>
     </div>
-    <button class="btn-guardar" (click)="guardar()">
-      <mat-icon>save</mat-icon> {{ editando ? 'Guardar cambios' : 'Crear Contenido' }}
+    @if (error) {
+      <p class="form-error"><mat-icon>error_outline</mat-icon> {{ error }}</p>
+    }
+    <button class="btn-guardar" (click)="guardar()" [disabled]="guardando">
+      <mat-icon>save</mat-icon> {{ guardando ? 'Guardando...' : (editando ? 'Guardar cambios' : 'Crear Contenido') }}
     </button>
   </div>
 </div>
