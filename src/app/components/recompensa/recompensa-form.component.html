@@ -33,8 +33,11 @@
         <input [(ngModel)]="recompensa.recursoUrl" placeholder="https://..." />
       </div>
     </div>
-    <button class="btn-guardar" (click)="guardar()">
-      <mat-icon>save</mat-icon> {{ editando ? 'Guardar cambios' : 'Crear Recompensa' }}
+    @if (error) {
+      <p class="form-error"><mat-icon>error_outline</mat-icon> {{ error }}</p>
+    }
+    <button class="btn-guardar" (click)="guardar()" [disabled]="guardando">
+      <mat-icon>save</mat-icon> {{ guardando ? 'Guardando...' : (editando ? 'Guardar cambios' : 'Crear Recompensa') }}
     </button>
   </div>
 </div>

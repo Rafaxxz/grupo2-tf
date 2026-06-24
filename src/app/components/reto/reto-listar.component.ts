@@ -15,10 +15,15 @@ import { Reto } from '../../models/reto.model';
 export class RetoListarComponent implements OnInit {
   retos: Reto[] = [];
   constructor(private svc: RetoService) {}
-  ngOnInit() { this.cargar(); }
-  cargar() { this.svc.list().subscribe({ next: d => this.retos = d }); }
-  eliminar(id: number) {
-    if (confirm('¿Eliminar este reto?')) this.svc.delete(id).subscribe(() => this.cargar());
+
+  ngOnInit() {
+    this.svc.list().subscribe({ next: d => this.retos = d });
   }
+
+  eliminar(id: number) {
+    if (confirm('¿Eliminar este reto?'))
+      this.svc.delete(id).subscribe(() => this.retos = this.retos.filter(r => r.idReto !== id));
+  }
+
   difColor(d: string) { return d === 'fácil' ? '#4eca8b' : d === 'medio' ? '#ff9800' : '#f44336'; }
 }

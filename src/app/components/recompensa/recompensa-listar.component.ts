@@ -16,12 +16,16 @@ import { Recompensa } from '../../models/recompensa.model';
 export class RecompensaListarComponent implements OnInit {
   recompensas: Recompensa[] = [];
   constructor(private svc: RecompensaService) {}
-  ngOnInit() { this.cargar(); }
-  cargar() { this.svc.list().subscribe({ next: d => this.recompensas = d }); }
+
+  ngOnInit() {
+    this.svc.list().subscribe({ next: d => this.recompensas = d });
+  }
+
   eliminar(id: number) {
     if (confirm('¿Eliminar esta recompensa?'))
-      this.svc.delete(id).subscribe(() => this.cargar());
+      this.svc.delete(id).subscribe(() => this.recompensas = this.recompensas.filter(r => r.idRecompensa !== id));
   }
+
   tipoIcon(tipo: string): string {
     const m: Record<string, string> = { tiempo: '⏰', privilegio: '⭐', virtual: '🎮', fisico: '🎁' };
     return m[tipo] || '🎁';
