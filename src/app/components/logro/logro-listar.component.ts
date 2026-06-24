@@ -19,14 +19,12 @@ export class LogroListarComponent implements OnInit {
 
   constructor(private logroService: LogroService, private i18n: TranslateService) {}
 
-  ngOnInit() { this.cargar(); }
-
-  cargar() {
-    this.logroService.list().subscribe({ next: (data) => this.logros = data });
+  ngOnInit() {
+    this.logroService.list().subscribe({ next: data => this.logros = data });
   }
 
   eliminar(id: number) {
     if (confirm(this.i18n.t('logros.confirm')))
-      this.logroService.delete(id).subscribe(() => this.cargar());
+      this.logroService.delete(id).subscribe(() => this.logros = this.logros.filter(l => l.idLogro !== id));
   }
 }

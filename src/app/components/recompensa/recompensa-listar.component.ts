@@ -18,12 +18,16 @@ import { TranslatePipe } from '../../i18n/translate.pipe';
 export class RecompensaListarComponent implements OnInit {
   recompensas: Recompensa[] = [];
   constructor(private svc: RecompensaService, private i18n: TranslateService) {}
-  ngOnInit() { this.cargar(); }
-  cargar() { this.svc.list().subscribe({ next: d => this.recompensas = d }); }
+
+  ngOnInit() {
+    this.svc.list().subscribe({ next: d => this.recompensas = d });
+  }
+
   eliminar(id: number) {
     if (confirm(this.i18n.t('recompensas.confirm')))
-      this.svc.delete(id).subscribe(() => this.cargar());
+      this.svc.delete(id).subscribe(() => this.recompensas = this.recompensas.filter(r => r.idRecompensa !== id));
   }
+
   tipoIcon(tipo: string): string {
     const m: Record<string, string> = { tiempo: 'schedule', privilegio: 'star', virtual: 'sports_esports', fisico: 'card_giftcard' };
     return m[tipo] || 'card_giftcard';

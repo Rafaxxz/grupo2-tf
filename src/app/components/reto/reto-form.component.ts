@@ -21,6 +21,8 @@ export class RetoFormComponent implements OnInit {
   id?: number;
   recompensas: any[] = [];
   logros: any[] = [];
+  error = '';
+  guardando = false;
 
   constructor(
     private svc: RetoService,
@@ -38,7 +40,13 @@ export class RetoFormComponent implements OnInit {
   }
 
   guardar() {
+    if (!this.reto.titulo?.trim()) { this.error = 'El título del reto es obligatorio'; return; }
+    this.error = '';
+    this.guardando = true;
     const obs = this.editando ? this.svc.update(this.reto) : this.svc.insert(this.reto);
-    obs.subscribe(() => this.router.navigate(['/retos']));
+    obs.subscribe({
+      next: () => this.router.navigate(['/retos']),
+      error: (e: any) => { this.error = e.error?.message || 'Error al guardar. Intenta de nuevo.'; this.guardando = false; }
+    });
   }
 }

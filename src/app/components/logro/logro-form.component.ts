@@ -17,6 +17,8 @@ export class LogroFormComponent implements OnInit {
   logro: Logro = { nombre: '', descripcion: '', iconoUrl: '', puntosOtorgados: 10, criterio: '', valorCriterio: 1 };
   editando = false;
   id?: number;
+  error = '';
+  guardando = false;
 
   constructor(private svc: LogroService, private route: ActivatedRoute, private router: Router) {}
 
@@ -29,9 +31,13 @@ export class LogroFormComponent implements OnInit {
   }
 
   guardar() {
-    const obs = this.editando
-      ? this.svc.update(this.logro)
-      : this.svc.insert(this.logro);
-    obs.subscribe(() => this.router.navigate(['/logros']));
+    if (!this.logro.nombre?.trim()) { this.error = 'El nombre del logro es obligatorio'; return; }
+    this.error = '';
+    this.guardando = true;
+    const obs = this.editando ? this.svc.update(this.logro) : this.svc.insert(this.logro);
+    obs.subscribe({
+      next: () => this.router.navigate(['/logros']),
+      error: (e: any) => { this.error = e.error?.message || 'Error al guardar. Intenta de nuevo.'; this.guardando = false; }
+    });
   }
 }

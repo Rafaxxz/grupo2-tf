@@ -61,8 +61,11 @@
       <input type="checkbox" [(ngModel)]="reto.activo" name="activo" id="activo" />
       <label for="activo">{{ 'retos.fActive' | t }}</label>
     </div>
-    <button class="btn-guardar" (click)="guardar()">
-      <mat-icon>save</mat-icon> {{ (editando ? 'common.saveChanges' : 'retos.create') | t }}
+    @if (error) {
+      <p class="form-error"><mat-icon>error_outline</mat-icon> {{ error }}</p>
+    }
+    <button class="btn-guardar" (click)="guardar()" [disabled]="guardando">
+      <mat-icon>save</mat-icon> {{ guardando ? 'Guardando...' : ((editando ? 'common.saveChanges' : 'retos.create') | t) }}
     </button>
   </div>
 </div>
