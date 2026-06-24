@@ -80,18 +80,23 @@ export const routes: Routes = [
 
   { path: 'juegos',                  component: JuegoListarComponent,        canActivate: g },
   { path: 'juegos/nuevo',            component: JuegoFormComponent,          canActivate: g },
+  { path: 'juegos/editar/:id',       component: JuegoFormComponent,          canActivate: g },
+
   { path: 'categorias',              component: CategoriaListarComponent,    canActivate: g },
   { path: 'categorias/nuevo',        component: CategoriaFormComponent,      canActivate: g },
   { path: 'categorias/editar/:id',   component: CategoriaFormComponent,      canActivate: g },
 
   { path: 'sesiones',                component: SesionListarComponent,       canActivate: g },
   { path: 'sesiones/nuevo',          component: SesionFormComponent,         canActivate: g },
+  { path: 'sesiones/editar/:id',     component: SesionFormComponent,         canActivate: g },
 
   { path: 'canjes',                  component: CanjeListarComponent,        canActivate: g },
   { path: 'canjes/nuevo',            component: CanjeFormComponent,          canActivate: g },
+  { path: 'canjes/editar/:id',       component: CanjeFormComponent,          canActivate: g },
 
   { path: 'logros-usuario',          component: LogroUsuarioListarComponent, canActivate: g },
   { path: 'logros-usuario/nuevo',    component: LogroUsuarioFormComponent,   canActivate: g },
+  { path: 'logros-usuario/editar/:id', component: LogroUsuarioFormComponent, canActivate: g },
 
   { path: 'retos-usuario',           component: RetoUsuarioListarComponent,  canActivate: g },
   { path: 'retos-usuario/nuevo',     component: RetoUsuarioFormComponent,    canActivate: g },

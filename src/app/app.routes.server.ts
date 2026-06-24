@@ -10,8 +10,13 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'citas/editar/:id',         renderMode: RenderMode.Client },
   { path: 'usuarios/editar/:id',      renderMode: RenderMode.Client },
   { path: 'roles/editar/:id',         renderMode: RenderMode.Client },
-  { path: 'retos-usuario/editar/:id', renderMode: RenderMode.Client },
-  { path: 'bloqueado',                renderMode: RenderMode.Client },
+  { path: 'retos-usuario/editar/:id',   renderMode: RenderMode.Client },
+  { path: 'juegos/editar/:id',          renderMode: RenderMode.Client },
+  { path: 'sesiones/editar/:id',        renderMode: RenderMode.Client },
+  { path: 'canjes/editar/:id',          renderMode: RenderMode.Client },
+  { path: 'logros-usuario/editar/:id',  renderMode: RenderMode.Client },
+  { path: 'categorias/editar/:id',      renderMode: RenderMode.Client },
+  { path: 'bloqueado',                  renderMode: RenderMode.Client },
   // Todo lo demás → SSR
   { path: '**',                       renderMode: RenderMode.Prerender }
 ];
