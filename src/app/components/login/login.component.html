@@ -27,11 +27,17 @@
         </div>
       </div>
 
+      @if (registradoOk) { <div class="success">{{ 'login.registradoOk' | t }}</div> }
       @if (error) { <div class="error">{{ error }}</div> }
 
       <button class="btn-login" (click)="login()" [disabled]="loading">
         @if (loading) { {{ 'login.connecting' | t }} } @else { {{ 'login.enter' | t }} <mat-icon>arrow_forward</mat-icon> }
       </button>
+
+      <p class="link-register">
+        {{ 'login.noAccount' | t }}
+        <a routerLink="/registro">{{ 'login.register' | t }}</a>
+      </p>
 
       <div class="divider"><span>{{ 'login.orContinue' | t }}</span></div>
 

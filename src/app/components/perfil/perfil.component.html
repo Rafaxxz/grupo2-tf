@@ -1,0 +1,70 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title"><mat-icon>account_circle</mat-icon> {{ 'perfil.title' | t }}</h1>
+      <p class="page-sub">{{ 'perfil.subtitle' | t }}</p>
+    </div>
+  </div>
+
+  @if (cargando) {
+    <div class="loading"><mat-icon>hourglass_empty</mat-icon> {{ 'perfil.cargando' | t }}</div>
+  } @else if (error) {
+    <div class="msg-error"><mat-icon>error_outline</mat-icon> {{ error }}</div>
+  } @else if (usuario) {
+    <div class="perfil-grid">
+
+      <!-- Avatar + nombre -->
+      <div class="card avatar-card">
+        <div class="avatar-circle">{{ usuario.nombre.charAt(0).toUpperCase() }}</div>
+        <h2>{{ usuario.nombre }}</h2>
+        <span class="username">&#64;{{ usuario.username }}</span>
+        <span class="rol-badge">{{ auth.getCurrentRole() }}</span>
+        <div class="puntos">
+          <mat-icon>stars</mat-icon>
+          <span>{{ usuario.puntosTotales ?? 0 }} {{ 'perfil.puntos' | t }}</span>
+        </div>
+      </div>
+
+      <!-- Datos -->
+      <div class="card info-card">
+        <h3>{{ 'perfil.infoTitle' | t }}</h3>
+
+        <div class="info-row">
+          <span class="info-label"><mat-icon>person</mat-icon> {{ 'perfil.nombre' | t }}</span>
+          <span class="info-value">{{ usuario.nombre }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label"><mat-icon>alternate_email</mat-icon> {{ 'perfil.username' | t }}</span>
+          <span class="info-value">{{ usuario.username }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label"><mat-icon>email</mat-icon> {{ 'perfil.email' | t }}</span>
+          <span class="info-value">{{ usuario.email }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label"><mat-icon>badge</mat-icon> {{ 'perfil.rol' | t }}</span>
+          <span class="info-value">{{ auth.getCurrentRole() }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label"><mat-icon>radio_button_checked</mat-icon> {{ 'perfil.estado' | t }}</span>
+          <span class="info-value" [class.estado-activo]="usuario.estado">
+            {{ usuario.estado ? ('perfil.activo' | t) : ('perfil.inactivo' | t) }}
+          </span>
+        </div>
+        @if (usuario.createdAt) {
+          <div class="info-row">
+            <span class="info-label"><mat-icon>calendar_today</mat-icon> {{ 'perfil.miembro' | t }}</span>
+            <span class="info-value">{{ usuario.createdAt | date:'mediumDate' }}</span>
+          </div>
+        }
+
+        @if (auth.isPadre()) {
+          <a routerLink="/familia" class="btn-familia">
+            <mat-icon>family_restroom</mat-icon> {{ 'perfil.verFamilia' | t }}
+          </a>
+        }
+      </div>
+
+    </div>
+  }
+</div>

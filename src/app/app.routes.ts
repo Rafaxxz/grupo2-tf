@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
+import { RegistroComponent } from './components/registro/registro.component';
+import { FamiliaComponent } from './components/familia/familia.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LogroListarComponent } from './components/logro/logro-listar.component';
 import { LogroFormComponent } from './components/logro/logro-form.component';
@@ -41,8 +44,11 @@ const g = [authGuard, bloqueoGuard];
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
+  { path: 'login',    component: LoginComponent },
+  { path: 'registro', component: RegistroComponent },
   { path: 'bloqueado', component: BloqueadoComponent, canActivate: [authGuard] },
+  { path: 'familia', component: FamiliaComponent, canActivate: g },
+  { path: 'perfil',  component: PerfilComponent,  canActivate: g },
 
   { path: 'dashboard',               component: DashboardComponent,          canActivate: g },
 

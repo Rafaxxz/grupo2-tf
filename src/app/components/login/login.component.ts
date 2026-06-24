@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
@@ -15,7 +15,7 @@ declare const FB: any;
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, MatIconModule, TranslatePipe],
+  imports: [FormsModule, RouterLink, MatIconModule, TranslatePipe],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -24,16 +24,19 @@ export class LoginComponent implements OnInit, AfterViewInit {
   password = '';
   error = '';
   loading = false;
+  registradoOk = false;
 
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   constructor(
     private auth: AuthService,
     private router: Router,
+    private route: ActivatedRoute,
     private http: HttpClient,
     private i18n: TranslateService
   ) {}
 
   ngOnInit() {
+    this.registradoOk = this.route.snapshot.queryParamMap.get('registrado') === '1';
     if (!this.isBrowser) return;
     this.loadScript('https://connect.facebook.net/es_LA/sdk.js', () => {
       FB.init({ appId: '2042414776661375', cookie: true, xfbml: false, version: 'v18.0' });

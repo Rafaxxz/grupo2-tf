@@ -17,6 +17,8 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'logros-usuario/editar/:id',  renderMode: RenderMode.Client },
   { path: 'categorias/editar/:id',      renderMode: RenderMode.Client },
   { path: 'bloqueado',                  renderMode: RenderMode.Client },
+  { path: 'perfil',                     renderMode: RenderMode.Client },
+  { path: 'familia',                    renderMode: RenderMode.Client },
   // Todo lo demás → SSR
   { path: '**',                       renderMode: RenderMode.Prerender }
 ];
