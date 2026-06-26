@@ -8,41 +8,45 @@
   </div>
 
   <div class="form-card">
-    <div class="form-row">
-      <div class="form-group">
-        <label>{{ 'sesiones.usuario' | t }} *</label>
-        <select [(ngModel)]="usuarioId" name="usuario">
-          <option [ngValue]="0" disabled>—</option>
-          @for (u of usuarios; track u.idUsuario) {
-            <option [ngValue]="u.idUsuario">{{ u.nombre }}</option>
-          }
-        </select>
-      </div>
-      <div class="form-group">
-        <label>{{ 'sesiones.juego' | t }} *</label>
-        <select [(ngModel)]="juegoId" name="juego">
-          <option [ngValue]="0" disabled>—</option>
-          @for (j of juegos; track j.idJuego) {
-            <option [ngValue]="j.idJuego">{{ j.nombre }}</option>
-          }
-        </select>
-      </div>
+
+    <!-- Juego -->
+    <div class="form-group">
+      <label>{{ 'sesiones.juego' | t }} *</label>
+      <select [(ngModel)]="juegoId" name="juego">
+        <option [ngValue]="0" disabled>—</option>
+        @for (j of juegos; track j.idJuego) {
+          <option [ngValue]="j.idJuego">{{ j.nombre }}</option>
+        }
+      </select>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>{{ 'sesiones.inicio' | t }} *</label>
+
+    <!-- Inicio -->
+    <div class="form-group">
+      <label>{{ 'sesiones.inicio' | t }} *</label>
+      <div class="input-row">
         <input type="datetime-local" [(ngModel)]="inicioLocal" name="inicio" />
-      </div>
-      <div class="form-group">
-        <label>{{ 'sesiones.fin' | t }}</label>
-        <input type="datetime-local" [(ngModel)]="finLocal" name="fin" />
+        <button type="button" class="btn-ahora" (click)="ahora()">
+          <mat-icon>schedule</mat-icon> {{ 'sesiones.ahora' | t }}
+        </button>
       </div>
     </div>
+
+    <!-- Fin (opcional) -->
+    <div class="form-group">
+      <label>{{ 'sesiones.fin' | t }} <span class="opt">({{ 'sesiones.opcional' | t }})</span></label>
+      <input type="datetime-local" [(ngModel)]="finLocal" name="fin" />
+      <p class="hint">{{ 'sesiones.finHint' | t }}</p>
+    </div>
+
     @if (error) {
       <p class="form-error"><mat-icon>error_outline</mat-icon> {{ error }}</p>
     }
-    <button type="button" class="btn-guardar" (click)="guardar()" [disabled]="guardando">
-      <mat-icon>save</mat-icon> {{ guardando ? 'Guardando...' : (editando ? ('common.saveChanges' | t) : ('common.create' | t)) }}
-    </button>
+
+    <div class="form-actions">
+      <button type="button" class="btn-guardar" (click)="guardar()" [disabled]="guardando">
+        <mat-icon>{{ editando ? 'save' : 'play_circle' }}</mat-icon>
+        {{ guardando ? ('sesiones.guardando' | t) : (editando ? ('common.saveChanges' | t) : ('sesiones.iniciar' | t)) }}
+      </button>
+    </div>
   </div>
 </div>

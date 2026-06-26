@@ -4,7 +4,7 @@
       <h1 class="page-title">{{ 'sesiones.title' | t }}</h1>
       <p class="page-sub">{{ 'sesiones.subtitle' | t }}</p>
     </div>
-    @if (auth.isAdmin()) {
+    @if (auth.isAdmin() || auth.isHijo()) {
       <a routerLink="/sesiones/nuevo" class="btn-nuevo">+ {{ 'sesiones.new' | t }}</a>
     }
   </div>

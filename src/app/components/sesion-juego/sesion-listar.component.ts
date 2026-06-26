@@ -21,6 +21,7 @@ export class SesionListarComponent implements OnInit {
   sesiones: SesionJuego[] = [];
   usuarios: any[] = [];
   juegos: any[] = [];
+  cargando = true;
 
   constructor(
     private svc: SesionJuegoService,
@@ -30,17 +31,42 @@ export class SesionListarComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    forkJoin({
-      usuarios: this.usuarioSvc.list(),
-      juegos: this.juegoSvc.list(),
-      sesiones: this.svc.list()
-    }).subscribe({
-      next: r => { this.usuarios = r.usuarios; this.juegos = r.juegos; this.sesiones = r.sesiones; },
-      error: () => { this.svc.list().subscribe(d => this.sesiones = d); }
-    });
+    const userId = this.auth.getCurrentUserId();
+
+    if (this.auth.isHijo() && userId) {
+      // HIJO: solo sus propias sesiones — no necesita lista de usuarios
+      forkJoin({
+        sesiones: this.svc.porUsuario(userId),
+        juegos: this.juegoSvc.list()
+      }).subscribe({
+        next: r => { this.sesiones = r.sesiones; this.juegos = r.juegos; this.cargando = false; },
+        error: () => this.cargando = false
+      });
+    } else {
+      // ADMIN / PADRE: todas las sesiones
+      forkJoin({
+        usuarios: this.usuarioSvc.list(),
+        juegos: this.juegoSvc.list(),
+        sesiones: this.svc.list()
+      }).subscribe({
+        next: r => {
+          this.usuarios = r.usuarios;
+          this.juegos = r.juegos;
+          this.sesiones = r.sesiones;
+          this.cargando = false;
+        },
+        error: () => {
+          this.svc.list().subscribe(d => { this.sesiones = d; this.cargando = false; });
+        }
+      });
+    }
   }
 
-  nombreUsuario(id: number) { return this.usuarios.find(u => u.idUsuario === id)?.nombre || `#${id}`; }
+  nombreUsuario(id: number) {
+    if (this.auth.isHijo()) return 'Yo';
+    return this.usuarios.find(u => u.idUsuario === id)?.nombre || `#${id}`;
+  }
+
   nombreJuego(id: number) { return this.juegos.find(j => j.idJuego === id)?.nombre || `#${id}`; }
 
   eliminar(id: number) {

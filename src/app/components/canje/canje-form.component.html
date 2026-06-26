@@ -9,25 +9,61 @@
 
   <div class="form-card">
     <div class="form-group">
-      <label>{{ 'canjes.usuario' | t }} *</label>
-      <select [(ngModel)]="canje.usuarioId" name="usuario">
-        <option [ngValue]="0" disabled>—</option>
-        @for (u of usuarios; track u.idUsuario) {
-          <option [ngValue]="u.idUsuario">{{ u.nombre }} ({{ u.puntosTotales || 0 }} pts)</option>
-        }
-      </select>
-    </div>
-    <div class="form-group">
       <label>{{ 'canjes.recompensa' | t }} *</label>
-      <select [(ngModel)]="canje.recompensaId" name="recompensa">
-        <option [ngValue]="0" disabled>—</option>
+      <div class="recompensas-grid">
         @for (r of recompensas; track r.idRecompensa) {
-          <option [ngValue]="r.idRecompensa">{{ r.nombre }} ({{ r.costoPuntos }} pts)</option>
+          <div class="recompensa-opcion"
+               [class.selected]="recompensaId === r.idRecompensa"
+               (click)="recompensaId = r.idRecompensa">
+            <mat-icon>card_giftcard</mat-icon>
+            <div class="recompensa-info">
+              <span class="recompensa-nombre">{{ r.nombre }}</span>
+              <span class="recompensa-costo">{{ r.costoPuntos }} {{ 'canjes.puntos' | t }}</span>
+            </div>
+            @if (recompensaId === r.idRecompensa) {
+              <mat-icon class="check-icon">check_circle</mat-icon>
+            }
+          </div>
         }
-      </select>
+      </div>
     </div>
-    <button type="button" class="btn-guardar" (click)="guardar()">
-      <mat-icon>redeem</mat-icon> {{ 'common.create' | t }}
+
+    @if (error) {
+      <p class="form-error"><mat-icon>error_outline</mat-icon> {{ error }}</p>
+    }
+
+    <button type="button" class="btn-guardar" (click)="confirmar()">
+      <mat-icon>redeem</mat-icon> {{ 'canjes.canjear' | t }}
     </button>
   </div>
 </div>
+
+<!-- US60: Modal de confirmación -->
+@if (showModal && recompensaSeleccionada) {
+  <div class="modal-overlay" (click)="cancelar()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-icon">
+        <mat-icon>redeem</mat-icon>
+      </div>
+      <h2>{{ 'canjes.modalTitle' | t }}</h2>
+      <p class="modal-desc">{{ 'canjes.modalDesc' | t }}</p>
+
+      <div class="modal-recompensa">
+        <span class="modal-nombre">{{ recompensaSeleccionada.nombre }}</span>
+        <span class="modal-costo">{{ recompensaSeleccionada.costoPuntos }} {{ 'canjes.puntos' | t }}</span>
+      </div>
+
+      <p class="modal-warning"><mat-icon>info</mat-icon> {{ 'canjes.modalWarning' | t }}</p>
+
+      <div class="modal-actions">
+        <button class="btn-cancelar-modal" (click)="cancelar()" [disabled]="guardando">
+          {{ 'common.cancel' | t }}
+        </button>
+        <button class="btn-confirmar-modal" (click)="canjear()" [disabled]="guardando">
+          <mat-icon>check</mat-icon>
+          {{ guardando ? ('canjes.canjeando' | t) : ('canjes.confirmar' | t) }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

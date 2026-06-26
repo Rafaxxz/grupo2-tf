@@ -13,55 +13,66 @@
 
       <div class="field">
         <label>{{ 'registro.usernameLabel' | t }}</label>
-        <div class="input-wrap">
+        <div class="input-wrap" [class.input-error]="fe['username']">
           <span class="icon"><mat-icon>alternate_email</mat-icon></span>
-          <input type="text" [(ngModel)]="username" [placeholder]="'registro.usernamePh' | t" />
+          <input type="text" [(ngModel)]="username" [placeholder]="'registro.usernamePh' | t"
+                 (blur)="validateUsername()" (input)="fe['username']=''"/>
         </div>
+        @if (fe['username']) { <span class="field-hint">{{ fe['username'] }}</span> }
       </div>
 
       <div class="field">
         <label>{{ 'registro.nombreLabel' | t }}</label>
-        <div class="input-wrap">
+        <div class="input-wrap" [class.input-error]="fe['nombre']">
           <span class="icon"><mat-icon>person</mat-icon></span>
-          <input type="text" [(ngModel)]="nombre" [placeholder]="'registro.nombrePh' | t" />
+          <input type="text" [(ngModel)]="nombre" [placeholder]="'registro.nombrePh' | t"
+                 (blur)="validateNombre()" (input)="fe['nombre']=''"/>
         </div>
+        @if (fe['nombre']) { <span class="field-hint">{{ fe['nombre'] }}</span> }
       </div>
 
       <div class="field">
         <label>{{ 'registro.emailLabel' | t }}</label>
-        <div class="input-wrap">
+        <div class="input-wrap" [class.input-error]="fe['email']">
           <span class="icon"><mat-icon>email</mat-icon></span>
-          <input type="email" [(ngModel)]="email" [placeholder]="'registro.emailPh' | t" />
+          <input type="email" [(ngModel)]="email" [placeholder]="'registro.emailPh' | t"
+                 (blur)="validateEmail()" (input)="fe['email']=''"/>
         </div>
+        @if (fe['email']) { <span class="field-hint">{{ fe['email'] }}</span> }
       </div>
 
       <div class="field">
         <label>{{ 'registro.rolLabel' | t }}</label>
-        <div class="input-wrap">
-          <span class="icon"><mat-icon>badge</mat-icon></span>
-          <select [(ngModel)]="rolId">
-            <option [value]="null">{{ 'registro.rolPh' | t }}</option>
-            @for (r of roles; track r.idRol) {
-              <option [value]="r.idRol">{{ r.nombre }}</option>
-            }
-          </select>
+        <div class="rol-cards">
+          @for (r of roles; track r.id) {
+            <button type="button" class="rol-card" [class.selected]="rolId === r.id" (click)="rolId = r.id">
+              <mat-icon>{{ r.icon }}</mat-icon>
+              <span class="rol-nombre">{{ r.nombre }}</span>
+              <span class="rol-desc">{{ r.desc | t }}</span>
+            </button>
+          }
         </div>
       </div>
 
       <div class="field">
         <label>{{ 'registro.passLabel' | t }}</label>
-        <div class="input-wrap">
+        <div class="input-wrap" [class.input-error]="fe['password']">
           <span class="icon"><mat-icon>lock</mat-icon></span>
-          <input type="password" [(ngModel)]="password" [placeholder]="'registro.passPh' | t" />
+          <input type="password" [(ngModel)]="password" [placeholder]="'registro.passPh' | t"
+                 (blur)="validatePassword()" (input)="fe['password']=''"/>
         </div>
+        @if (fe['password']) { <span class="field-hint">{{ fe['password'] }}</span> }
+        @else { <span class="field-hint-info">Mínimo 4 caracteres</span> }
       </div>
 
       <div class="field">
         <label>{{ 'registro.confirmLabel' | t }}</label>
-        <div class="input-wrap">
+        <div class="input-wrap" [class.input-error]="fe['confirm']">
           <span class="icon"><mat-icon>lock_reset</mat-icon></span>
-          <input type="password" [(ngModel)]="confirmPassword" [placeholder]="'registro.confirmPh' | t" (keydown.enter)="registrar()" />
+          <input type="password" [(ngModel)]="confirmPassword" [placeholder]="'registro.confirmPh' | t"
+                 (blur)="validateConfirm()" (input)="fe['confirm']=''" (keydown.enter)="registrar()"/>
         </div>
+        @if (fe['confirm']) { <span class="field-hint">{{ fe['confirm'] }}</span> }
       </div>
 
       @if (error) { <div class="error">{{ error }}</div> }

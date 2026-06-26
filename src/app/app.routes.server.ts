@@ -16,9 +16,17 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'canjes/editar/:id',          renderMode: RenderMode.Client },
   { path: 'logros-usuario/editar/:id',  renderMode: RenderMode.Client },
   { path: 'categorias/editar/:id',      renderMode: RenderMode.Client },
+  { path: 'registro',                   renderMode: RenderMode.Client },
+  { path: 'login',                      renderMode: RenderMode.Client },
   { path: 'bloqueado',                  renderMode: RenderMode.Client },
   { path: 'perfil',                     renderMode: RenderMode.Client },
   { path: 'familia',                    renderMode: RenderMode.Client },
+  { path: 'alertas',                    renderMode: RenderMode.Client },
+  { path: 'sesiones/nuevo',             renderMode: RenderMode.Client },
+  { path: 'sesiones',                   renderMode: RenderMode.Client },
+  { path: 'logros',                     renderMode: RenderMode.Client },
+  { path: 'control-parental',           renderMode: RenderMode.Client },
+  { path: 'dashboard',                  renderMode: RenderMode.Client },
   // Todo lo demás → SSR
   { path: '**',                       renderMode: RenderMode.Prerender }
 ];

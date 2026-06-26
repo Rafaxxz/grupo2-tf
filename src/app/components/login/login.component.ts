@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
+import { timeout, TimeoutError } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { TranslateService } from '../../i18n/translate.service';
 import { TranslatePipe } from '../../i18n/translate.pipe';
@@ -26,7 +27,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
   loading = false;
   registradoOk = false;
 
+  // Errores por campo (visibles tras salir del campo)
+  userError = '';
+  passError = '';
+
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   constructor(
     private auth: AuthService,
     private router: Router,
@@ -53,12 +59,43 @@ export class LoginComponent implements OnInit, AfterViewInit {
       const container = document.getElementById('google-btn-container');
       if (container) {
         google.accounts.id.renderButton(container, {
-          theme: 'outline',
-          size: 'large',
-          text: 'signin_with',
-          locale: 'es',
+          theme: 'outline', size: 'large', text: 'signin_with', locale: 'es',
           width: container.offsetWidth || 300
         });
+      }
+    });
+  }
+
+  onUserBlur() {
+    this.userError = !this.username.trim() ? 'Ingresa tu nombre de usuario' : '';
+  }
+
+  onPassBlur() {
+    if (!this.password)                this.passError = 'Ingresa tu contraseña';
+    else if (this.password.length < 4) this.passError = 'Mínimo 4 caracteres';
+    else                               this.passError = '';
+  }
+
+  login() {
+    this.onUserBlur();
+    this.onPassBlur();
+    if (this.userError || this.passError) return;
+
+    this.loading = true;
+    this.error = '';
+    this.auth.login(this.username, this.password).pipe(timeout(5000)).subscribe({
+      next: () => this.router.navigate(['/dashboard']),
+      error: (err) => {
+        if (err instanceof TimeoutError) {
+          this.error = 'El servidor no responde. Intenta de nuevo.';
+        } else if (err?.status === 401 || err?.status === 403) {
+          this.error = 'Usuario o contraseña incorrectos. Verifica tus datos.';
+        } else if (err?.status === 0) {
+          this.error = 'No se pudo conectar al servidor.';
+        } else {
+          this.error = this.i18n.t('login.errInvalid');
+        }
+        this.loading = false;
       }
     });
   }
@@ -66,26 +103,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   private loadScript(src: string, onload: () => void) {
     if (document.querySelector(`script[src="${src}"]`)) { onload(); return; }
     const s = document.createElement('script');
-    s.src = src;
-    s.async = true;
-    s.onload = onload;
+    s.src = src; s.async = true; s.onload = onload;
     document.head.appendChild(s);
-  }
-
-  login() {
-    if (!this.username || !this.password) {
-      this.error = this.i18n.t('login.errEmpty');
-      return;
-    }
-    this.loading = true;
-    this.error = '';
-    this.auth.login(this.username, this.password).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
-      error: () => {
-        this.error = this.i18n.t('login.errInvalid');
-        this.loading = false;
-      }
-    });
   }
 
   private handleGoogleCredential(response: any) {
@@ -96,10 +115,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         if (this.isBrowser) localStorage.setItem('token', res.jwttoken);
         this.router.navigate(['/dashboard']);
       },
-      error: () => {
-        this.error = this.i18n.t('login.errGoogle');
-        this.loading = false;
-      }
+      error: () => { this.error = this.i18n.t('login.errGoogle'); this.loading = false; }
     });
   }
 
@@ -107,11 +123,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     if (!this.isBrowser) return;
     try {
       FB.login((r: any) => {
-        if (r.authResponse) {
-          this.handleFacebookLogin(r.authResponse.accessToken);
-        } else {
-          this.error = this.i18n.t('login.fbCancel');
-        }
+        if (r.authResponse) this.handleFacebookLogin(r.authResponse.accessToken);
+        else this.error = this.i18n.t('login.fbCancel');
       }, { scope: 'public_profile,email' });
     } catch {
       this.error = this.i18n.t('login.fbUnavailable');
@@ -126,10 +139,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         if (this.isBrowser) localStorage.setItem('token', res.jwttoken);
         this.router.navigate(['/dashboard']);
       },
-      error: () => {
-        this.error = this.i18n.t('login.errFacebook');
-        this.loading = false;
-      }
+      error: () => { this.error = this.i18n.t('login.errFacebook'); this.loading = false; }
     });
   }
 }

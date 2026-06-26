@@ -14,7 +14,7 @@
       <span class="user-role">{{ auth.getCurrentRole() }}</span>
     </div>
     @if (alertasNoLeidas > 0) {
-      <span class="notif-badge" title="Alertas no leídas">{{ alertasNoLeidas }}</span>
+      <a routerLink="/alertas" class="notif-badge" title="Ver alertas ({{ alertasNoLeidas }} sin leer)">{{ alertasNoLeidas }}</a>
     }
   </a>
 
@@ -55,8 +55,17 @@
     @if (auth.isAdmin() || auth.isPadre()) {
       <li><a routerLink="/sesiones" routerLinkActive="active"><mat-icon>timer</mat-icon> {{ 'nav.sesiones' | t }}</a></li>
     }
+    @if (auth.isHijo()) {
+      <li><a routerLink="/sesiones" routerLinkActive="active"><mat-icon>timer</mat-icon> {{ 'nav.sesiones' | t }}</a></li>
+    }
     @if (auth.isAdmin() || auth.isHijo()) {
       <li><a routerLink="/canjes" routerLinkActive="active"><mat-icon>redeem</mat-icon> {{ 'nav.canjes' | t }}</a></li>
+    }
+    @if (auth.isHijo()) {
+      <li><a routerLink="/alertas" routerLinkActive="active">
+        <mat-icon>notifications</mat-icon> {{ 'nav.alertas' | t }}
+        @if (alertasNoLeidas > 0) { <span class="nav-badge">{{ alertasNoLeidas }}</span> }
+      </a></li>
     }
     @if (auth.isAdmin() || auth.isPadre()) {
       <li><a routerLink="/logros-usuario" routerLinkActive="active"><mat-icon>military_tech</mat-icon> {{ 'nav.logrosUsuario' | t }}</a></li>

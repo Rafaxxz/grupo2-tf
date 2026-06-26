@@ -3,10 +3,10 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { SesionJuegoService } from '../../services/sesion-juego.service';
-import { UsuarioService } from '../../services/usuario.service';
 import { JuegoService } from '../../services/juego.service';
-import { SesionJuego } from '../../models/sesion-juego.model';
+import { AuthService } from '../../services/auth.service';
 import { TranslatePipe } from '../../i18n/translate.pipe';
+import { TranslateService } from '../../i18n/translate.service';
 
 @Component({
   selector: 'app-sesion-form',
@@ -20,23 +20,32 @@ export class SesionFormComponent implements OnInit {
   juegoId = 0;
   inicioLocal = '';
   finLocal = '';
-  usuarios: any[] = [];
   juegos: any[] = [];
   editando = false;
   id?: number;
   error = '';
   guardando = false;
 
+  esHijo = false;
+
   constructor(
     private svc: SesionJuegoService,
-    private usuarioSvc: UsuarioService,
     private juegoSvc: JuegoService,
+    public auth: AuthService,
+    private i18n: TranslateService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit() {
-    this.usuarioSvc.list().subscribe({ next: u => this.usuarios = u, error: () => {} });
+    this.esHijo = this.auth.getCurrentRole() === 'HIJO';
+
+    // HIJO: pre-fill con su propio ID y "ahora"
+    if (this.esHijo) {
+      this.usuarioId = this.auth.getCurrentUserId();
+      this.inicioLocal = this.toLocalDatetimeStr(new Date());
+    }
+
     this.juegoSvc.list().subscribe({ next: j => this.juegos = j, error: () => {} });
 
     this.id = this.route.snapshot.params['id'];
@@ -51,25 +60,40 @@ export class SesionFormComponent implements OnInit {
     }
   }
 
+  ahora() {
+    this.inicioLocal = this.toLocalDatetimeStr(new Date());
+  }
+
+  private toLocalDatetimeStr(d: Date): string {
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
   guardar() {
-    const uid = Number(this.usuarioId);
-    const jid = Number(this.juegoId);
-    if (!uid || !jid || !this.inicioLocal) {
-      this.error = 'Completa usuario, juego e inicio';
+    if (!this.usuarioId || !this.juegoId || !this.inicioLocal) {
+      this.error = this.i18n.t('sesiones.errCampos');
       return;
     }
     this.error = '';
     this.guardando = true;
-    const sesion: SesionJuego = {
-      usuarioId: uid,
-      juegoId: jid,
+
+    const body = {
+      usuarioId: Number(this.usuarioId),
+      juegoId: Number(this.juegoId),
       inicio: new Date(this.inicioLocal).toISOString(),
-      fin: this.finLocal ? new Date(this.finLocal).toISOString() : undefined
+      fin: this.finLocal ? new Date(this.finLocal).toISOString() : null
     };
-    const obs = this.editando ? this.svc.update(this.id!, sesion) : this.svc.insert(sesion);
+
+    const obs = this.editando
+      ? this.svc.update(this.id!, body as any)
+      : this.svc.insert(body as any);
+
     obs.subscribe({
       next: () => this.router.navigate(['/sesiones']),
-      error: (e: any) => { this.error = e.error?.message || 'Error al guardar. Intenta de nuevo.'; this.guardando = false; }
+      error: (e: any) => {
+        this.error = e.error?.message || this.i18n.t('sesiones.errGuardar');
+        this.guardando = false;
+      }
     });
   }
 }
