@@ -1,16 +1,25 @@
 <div class="page">
   <div class="page-header">
     <div>
-      <h1 class="page-title">Logros</h1>
-      <p class="page-sub">Achievements disponibles en el sistema</p>
+      <h1 class="page-title">{{ (esHijo ? 'logros.misTitulo' : 'logros.title') | t }}</h1>
+      <p class="page-sub">{{ (esHijo ? 'logros.misSub' : 'logros.subtitle') | t }}</p>
     </div>
-    <a routerLink="/logros/nuevo" class="btn-nuevo">+ Nuevo Logro</a>
+    @if (!esHijo) {
+      <a routerLink="/logros/nuevo" class="btn-nuevo">+ {{ 'logros.new' | t }}</a>
+    } @else {
+      <div class="progreso-badge">
+        <mat-icon>emoji_events</mat-icon>
+        {{ desbloqueados }} / {{ logros.length }} {{ 'logros.desbloqueados' | t }}
+      </div>
+    }
   </div>
 
   <div class="cards-grid">
     @for (logro of logros; track logro.idLogro) {
-      <div class="logro-card">
-        <div class="logro-icon">{{ logro.iconoUrl || '🏆' }}</div>
+      <div class="logro-card" [class.desbloqueado]="logro.desbloqueado" [class.bloqueado]="esHijo && !logro.desbloqueado">
+        <div class="logro-icon">
+          <mat-icon>{{ logro.desbloqueado ? 'emoji_events' : (esHijo ? 'lock' : 'emoji_events') }}</mat-icon>
+        </div>
         <div class="logro-body">
           <h3 class="logro-nombre">{{ logro.nombre }}</h3>
           <p class="logro-desc">{{ logro.descripcion }}</p>
@@ -18,15 +27,27 @@
             <span class="tag">{{ logro.criterio }}: {{ logro.valorCriterio }}</span>
             <span class="puntos">+{{ logro.puntosOtorgados }} pts</span>
           </div>
+          @if (esHijo && logro.desbloqueado && logro.desbloqueadoEn) {
+            <p class="fecha-desbloqueo">
+              <mat-icon>check_circle</mat-icon>
+              {{ 'logros.obtenidoEl' | t }} {{ logro.desbloqueadoEn | slice:0:10 }}
+            </p>
+          }
         </div>
-        <div class="logro-actions">
-          <a mat-icon-button [routerLink]="['/logros/editar', logro.idLogro]"><mat-icon>edit</mat-icon></a>
-          <button mat-icon-button (click)="eliminar(logro.idLogro!)" class="btn-delete"><mat-icon>delete</mat-icon></button>
-        </div>
+        @if (!esHijo) {
+          <div class="logro-actions">
+            <a mat-icon-button [routerLink]="['/logros/editar', logro.idLogro]"><mat-icon>edit</mat-icon></a>
+            <button mat-icon-button (click)="eliminar(logro.idLogro!)" class="btn-delete"><mat-icon>delete</mat-icon></button>
+          </div>
+        } @else {
+          <div class="estado-badge" [class.ok]="logro.desbloqueado">
+            <mat-icon>{{ logro.desbloqueado ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+          </div>
+        }
       </div>
     }
     @empty {
-      <p class="empty">No hay logros registrados.</p>
+      <p class="empty">{{ 'common.empty' | t }}</p>
     }
   </div>
 </div>

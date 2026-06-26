@@ -11,4 +11,5 @@ export class AlertaService {
   getByUsuario(id: number) { return this.http.get<Alerta[]>(`${this.url}/usuario/${id}`); }
   getNoLeidas() { return this.http.get<Alerta[]>(`${this.url}/no-leidas`); }
   insert(a: Alerta) { return this.http.post<Alerta>(this.url, a); }
+  marcarLeida(id: number) { return this.http.patch<{ message: string }>(`${this.url}/${id}/leer`, {}); }
 }

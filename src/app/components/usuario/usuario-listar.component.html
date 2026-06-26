@@ -1,0 +1,50 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'usuarios.title' | t }}</h1>
+      <p class="page-sub">{{ 'usuarios.subtitle' | t }}</p>
+    </div>
+    <a routerLink="/usuarios/nuevo" class="btn-nuevo">+ {{ 'usuarios.new' | t }}</a>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>{{ 'usuarios.username' | t }}</th>
+          <th>{{ 'common.name' | t }}</th>
+          <th>{{ 'usuarios.email' | t }}</th>
+          <th>{{ 'usuarios.rol' | t }}</th>
+          <th>{{ 'usuarios.puntos' | t }}</th>
+          <th>{{ 'common.status' | t }}</th>
+          <th>{{ 'common.actions' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (u of usuarios; track u.idUsuario) {
+          <tr>
+            <td>{{ u.username }}</td>
+            <td>{{ u.nombre }}</td>
+            <td>{{ u.email }}</td>
+            <td><span class="pill">{{ nombreRol(u.rolId) }}</span></td>
+            <td class="puntos">{{ u.puntosTotales || 0 }}</td>
+            <td>
+              <span [class]="u.estado ? 'badge-on' : 'badge-off'">
+                {{ (u.estado ? 'common.active' : 'common.inactive') | t }}
+              </span>
+            </td>
+            <td>
+              <div class="row-actions">
+                <a class="icon-btn" [routerLink]="['/usuarios/editar', u.idUsuario]"><mat-icon>edit</mat-icon></a>
+                <button type="button" class="icon-btn danger" (click)="eliminar(u.idUsuario!)"><mat-icon>delete</mat-icon></button>
+              </div>
+            </td>
+          </tr>
+        }
+        @empty {
+          <tr class="empty-row"><td colspan="7">{{ 'common.empty' | t }}</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -4,11 +4,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { ContenidoEducativoService } from '../../services/contenido-educativo.service';
 import { ContenidoEducativo } from '../../models/contenido-educativo.model';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-educativo-form',
   standalone: true,
-  imports: [FormsModule, RouterLink, MatIconModule],
+  imports: [FormsModule, RouterLink, MatIconModule, TranslatePipe],
   templateUrl: './educativo-form.component.html',
   styleUrl: './educativo-form.component.css'
 })

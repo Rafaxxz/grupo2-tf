@@ -3,11 +3,12 @@ import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { ContenidoEducativoService } from '../../services/contenido-educativo.service';
 import { AuthService } from '../../services/auth.service';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-guias',
   standalone: true,
-  imports: [RouterLink, MatIconModule],
+  imports: [RouterLink, MatIconModule, TranslatePipe],
   templateUrl: './guias.component.html',
   styleUrl: './guias.component.css'
 })
@@ -29,14 +30,14 @@ export class GuiasComponent implements OnInit {
 
   tipoIcon(tipo: string) {
     const m: Record<string, string> = {
-      video: '🎬', articulo: '📄', guia: '📋', podcast: '🎙️'
+      video: 'movie', articulo: 'article', guia: 'list_alt', podcast: 'mic', todos: 'apps'
     };
-    return m[tipo] || '📚';
+    return m[tipo] || 'menu_book';
   }
 
   tipoLabel(tipo: string) {
     const m: Record<string, string> = {
-      video: 'Video', articulo: 'Artículo', guia: 'Guía', podcast: 'Podcast', todos: 'Todos'
+      video: 'guias.video', articulo: 'guias.articulo', guia: 'guias.guia', podcast: 'guias.podcast', todos: 'guias.all'
     };
     return m[tipo] || tipo;
   }

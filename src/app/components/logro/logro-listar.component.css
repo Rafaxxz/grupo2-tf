@@ -14,7 +14,12 @@
 }
 .logro-card:hover { border-color: #ff4d7d44; }
 
-.logro-icon { font-size: 32px; flex-shrink: 0; }
+.logro-icon {
+  flex-shrink: 0;
+  width: 48px; height: 48px; border-radius: 12px;
+  background: #ff4d7d18; display: flex; align-items: center; justify-content: center;
+}
+.logro-icon mat-icon { font-size: 26px; width: 26px; height: 26px; color: #ff4d7d; }
 .logro-body { flex: 1; }
 .logro-nombre { font-size: 16px; font-weight: 600; color: #fff; margin: 0 0 6px; }
 .logro-desc { font-size: 13px; color: #888; margin: 0 0 12px; }
@@ -26,3 +31,32 @@
 .btn-delete { color: #f44336 !important; }
 
 .empty { color: #666; padding: 24px 0; }
+
+/* Vista HIJO — estados */
+.logro-card.desbloqueado { border-color: #4eca8b55; background: #0d1a12; }
+.logro-card.desbloqueado:hover { border-color: #4eca8b; }
+.logro-card.desbloqueado .logro-icon { background: #4eca8b18; }
+.logro-card.desbloqueado .logro-icon mat-icon { color: #4eca8b; }
+.logro-card.desbloqueado .logro-nombre { color: #4eca8b; }
+
+.logro-card.bloqueado { opacity: 0.5; }
+.logro-card.bloqueado .logro-icon { background: #ffffff08; }
+.logro-card.bloqueado .logro-icon mat-icon { color: #555; }
+
+.estado-badge { flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.estado-badge mat-icon { font-size: 22px; width: 22px; height: 22px; color: #555; }
+.estado-badge.ok mat-icon { color: #4eca8b; }
+
+.fecha-desbloqueo {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11px; color: #4eca8b; margin: 6px 0 0;
+}
+.fecha-desbloqueo mat-icon { font-size: 13px; width: 13px; height: 13px; }
+
+.progreso-badge {
+  display: flex; align-items: center; gap: 6px;
+  background: #4eca8b18; border: 1px solid #4eca8b44;
+  border-radius: 10px; padding: 8px 16px;
+  color: #4eca8b; font-size: 14px; font-weight: 600;
+}
+.progreso-badge mat-icon { font-size: 18px; width: 18px; height: 18px; }

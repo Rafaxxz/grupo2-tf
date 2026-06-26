@@ -1,0 +1,58 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ (editando ? 'usuarios.formEdit' : 'usuarios.formNew') | t }}</h1>
+      <p class="page-sub">{{ 'usuarios.subtitle' | t }}</p>
+    </div>
+    <a routerLink="/usuarios" class="btn-back"><mat-icon>arrow_back</mat-icon> {{ 'common.back' | t }}</a>
+  </div>
+
+  <div class="form-card">
+    <div class="form-row">
+      <div class="form-group">
+        <label>{{ 'usuarios.username' | t }} *</label>
+        <input [(ngModel)]="usuario.username" name="username" />
+      </div>
+      <div class="form-group">
+        <label>{{ 'common.name' | t }} *</label>
+        <input [(ngModel)]="usuario.nombre" name="nombre" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>{{ 'usuarios.email' | t }} *</label>
+        <input type="email" [(ngModel)]="usuario.email" name="email" />
+      </div>
+      <div class="form-group">
+        <label>{{ 'usuarios.password' | t }} *</label>
+        <input type="password" [(ngModel)]="usuario.passwordHash" name="password" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>{{ 'usuarios.rol' | t }} *</label>
+        <select [(ngModel)]="usuario.rolId" name="rol">
+          <option [ngValue]="0" disabled>—</option>
+          @for (r of roles; track r.idRol) {
+            <option [ngValue]="r.idRol">{{ r.nombre }}</option>
+          }
+        </select>
+      </div>
+      <div class="form-group">
+        <label>{{ 'usuarios.puntos' | t }}</label>
+        <input type="number" [(ngModel)]="usuario.puntosTotales" name="puntos" min="0" />
+      </div>
+    </div>
+
+    <div class="toggle-row">
+      <input type="checkbox" id="estado" [(ngModel)]="usuario.estado" name="estado" />
+      <label for="estado">{{ 'common.active' | t }}</label>
+    </div>
+
+    <button type="button" class="btn-guardar" (click)="guardar()">
+      <mat-icon>save</mat-icon> {{ (editando ? 'common.saveChanges' : 'common.create') | t }}
+    </button>
+  </div>
+</div>

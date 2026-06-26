@@ -1,0 +1,47 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'juegos.title' | t }}</h1>
+      <p class="page-sub">{{ 'juegos.subtitle' | t }}</p>
+    </div>
+    @if (auth.isAdmin()) {
+      <a routerLink="/juegos/nuevo" class="btn-nuevo">+ {{ 'juegos.new' | t }}</a>
+    }
+  </div>
+
+  <div class="filtro-bar">
+    <label>{{ 'juegos.categoria' | t }}:</label>
+    <select [(ngModel)]="filtroCategoria" name="filtro" (change)="cargar()">
+      <option [ngValue]="0">{{ 'common.search' | t }}...</option>
+      @for (c of categorias; track c.idCategoria) {
+        <option [ngValue]="c.idCategoria">{{ c.nombre }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>{{ 'common.id' | t }}</th>
+          <th>{{ 'common.name' | t }}</th>
+          <th>{{ 'juegos.plataforma' | t }}</th>
+          <th>{{ 'juegos.categoria' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (j of juegos; track j.idJuego) {
+          <tr>
+            <td>{{ j.idJuego }}</td>
+            <td>{{ j.nombre }}</td>
+            <td><span class="pill">{{ j.plataforma || '—' }}</span></td>
+            <td>{{ nombreCategoria(j.categoriaId) }}</td>
+          </tr>
+        }
+        @empty {
+          <tr class="empty-row"><td colspan="4">{{ 'common.empty' | t }}</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

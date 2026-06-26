@@ -1,38 +1,38 @@
 <div class="page">
   <div class="page-header">
     <div>
-      <h1 class="page-title">{{ editando ? 'Editar' : 'Nuevo' }} Especialista</h1>
-      <p class="page-sub">{{ editando ? 'Modifica el especialista' : 'Registra un nuevo especialista en el sistema' }}</p>
+      <h1 class="page-title">{{ (editando ? 'especialistas.formEdit' : 'especialistas.formNew') | t }}</h1>
+      <p class="page-sub">{{ (editando ? 'especialistas.formEditSub' : 'especialistas.formNewSub') | t }}</p>
     </div>
-    <a routerLink="/especialistas" class="btn-back"><mat-icon>arrow_back</mat-icon> Volver</a>
+    <a routerLink="/especialistas" class="btn-back"><mat-icon>arrow_back</mat-icon> {{ 'common.back' | t }}</a>
   </div>
   <div class="form-card">
     <div class="form-group">
-      <label>Usuario *</label>
-      <select [(ngModel)]="especialista.usuarioId">
-        <option [value]="0">— Selecciona usuario —</option>
+      <label>{{ 'especialistas.fUser' | t }} *</label>
+      <select [(ngModel)]="especialista.usuarioId" name="usuario">
+        <option [value]="0">{{ 'especialistas.fUserPh' | t }}</option>
         @for (u of usuarios; track u.idUsuario) {
           <option [value]="u.idUsuario">{{ u.nombre }} ({{ u.username }})</option>
         }
       </select>
     </div>
     <div class="form-group">
-      <label>Especialidad *</label>
-      <input [(ngModel)]="especialista.especialidad" placeholder="ej: Psicología Infantil, Nutrición, Coach" />
+      <label>{{ 'especialistas.fSpecialty' | t }} *</label>
+      <input [(ngModel)]="especialista.especialidad" name="especialidad" [placeholder]="'especialistas.fSpecialtyPh' | t" />
     </div>
     <div class="form-group">
-      <label>Modalidad *</label>
-      <select [(ngModel)]="especialista.modalidad">
-        <option value="virtual">En línea</option>
-        <option value="presencial">Presencial</option>
+      <label>{{ 'especialistas.fModality' | t }} *</label>
+      <select [(ngModel)]="especialista.modalidad" name="modalidad">
+        <option value="virtual">{{ 'especialistas.modOnline' | t }}</option>
+        <option value="presencial">{{ 'especialistas.modInperson' | t }}</option>
       </select>
     </div>
     <div class="toggle-row">
-      <input type="checkbox" [(ngModel)]="especialista.verificado" id="verificado" />
-      <label for="verificado">Especialista verificado</label>
+      <input type="checkbox" [(ngModel)]="especialista.verificado" name="verificado" id="verificado" />
+      <label for="verificado">{{ 'especialistas.fVerified' | t }}</label>
     </div>
     <button class="btn-guardar" (click)="guardar()">
-      <mat-icon>save</mat-icon> {{ editando ? 'Guardar cambios' : 'Registrar Especialista' }}
+      <mat-icon>save</mat-icon> {{ (editando ? 'common.saveChanges' : 'especialistas.register') | t }}
     </button>
   </div>
 </div>

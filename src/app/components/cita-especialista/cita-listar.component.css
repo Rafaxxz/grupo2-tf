@@ -25,7 +25,8 @@
 .badge-cancelada { background: #f4433622; color: #f44336; }
 
 .cita-info { display: flex; flex-direction: column; gap: 4px; }
-.cita-info span { font-size: 13px; color: #aaa; }
+.cita-info span { font-size: 13px; color: #aaa; display: inline-flex; align-items: center; gap: 6px; }
+.cita-info span mat-icon { font-size: 15px; width: 15px; height: 15px; }
 .cita-usuario { color: #fff !important; font-weight: 600; }
 
 .cita-actions { display: flex; gap: 8px; align-items: center; }

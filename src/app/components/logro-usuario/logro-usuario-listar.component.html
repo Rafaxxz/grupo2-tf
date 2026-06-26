@@ -1,0 +1,39 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'logrosUsuario.title' | t }}</h1>
+      <p class="page-sub">{{ 'logrosUsuario.subtitle' | t }}</p>
+    </div>
+    <a routerLink="/logros-usuario/nuevo" class="btn-nuevo">+ {{ 'logrosUsuario.new' | t }}</a>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>{{ 'logrosUsuario.usuario' | t }}</th>
+          <th>{{ 'logrosUsuario.logro' | t }}</th>
+          <th>{{ 'logrosUsuario.fecha' | t }}</th>
+          <th>{{ 'common.actions' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (i of items; track i.id) {
+          <tr>
+            <td>{{ nombreUsuario(i.usuarioId) }}</td>
+            <td>{{ nombreLogro(i.logroId) }}</td>
+            <td>{{ i.desbloqueadoEn ? (i.desbloqueadoEn | date:'dd/MM/yyyy HH:mm') : '—' }}</td>
+            <td>
+              <div class="row-actions">
+                <button type="button" class="icon-btn danger" (click)="eliminar(i.id!)"><mat-icon>delete</mat-icon></button>
+              </div>
+            </td>
+          </tr>
+        }
+        @empty {
+          <tr class="empty-row"><td colspan="4">{{ 'common.empty' | t }}</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

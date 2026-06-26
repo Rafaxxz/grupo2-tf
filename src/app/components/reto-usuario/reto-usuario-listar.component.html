@@ -1,0 +1,46 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'retosUsuario.title' | t }}</h1>
+      <p class="page-sub">{{ 'retosUsuario.subtitle' | t }}</p>
+    </div>
+    <a routerLink="/retos-usuario/nuevo" class="btn-nuevo">+ {{ 'retosUsuario.new' | t }}</a>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>{{ 'retosUsuario.usuario' | t }}</th>
+          <th>{{ 'retosUsuario.reto' | t }}</th>
+          <th>{{ 'retosUsuario.completado' | t }}</th>
+          <th>{{ 'retosUsuario.aceptado' | t }}</th>
+          <th>{{ 'common.actions' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (i of items; track i.id) {
+          <tr>
+            <td>{{ nombreUsuario(i.usuarioId) }}</td>
+            <td>{{ nombreReto(i.retoId) }}</td>
+            <td>
+              <span [class]="i.completado ? 'badge-on' : 'badge-off'">
+                {{ (i.completado ? 'common.yes' : 'common.no') | t }}
+              </span>
+            </td>
+            <td>{{ i.aceptadoEn ? (i.aceptadoEn | date:'dd/MM/yyyy') : '—' }}</td>
+            <td>
+              <div class="row-actions">
+                <a class="icon-btn" [routerLink]="['/retos-usuario/editar', i.id]"><mat-icon>edit</mat-icon></a>
+                <button type="button" class="icon-btn danger" (click)="eliminar(i.id!)"><mat-icon>delete</mat-icon></button>
+              </div>
+            </td>
+          </tr>
+        }
+        @empty {
+          <tr class="empty-row"><td colspan="5">{{ 'common.empty' | t }}</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

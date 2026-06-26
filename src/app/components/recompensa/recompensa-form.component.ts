@@ -4,11 +4,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { RecompensaService } from '../../services/recompensa.service';
 import { Recompensa } from '../../models/recompensa.model';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-recompensa-form',
   standalone: true,
-  imports: [FormsModule, RouterLink, MatIconModule],
+  imports: [FormsModule, RouterLink, MatIconModule, TranslatePipe],
   templateUrl: './recompensa-form.component.html',
   styleUrl: './recompensa-form.component.css'
 })
@@ -31,7 +32,7 @@ export class RecompensaFormComponent implements OnInit {
     if (!this.recompensa.nombre?.trim()) { this.error = 'El nombre de la recompensa es obligatorio'; return; }
     this.error = '';
     this.guardando = true;
-    const obs = this.editando ? this.svc.update(this.id!, this.recompensa) : this.svc.insert(this.recompensa);
+    const obs = this.editando ? this.svc.update(this.recompensa) : this.svc.insert(this.recompensa);
     obs.subscribe({
       next: () => this.router.navigate(['/recompensas']),
       error: (e: any) => { this.error = e.error?.message || 'Error al guardar. Intenta de nuevo.'; this.guardando = false; }

@@ -13,7 +13,11 @@ export class RetoService {
 
   list() { return this.http.get<Reto[]>(this.url); }
   getById(id: number) { return this.http.get<Reto>(`${this.url}/${id}`); }
-  insert(r: Reto) { return this.http.post(this.url, r); }
-  update(id: number, r: Reto) { return this.http.put(`${this.url}/${id}`, r); }
+  insert(r: Reto) { return this.http.post(`${this.url}/nuevo`, r); }
+  update(r: Reto) { return this.http.put(`${this.url}/actualiza`, r); }
   delete(id: number) { return this.http.delete(`${this.url}/${id}`, { responseType: 'text' }); }
+
+  porTipo(tipo: string) { return this.http.get<Reto[]>(`${this.url}/por-tipo?tipo=${tipo}`); }
+  porActivo(activo: boolean) { return this.http.get<Reto[]>(`${this.url}/por-activo?activo=${activo}`); }
+  proximosAVencer(dias: number) { return this.http.get<Reto[]>(`${this.url}/proximos-a-vencer?dias=${dias}`); }
 }

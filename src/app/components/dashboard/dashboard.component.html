@@ -1,85 +1,162 @@
 <div class="dash-page">
+
+  <!-- Banner: sesión activa -->
+  @if (sesionActiva) {
+    <div class="sesion-activa-banner">
+      <div class="sesion-activa-left">
+        <mat-icon class="pulse-icon">sports_esports</mat-icon>
+        <div>
+          <span class="sesion-activa-label">{{ 'dash.sesionActiva' | t }}</span>
+          <span class="sesion-activa-tiempo">{{ tiempoActivoStr }}</span>
+        </div>
+      </div>
+      <button class="btn-finalizar" (click)="finalizarSesion()">
+        <mat-icon>stop_circle</mat-icon> {{ 'dash.finalizar' | t }}
+      </button>
+    </div>
+  }
+
   <div class="dash-header">
     <div>
-      <h1 class="dash-title">Buenas noches, Admin</h1>
-      <p class="dash-sub">Resumen general del sistema PlayControl</p>
+      <h1 class="dash-title">{{ 'dash.welcome' | t }}</h1>
+      <p class="dash-sub">{{ 'dash.subtitle' | t }}</p>
     </div>
   </div>
 
-  <div class="stats-grid">
-    <a routerLink="/logros" class="stat-card">
-      <div class="stat-icon">🏆</div>
-      <div class="stat-info">
-        <span class="stat-num">{{ stats.logros }}</span>
-        <span class="stat-label">Logros</span>
-        <span class="stat-desc">Achievements del sistema</span>
+  <!-- Resumen rápido -->
+  <div class="resumen-row">
+    <div class="resumen-card">
+      <mat-icon>timer</mat-icon>
+      <div>
+        <span class="resumen-num">{{ formatMin(totalSemana) }}</span>
+        <span class="resumen-label">{{ (vista === 'semana' ? 'dash.totalSemana' : 'dash.totalMes') | t }}</span>
       </div>
-    </a>
-    <a routerLink="/recompensas" class="stat-card accent">
-      <div class="stat-icon">🎁</div>
-      <div class="stat-info">
-        <span class="stat-num">{{ stats.recompensas }}</span>
-        <span class="stat-label">Recompensas</span>
-        <span class="stat-desc">Premios disponibles</span>
+    </div>
+    <div class="resumen-card">
+      <mat-icon>play_circle</mat-icon>
+      <div>
+        <span class="resumen-num">{{ numSesionesSemana }}</span>
+        <span class="resumen-label">{{ 'dash.sesiones' | t }}</span>
       </div>
-    </a>
-    <a routerLink="/retos" class="stat-card">
-      <div class="stat-icon">🚩</div>
-      <div class="stat-info">
-        <span class="stat-num">{{ stats.retos }}</span>
-        <span class="stat-label">Retos Activos</span>
-        <span class="stat-desc">Desafíos en curso</span>
+    </div>
+    @if (limiteDiario) {
+      <div class="resumen-card" [class.limite-excedido]="(totalSemana / (vista === 'semana' ? 7 : 30)) > limiteDiario">
+        <mat-icon>alarm</mat-icon>
+        <div>
+          <span class="resumen-num">{{ formatMin(limiteDiario) }}/día</span>
+          <span class="resumen-label">{{ 'dash.limiteActivo' | t }}</span>
+        </div>
       </div>
-    </a>
-    <a routerLink="/mensajes" class="stat-card" [class.alert-card]="stats.mensajes > 0">
-      <div class="stat-icon">💬</div>
-      <div class="stat-info">
-        <span class="stat-num">{{ stats.mensajes }}</span>
-        <span class="stat-label">Mensajes sin leer</span>
-        <span class="stat-desc">Comunicación familiar</span>
+    }
+    <div class="resumen-card">
+      <mat-icon>emoji_events</mat-icon>
+      <div>
+        <span class="resumen-num">{{ stats.logros }}</span>
+        <span class="resumen-label">{{ 'dash.logros' | t }}</span>
       </div>
-    </a>
-    <a routerLink="/educacion" class="stat-card">
-      <div class="stat-icon">📚</div>
-      <div class="stat-info">
-        <span class="stat-num">{{ stats.educacion }}</span>
-        <span class="stat-label">Contenido Educativo</span>
-        <span class="stat-desc">Artículos y videos</span>
-      </div>
-    </a>
-    <a routerLink="/citas" class="stat-card" [class.alert-card]="stats.citas > 0">
-      <div class="stat-icon">🩺</div>
-      <div class="stat-info">
-        <span class="stat-num">{{ stats.citas }}</span>
-        <span class="stat-label">Citas Pendientes</span>
-        <span class="stat-desc">Con especialistas</span>
-      </div>
-    </a>
+    </div>
   </div>
 
+  <!-- Gráfico de tiempo de juego -->
+  <div class="chart-card">
+    <div class="chart-header">
+      <div>
+        <h2 class="section-title">{{ 'dash.tiempoJuego' | t }}</h2>
+        @if (limiteDiario) {
+          <p class="chart-hint">
+            <span class="limite-dot"></span> {{ 'dash.limiteLinea' | t }} {{ formatMin(limiteDiario) }}
+          </p>
+        }
+      </div>
+      <div class="vista-toggle">
+        <button [class.active]="vista === 'semana'" (click)="cambiarVista('semana')">{{ 'dash.semana' | t }}</button>
+        <button [class.active]="vista === 'mes'" (click)="cambiarVista('mes')">{{ 'dash.mes' | t }}</button>
+      </div>
+    </div>
+
+    @if (cargandoSesiones) {
+      <div class="chart-loading"><mat-icon>hourglass_empty</mat-icon></div>
+    } @else if (totalSemana === 0) {
+      <div class="chart-empty">
+        <mat-icon>bar_chart</mat-icon>
+        <p>{{ 'dash.sinSesiones' | t }}</p>
+        <a routerLink="/sesiones/nuevo" class="btn-inline">{{ 'dash.registrarSesion' | t }}</a>
+      </div>
+    } @else {
+      <div class="chart-wrap">
+        @if (limiteDiario && limiteLinea() >= 0) {
+          <div class="limite-line" [style.top.%]="limiteLinea()">
+            <span class="limite-line-label">{{ formatMin(limiteDiario) }}</span>
+          </div>
+        }
+        <div class="bars-area" [class.modo-mes]="vista === 'mes'">
+          @for (d of dias; track $index) {
+            <div class="bar-col" [class.hoy]="d.esHoy">
+              @if (d.minutos > 0) {
+                <span class="bar-value" [class.excede]="d.excede">{{ formatMin(d.minutos) }}</span>
+              }
+              <div class="bar-outer">
+                <div class="bar-inner"
+                     [class.excede]="d.excede"
+                     [class.hoy-bar]="d.esHoy"
+                     [style.height.%]="barAltura(d.minutos)">
+                </div>
+              </div>
+              @if (vista === 'semana') {
+                <span class="bar-label" [class.hoy-label]="d.esHoy">{{ d.label }}</span>
+              } @else {
+                <span class="bar-label">{{ ($index % 5 === 0) ? d.label : '' }}</span>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Acciones rápidas -->
   <div class="dash-bottom">
     <div class="quick-actions">
-      <h2 class="section-title">Acciones rápidas</h2>
+      <h2 class="section-title">{{ 'dash.quickActions' | t }}</h2>
       <div class="action-list">
-        <a routerLink="/logros/nuevo" class="action-btn">
-          <mat-icon>add_circle</mat-icon> Nuevo Logro
+        <a routerLink="/sesiones/nuevo" class="action-btn highlight">
+          <mat-icon>add_circle</mat-icon> {{ 'dash.newSesion' | t }}
         </a>
-        <a routerLink="/recompensas/nuevo" class="action-btn">
-          <mat-icon>card_giftcard</mat-icon> Nueva Recompensa
+        <a routerLink="/sesiones" class="action-btn">
+          <mat-icon>history</mat-icon> {{ 'dash.historial' | t }}
         </a>
-        <a routerLink="/retos/nuevo" class="action-btn">
-          <mat-icon>flag</mat-icon> Nuevo Reto
+        <a routerLink="/logros" class="action-btn">
+          <mat-icon>emoji_events</mat-icon> {{ 'dash.logros' | t }}
         </a>
-        <a routerLink="/educacion/nuevo" class="action-btn">
-          <mat-icon>school</mat-icon> Nuevo Contenido
+        <a routerLink="/recompensas" class="action-btn">
+          <mat-icon>card_giftcard</mat-icon> {{ 'dash.recompensas' | t }}
         </a>
-        <a routerLink="/especialistas/nuevo" class="action-btn">
-          <mat-icon>person_add</mat-icon> Nuevo Especialista
+        <a routerLink="/retos" class="action-btn">
+          <mat-icon>flag</mat-icon> {{ 'dash.retos' | t }}
         </a>
-        <a routerLink="/control-parental" class="action-btn highlight">
-          <mat-icon>family_restroom</mat-icon> Control Parental
-        </a>
+        @if (auth.isPadre()) {
+          <a routerLink="/familia" class="action-btn">
+            <mat-icon>family_restroom</mat-icon> {{ 'dash.miFamilia' | t }}
+          </a>
+          <a routerLink="/control-parental" class="action-btn">
+            <mat-icon>supervisor_account</mat-icon> {{ 'dash.controlParental' | t }}
+          </a>
+        }
+        @if (auth.isAdmin()) {
+          <a routerLink="/usuarios" class="action-btn">
+            <mat-icon>group</mat-icon> {{ 'dash.usuarios' | t }}
+          </a>
+        }
       </div>
     </div>
+
+    @if (stats.mensajes > 0) {
+      <div class="notif-card">
+        <mat-icon>chat</mat-icon>
+        <span>{{ stats.mensajes }} {{ 'dash.mensajesPendientes' | t }}</span>
+        <a routerLink="/mensajes">{{ 'dash.ver' | t }}</a>
+      </div>
+    }
   </div>
+
 </div>

@@ -1,0 +1,38 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'categorias.title' | t }}</h1>
+      <p class="page-sub">{{ 'categorias.subtitle' | t }}</p>
+    </div>
+    <a routerLink="/categorias/nuevo" class="btn-nuevo">+ {{ 'categorias.new' | t }}</a>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>{{ 'common.id' | t }}</th>
+          <th>{{ 'common.name' | t }}</th>
+          <th>{{ 'common.actions' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (c of categorias; track c.idCategoria) {
+          <tr>
+            <td>{{ c.idCategoria }}</td>
+            <td>{{ c.nombre }}</td>
+            <td>
+              <div class="row-actions">
+                <a class="icon-btn" [routerLink]="['/categorias/editar', c.idCategoria]"><mat-icon>edit</mat-icon></a>
+                <button type="button" class="icon-btn danger" (click)="eliminar(c.idCategoria!)"><mat-icon>delete</mat-icon></button>
+              </div>
+            </td>
+          </tr>
+        }
+        @empty {
+          <tr class="empty-row"><td colspan="3">{{ 'common.empty' | t }}</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

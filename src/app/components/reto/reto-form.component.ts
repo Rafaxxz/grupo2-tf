@@ -6,11 +6,12 @@ import { RetoService } from '../../services/reto.service';
 import { RecompensaService } from '../../services/recompensa.service';
 import { LogroService } from '../../services/logro.service';
 import { Reto } from '../../models/reto.model';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-reto-form',
   standalone: true,
-  imports: [FormsModule, RouterLink, MatIconModule],
+  imports: [FormsModule, RouterLink, MatIconModule, TranslatePipe],
   templateUrl: './reto-form.component.html',
   styleUrl: './reto-form.component.css'
 })
@@ -42,7 +43,7 @@ export class RetoFormComponent implements OnInit {
     if (!this.reto.titulo?.trim()) { this.error = 'El título del reto es obligatorio'; return; }
     this.error = '';
     this.guardando = true;
-    const obs = this.editando ? this.svc.update(this.id!, this.reto) : this.svc.insert(this.reto);
+    const obs = this.editando ? this.svc.update(this.reto) : this.svc.insert(this.reto);
     obs.subscribe({
       next: () => this.router.navigate(['/retos']),
       error: (e: any) => { this.error = e.error?.message || 'Error al guardar. Intenta de nuevo.'; this.guardando = false; }

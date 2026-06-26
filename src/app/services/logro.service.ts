@@ -13,7 +13,12 @@ export class LogroService {
 
   list() { return this.http.get<Logro[]>(this.url); }
   getById(id: number) { return this.http.get<Logro>(`${this.url}/${id}`); }
-  insert(l: Logro) { return this.http.post(this.url, l); }
-  update(id: number, l: Logro) { return this.http.put(`${this.url}/${id}`, l); }
+  insert(l: Logro) { return this.http.post(`${this.url}/nuevo`, l); }
+  update(l: Logro) { return this.http.put(`${this.url}/actualiza`, l); }
   delete(id: number) { return this.http.delete(`${this.url}/${id}`, { responseType: 'text' }); }
+
+  // Endpoints de consulta del backend
+  porCriterio(criterio: string) { return this.http.get<Logro[]>(`${this.url}/por-criterio?criterio=${criterio}`); }
+  criterioOrdenado() { return this.http.get<Logro[]>(`${this.url}/criterio-ordenado`); }
+  estadisticasDesbloqueos() { return this.http.get<any>(`${this.url}/estadisticas-desbloqueos`); }
 }
