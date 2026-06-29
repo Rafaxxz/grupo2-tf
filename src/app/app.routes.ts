@@ -15,6 +15,8 @@ import { CitaFormComponent } from './components/cita-especialista/cita-form.comp
 import { EspecialistaListarComponent } from './components/especialista/especialista-listar.component';
 import { EspecialistaFormComponent } from './components/especialista/especialista-form.component';
 import { ControlParentalComponent } from './components/control-parental/control-parental.component';
+import { ControlJuegosComponent } from './components/control-juegos/control-juegos.component';
+import { MisJuegosComponent } from './components/mis-juegos/mis-juegos.component';
 import { GuiasComponent } from './components/guias/guias.component';
 import { AlertasPanelComponent } from './components/alertas-panel/alertas-panel.component';
 import { BloqueadoComponent } from './components/bloqueado/bloqueado.component';
@@ -75,6 +77,8 @@ export const routes: Routes = [
   { path: 'citas/editar/:id',        component: CitaFormComponent,           canActivate: g },
 
   { path: 'control-parental',        component: ControlParentalComponent,    canActivate: g },
+  { path: 'control-juegos',          component: ControlJuegosComponent,      canActivate: g },
+  { path: 'mis-juegos',              component: MisJuegosComponent,          canActivate: g },
 
   { path: 'alertas',                 component: AlertasPanelComponent,       canActivate: g },
 

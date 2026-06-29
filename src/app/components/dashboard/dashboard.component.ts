@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslatePipe } from '../../i18n/translate.pipe';
-import { forkJoin } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { LogroService } from '../../services/logro.service';
 import { RecompensaService } from '../../services/recompensa.service';
 import { RetoService } from '../../services/reto.service';
@@ -31,15 +32,17 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // catchError en cada llamada: si un rol no tiene acceso a un dato, no rompe el panel.
+    const safe = (o: any) => o.pipe(catchError(() => of([]))) as any;
     forkJoin({
-      logros: this.logroSvc.list(),
-      recompensas: this.recompensaSvc.list(),
-      retos: this.retoSvc.list(),
-      mensajes: this.mensajeSvc.list(),
-      educacion: this.educativoSvc.list(),
-      citas: this.citaSvc.list()
+      logros: safe(this.logroSvc.list()),
+      recompensas: safe(this.recompensaSvc.list()),
+      retos: safe(this.retoSvc.list()),
+      mensajes: safe(this.mensajeSvc.list()),
+      educacion: safe(this.educativoSvc.list()),
+      citas: safe(this.citaSvc.list())
     }).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.stats.logros = res.logros.length;
         this.stats.recompensas = res.recompensas.length;
         this.stats.retos = res.retos.filter((r: any) => r.activo).length;

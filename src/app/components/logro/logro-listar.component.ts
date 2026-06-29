@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { LogroService } from '../../services/logro.service';
 import { Logro } from '../../models/logro.model';
+import { AuthService } from '../../services/auth.service';
 import { TranslateService } from '../../i18n/translate.service';
 import { TranslatePipe } from '../../i18n/translate.pipe';
 
@@ -17,7 +18,7 @@ import { TranslatePipe } from '../../i18n/translate.pipe';
 export class LogroListarComponent implements OnInit {
   logros: Logro[] = [];
 
-  constructor(private logroService: LogroService, private i18n: TranslateService) {}
+  constructor(private logroService: LogroService, public auth: AuthService, private i18n: TranslateService) {}
 
   ngOnInit() { this.cargar(); }
 

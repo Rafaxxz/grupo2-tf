@@ -6,6 +6,7 @@ import { CitaEspecialistaService } from '../../services/cita-especialista.servic
 import { EspecialistaService } from '../../services/especialista.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { CitaEspecialista } from '../../models/cita-especialista.model';
+import { AuthService } from '../../services/auth.service';
 import { TranslateService } from '../../i18n/translate.service';
 import { TranslatePipe } from '../../i18n/translate.pipe';
 
@@ -25,6 +26,7 @@ export class CitaListarComponent implements OnInit {
     private svc: CitaEspecialistaService,
     private espSvc: EspecialistaService,
     private usuarioSvc: UsuarioService,
+    public auth: AuthService,
     private i18n: TranslateService
   ) {}
 

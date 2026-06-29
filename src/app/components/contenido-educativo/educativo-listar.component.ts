@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { DatePipe, UpperCasePipe } from '@angular/common';
 import { ContenidoEducativoService } from '../../services/contenido-educativo.service';
 import { ContenidoEducativo } from '../../models/contenido-educativo.model';
+import { AuthService } from '../../services/auth.service';
 import { TranslateService } from '../../i18n/translate.service';
 import { TranslatePipe } from '../../i18n/translate.pipe';
 
@@ -17,7 +18,7 @@ import { TranslatePipe } from '../../i18n/translate.pipe';
 })
 export class EducativoListarComponent implements OnInit {
   contenidos: ContenidoEducativo[] = [];
-  constructor(private svc: ContenidoEducativoService, private i18n: TranslateService) {}
+  constructor(private svc: ContenidoEducativoService, public auth: AuthService, private i18n: TranslateService) {}
   ngOnInit() { this.cargar(); }
   cargar() { this.svc.list().subscribe({ next: d => this.contenidos = d }); }
   eliminar(id: number) {
