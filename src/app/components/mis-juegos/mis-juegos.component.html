@@ -1,0 +1,47 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'misjuegos.title' | t }}</h1>
+      <p class="page-sub">{{ 'misjuegos.subtitle' | t }}</p>
+    </div>
+  </div>
+
+  <div class="juegos-grid">
+    @for (r of reglas; track r.id) {
+      <div class="juego-card" [class.activo]="activeId === r.id" [class.bloq]="!jugable(r)">
+        <div class="juego-top">
+          <div class="juego-icon"><mat-icon>sports_esports</mat-icon></div>
+          <span class="estado-badge" [class]="'estado-' + estado(r).code">{{ estadoTexto(r) }}</span>
+        </div>
+        <h3 class="juego-nombre">{{ r.nombre }}</h3>
+
+        <div class="juego-meta">
+          <span><mat-icon>schedule</mat-icon>
+            {{ r.horaInicio && r.horaFin ? (r.horaInicio + ' - ' + r.horaFin) : ('gc.always' | t) }}
+          </span>
+          <span><mat-icon>timelapse</mat-icon> {{ minutosRestantes(r) }}</span>
+        </div>
+
+        @if (activeId === r.id) {
+          <div class="jugando">
+            <mat-icon>fiber_manual_record</mat-icon>
+            {{ 'misjuegos.playing' | t }} · {{ sessionTime() }}
+          </div>
+          <button type="button" class="btn-stop" (click)="detener()">
+            <mat-icon>stop</mat-icon> {{ 'misjuegos.stop' | t }}
+          </button>
+        } @else {
+          <button type="button" class="btn-play" [disabled]="!jugable(r)" (click)="jugar(r)">
+            <mat-icon>play_arrow</mat-icon> {{ 'misjuegos.play' | t }}
+          </button>
+        }
+      </div>
+    }
+    @empty {
+      <div class="empty-state">
+        <mat-icon>videogame_asset_off</mat-icon>
+        <p>{{ 'misjuegos.empty' | t }}</p>
+      </div>
+    }
+  </div>
+</div>

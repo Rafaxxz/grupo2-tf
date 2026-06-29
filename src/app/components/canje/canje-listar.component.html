@@ -4,7 +4,9 @@
       <h1 class="page-title">{{ 'canjes.title' | t }}</h1>
       <p class="page-sub">{{ 'canjes.subtitle' | t }}</p>
     </div>
-    <a routerLink="/canjes/nuevo" class="btn-nuevo">+ {{ 'canjes.new' | t }}</a>
+    @if (auth.isAdmin() || auth.isHijo()) {
+      <a routerLink="/canjes/nuevo" class="btn-nuevo">+ {{ 'canjes.new' | t }}</a>
+    }
   </div>
 
   <div class="table-container">

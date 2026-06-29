@@ -4,7 +4,9 @@
       <h1 class="page-title">{{ 'logros.title' | t }}</h1>
       <p class="page-sub">{{ 'logros.subtitle' | t }}</p>
     </div>
-    <a routerLink="/logros/nuevo" class="btn-nuevo">+ {{ 'logros.new' | t }}</a>
+    @if (auth.isAdmin()) {
+      <a routerLink="/logros/nuevo" class="btn-nuevo">+ {{ 'logros.new' | t }}</a>
+    }
   </div>
 
   <div class="cards-grid">
@@ -19,10 +21,12 @@
             <span class="puntos">+{{ logro.puntosOtorgados }} pts</span>
           </div>
         </div>
-        <div class="logro-actions">
-          <a mat-icon-button [routerLink]="['/logros/editar', logro.idLogro]"><mat-icon>edit</mat-icon></a>
-          <button mat-icon-button (click)="eliminar(logro.idLogro!)" class="btn-delete"><mat-icon>delete</mat-icon></button>
-        </div>
+        @if (auth.isAdmin()) {
+          <div class="logro-actions">
+            <a mat-icon-button [routerLink]="['/logros/editar', logro.idLogro]"><mat-icon>edit</mat-icon></a>
+            <button type="button" mat-icon-button (click)="eliminar(logro.idLogro!)" class="btn-delete"><mat-icon>delete</mat-icon></button>
+          </div>
+        }
       </div>
     }
     @empty {

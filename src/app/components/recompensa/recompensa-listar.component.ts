@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { UpperCasePipe } from '@angular/common';
 import { RecompensaService } from '../../services/recompensa.service';
 import { Recompensa } from '../../models/recompensa.model';
+import { AuthService } from '../../services/auth.service';
 import { TranslateService } from '../../i18n/translate.service';
 import { TranslatePipe } from '../../i18n/translate.pipe';
 
@@ -17,7 +18,7 @@ import { TranslatePipe } from '../../i18n/translate.pipe';
 })
 export class RecompensaListarComponent implements OnInit {
   recompensas: Recompensa[] = [];
-  constructor(private svc: RecompensaService, private i18n: TranslateService) {}
+  constructor(private svc: RecompensaService, public auth: AuthService, private i18n: TranslateService) {}
   ngOnInit() { this.cargar(); }
   cargar() { this.svc.list().subscribe({ next: d => this.recompensas = d }); }
   eliminar(id: number) {

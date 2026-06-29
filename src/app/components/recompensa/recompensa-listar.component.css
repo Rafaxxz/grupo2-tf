@@ -36,4 +36,12 @@
 .btn-del:hover { color: #f44336; }
 .btn-edit mat-icon, .btn-del mat-icon { font-size: 18px; width: 18px; height: 18px; }
 
+.btn-canjear {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #ff4d7d; color: #fff; text-decoration: none;
+  padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
+}
+.btn-canjear:hover { background: #e63d6d; }
+.btn-canjear mat-icon { font-size: 15px; width: 15px; height: 15px; }
+
 .empty { color: #666; padding: 24px 0; }

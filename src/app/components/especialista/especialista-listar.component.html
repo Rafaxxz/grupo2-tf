@@ -4,7 +4,9 @@
       <h1 class="page-title">{{ 'especialistas.title' | t }}</h1>
       <p class="page-sub">{{ 'especialistas.subtitle' | t }}</p>
     </div>
-    <a routerLink="/especialistas/nuevo" class="btn-nuevo">+ {{ 'especialistas.new' | t }}</a>
+    @if (auth.isAdmin()) {
+      <a routerLink="/especialistas/nuevo" class="btn-nuevo">+ {{ 'especialistas.new' | t }}</a>
+    }
   </div>
 
   <div class="esp-grid">
@@ -20,9 +22,13 @@
         <h3 class="esp-nombre">{{ nombreUsuario(e.usuarioId!) }}</h3>
         <span class="esp-especialidad">{{ e.especialidad }}</span>
         <div class="esp-actions">
-          <a routerLink="/citas/nuevo" class="btn-agendar">{{ 'especialistas.book' | t }}</a>
-          <a [routerLink]="['/especialistas/editar', e.idEspecialista]" class="btn-edit"><mat-icon>edit</mat-icon></a>
-          <button (click)="eliminar(e.idEspecialista!)" class="btn-del"><mat-icon>delete</mat-icon></button>
+          @if (auth.isAdmin() || auth.isPadre()) {
+            <a routerLink="/citas/nuevo" class="btn-agendar">{{ 'especialistas.book' | t }}</a>
+          }
+          @if (auth.isAdmin()) {
+            <a [routerLink]="['/especialistas/editar', e.idEspecialista]" class="btn-edit"><mat-icon>edit</mat-icon></a>
+            <button type="button" (click)="eliminar(e.idEspecialista!)" class="btn-del"><mat-icon>delete</mat-icon></button>
+          }
         </div>
       </div>
     }

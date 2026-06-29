@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RetoService } from '../../services/reto.service';
 import { Reto } from '../../models/reto.model';
+import { AuthService } from '../../services/auth.service';
 import { TranslateService } from '../../i18n/translate.service';
 import { TranslatePipe } from '../../i18n/translate.pipe';
 
@@ -16,7 +17,7 @@ import { TranslatePipe } from '../../i18n/translate.pipe';
 })
 export class RetoListarComponent implements OnInit {
   retos: Reto[] = [];
-  constructor(private svc: RetoService, private i18n: TranslateService) {}
+  constructor(private svc: RetoService, public auth: AuthService, private i18n: TranslateService) {}
   ngOnInit() { this.cargar(); }
   cargar() { this.svc.list().subscribe({ next: d => this.retos = d }); }
   eliminar(id: number) {

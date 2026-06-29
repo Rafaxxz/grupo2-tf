@@ -10,6 +10,7 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'citas/editar/:id',         renderMode: RenderMode.Client },
   { path: 'usuarios/editar/:id',      renderMode: RenderMode.Client },
   { path: 'roles/editar/:id',         renderMode: RenderMode.Client },
+  { path: 'categorias/editar/:id',    renderMode: RenderMode.Client },
   { path: 'retos-usuario/editar/:id', renderMode: RenderMode.Client },
   { path: 'bloqueado',                renderMode: RenderMode.Client },
   // Todo lo demás → SSR
