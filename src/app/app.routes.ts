@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
+import { RegistroComponent } from './components/registro/registro.component';
+import { FamiliaComponent } from './components/familia/familia.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LogroListarComponent } from './components/logro/logro-listar.component';
 import { LogroFormComponent } from './components/logro/logro-form.component';
@@ -43,8 +46,11 @@ const g = [authGuard, bloqueoGuard];
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
+  { path: 'login',    component: LoginComponent },
+  { path: 'registro', component: RegistroComponent },
   { path: 'bloqueado', component: BloqueadoComponent, canActivate: [authGuard] },
+  { path: 'familia', component: FamiliaComponent, canActivate: g },
+  { path: 'perfil',  component: PerfilComponent,  canActivate: g },
 
   { path: 'dashboard',               component: DashboardComponent,          canActivate: g },
 
@@ -84,18 +90,23 @@ export const routes: Routes = [
 
   { path: 'juegos',                  component: JuegoListarComponent,        canActivate: g },
   { path: 'juegos/nuevo',            component: JuegoFormComponent,          canActivate: g },
+  { path: 'juegos/editar/:id',       component: JuegoFormComponent,          canActivate: g },
+
   { path: 'categorias',              component: CategoriaListarComponent,    canActivate: g },
   { path: 'categorias/nuevo',        component: CategoriaFormComponent,      canActivate: g },
   { path: 'categorias/editar/:id',   component: CategoriaFormComponent,      canActivate: g },
 
   { path: 'sesiones',                component: SesionListarComponent,       canActivate: g },
   { path: 'sesiones/nuevo',          component: SesionFormComponent,         canActivate: g },
+  { path: 'sesiones/editar/:id',     component: SesionFormComponent,         canActivate: g },
 
   { path: 'canjes',                  component: CanjeListarComponent,        canActivate: g },
   { path: 'canjes/nuevo',            component: CanjeFormComponent,          canActivate: g },
+  { path: 'canjes/editar/:id',       component: CanjeFormComponent,          canActivate: g },
 
   { path: 'logros-usuario',          component: LogroUsuarioListarComponent, canActivate: g },
   { path: 'logros-usuario/nuevo',    component: LogroUsuarioFormComponent,   canActivate: g },
+  { path: 'logros-usuario/editar/:id', component: LogroUsuarioFormComponent, canActivate: g },
 
   { path: 'retos-usuario',           component: RetoUsuarioListarComponent,  canActivate: g },
   { path: 'retos-usuario/nuevo',     component: RetoUsuarioFormComponent,    canActivate: g },

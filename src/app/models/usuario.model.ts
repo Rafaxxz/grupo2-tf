@@ -7,5 +7,6 @@ export interface Usuario {
   rolId: number;
   puntosTotales?: number;
   estado?: boolean;
+  padreId?: number;
   createdAt?: string;
 }

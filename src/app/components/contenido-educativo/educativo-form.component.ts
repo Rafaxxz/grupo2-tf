@@ -18,6 +18,8 @@ export class EducativoFormComponent implements OnInit {
   editando = false;
   id?: number;
   tipos = ['articulo', 'video', 'guia', 'podcast'];
+  error = '';
+  guardando = false;
 
   constructor(private svc: ContenidoEducativoService, private route: ActivatedRoute, private router: Router) {}
 
@@ -26,8 +28,25 @@ export class EducativoFormComponent implements OnInit {
     if (this.id) { this.editando = true; this.svc.getById(this.id).subscribe(d => this.contenido = d); }
   }
 
+  urlValida(): boolean {
+    try { new URL(this.contenido.url || ''); return true; } catch { return false; }
+  }
+
+  probarEnlace() {
+    if (this.urlValida()) window.open(this.contenido.url, '_blank', 'noopener');
+  }
+
   guardar() {
+    if (!this.contenido.titulo?.trim()) { this.error = 'El título es obligatorio'; return; }
+    if (!this.contenido.url?.trim()) { this.error = 'La URL es obligatoria'; return; }
+    if (!this.urlValida()) { this.error = 'Ingresa una URL válida (ej: https://ejemplo.com)'; return; }
+
+    this.error = '';
+    this.guardando = true;
     const obs = this.editando ? this.svc.update(this.id!, this.contenido) : this.svc.insert(this.contenido);
-    obs.subscribe(() => this.router.navigate(['/educacion']));
+    obs.subscribe({
+      next: () => this.router.navigate(['/educacion']),
+      error: (e: any) => { this.error = e.error?.message || 'Error al guardar. Intenta de nuevo.'; this.guardando = false; }
+    });
   }
 }

@@ -17,11 +17,20 @@ import { TranslatePipe } from '../../i18n/translate.pipe';
 })
 export class RetoListarComponent implements OnInit {
   retos: Reto[] = [];
+  cargando = true;
   constructor(private svc: RetoService, public auth: AuthService, private i18n: TranslateService) {}
-  ngOnInit() { this.cargar(); }
-  cargar() { this.svc.list().subscribe({ next: d => this.retos = d }); }
-  eliminar(id: number) {
-    if (confirm(this.i18n.t('retos.confirm'))) this.svc.delete(id).subscribe(() => this.cargar());
+
+  ngOnInit() {
+    this.svc.list().subscribe({
+      next: d => { this.retos = d; this.cargando = false; },
+      error: () => this.cargando = false
+    });
   }
+
+  eliminar(id: number) {
+    if (confirm(this.i18n.t('retos.confirm')))
+      this.svc.delete(id).subscribe(() => this.retos = this.retos.filter(r => r.idReto !== id));
+  }
+
   difColor(d: string) { return d === 'fácil' ? '#4eca8b' : d === 'medio' ? '#ff9800' : '#f44336'; }
 }

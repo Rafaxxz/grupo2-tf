@@ -1,10 +1,25 @@
 <div class="page">
   <div class="page-header">
     <div>
-      <h1>{{ 'alertas.title' | t }}</h1>
-      <p>{{ sinLeer() }} {{ 'alertas.alerts' | t }} {{ 'alertas.unreadOf' | t }} {{ alertas.length }} {{ 'alertas.total' | t }}</p>
+      <h1 class="page-title"><mat-icon>notifications</mat-icon> {{ 'alertas.title' | t }}</h1>
+      <p class="page-sub">
+        @if (sinLeer() > 0) {
+          <span class="badge-count">{{ sinLeer() }}</span> {{ 'alertas.sinLeer' | t }}
+        } @else {
+          {{ 'alertas.todasLeidas' | t }}
+        }
+      </p>
     </div>
-    <button class="btn-refresh" (click)="cargar()"><mat-icon>refresh</mat-icon> {{ 'common.refresh' | t }}</button>
+    <div class="header-actions">
+      @if (sinLeer() > 0) {
+        <button class="btn-marcar-todas" (click)="marcarTodasLeidas()">
+          <mat-icon>done_all</mat-icon> {{ 'alertas.marcarTodas' | t }}
+        </button>
+      }
+      <button class="btn-refresh" (click)="cargar()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </div>
   </div>
 
   @if (cargando) {
@@ -12,21 +27,27 @@
   } @else {
     <div class="alertas-lista">
       @for (a of alertas; track a.idAlerta) {
-        <div class="alerta-card" [class.no-leida]="!a.leida"
-          [style.border-left-color]="nivelColor(a.nivel)">
-          <div class="alerta-icon" [style.color]="nivelColor(a.nivel)">
-            <mat-icon>{{ tipoIcon(a.tipo) }}</mat-icon>
+        <div class="alerta-card" [class.no-leida]="!a.leida" [style.--nivel-color]="nivelColor(a.nivel)">
+          <div class="alerta-icon-wrap">
+            <mat-icon [style.color]="nivelColor(a.nivel)">{{ tipoIcon(a.tipo) }}</mat-icon>
           </div>
           <div class="alerta-body">
-            <div class="alerta-header-row">
-              <span class="alerta-tipo">{{ a.tipo | uppercase }}</span>
-              <span class="alerta-nivel" [style.color]="nivelColor(a.nivel)">● {{ a.nivel }}</span>
-              <span class="alerta-fecha">{{ a.emitidaEn | date:'dd/MM/yyyy HH:mm' }}</span>
+            <div class="alerta-meta">
+              <span class="alerta-tipo" [style.color]="nivelColor(a.nivel)">{{ tipoLabel(a.tipo) }}</span>
+              <span class="alerta-fecha">{{ a.emitidaEn | date:'dd MMM yyyy, HH:mm' }}</span>
             </div>
             <p class="alerta-mensaje">{{ a.mensaje }}</p>
-            <span class="alerta-usuario">{{ 'alertas.userId' | t }}: {{ a.usuarioId }}</span>
           </div>
-          @if (!a.leida) { <span class="badge-nuevo">{{ 'alertas.new' | t }}</span> }
+          <div class="alerta-acciones">
+            @if (!a.leida) {
+              <span class="badge-nuevo">{{ 'alertas.new' | t }}</span>
+              <button class="btn-leer" (click)="marcarLeida(a)" title="{{ 'alertas.marcarLeida' | t }}">
+                <mat-icon>check</mat-icon>
+              </button>
+            } @else {
+              <mat-icon class="icon-leida">check_circle</mat-icon>
+            }
+          </div>
         </div>
       } @empty {
         <div class="empty-state">

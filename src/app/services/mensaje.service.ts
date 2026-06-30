@@ -18,6 +18,6 @@ export class MensajeService {
   delete(id: number) { return this.http.delete(`${this.url}/${id}`, { responseType: 'text' }); }
   getNoLeidos(destinatarioId: number) { return this.http.get<Mensaje[]>(`${this.url}/no-leidos/${destinatarioId}`); }
   getPorRemitente(remitenteId: number) { return this.http.get<Mensaje[]>(`${this.url}/por-remitente/${remitenteId}`); }
-  getConversacion(usuario1: number, usuario2: number) { return this.http.get<Mensaje[]>(`${this.url}/conversacion?usuario1=${usuario1}&usuario2=${usuario2}`); }
+  getConversacion(usuario1: number, usuario2: number) { return this.http.get<Mensaje[]>(`${this.url}/conversacion?usuarioA=${usuario1}&usuarioB=${usuario2}`); }
   resumenNoLeidos(usuarioId: number) { return this.http.get<any>(`${this.url}/resumen-no-leidos/${usuarioId}`); }
 }

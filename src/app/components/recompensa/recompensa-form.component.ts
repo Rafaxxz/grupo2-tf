@@ -18,6 +18,8 @@ export class RecompensaFormComponent implements OnInit {
   editando = false;
   id?: number;
   tipos = ['tiempo', 'privilegio', 'virtual', 'fisico'];
+  error = '';
+  guardando = false;
 
   constructor(private svc: RecompensaService, private route: ActivatedRoute, private router: Router) {}
 
@@ -27,7 +29,13 @@ export class RecompensaFormComponent implements OnInit {
   }
 
   guardar() {
+    if (!this.recompensa.nombre?.trim()) { this.error = 'El nombre de la recompensa es obligatorio'; return; }
+    this.error = '';
+    this.guardando = true;
     const obs = this.editando ? this.svc.update(this.recompensa) : this.svc.insert(this.recompensa);
-    obs.subscribe(() => this.router.navigate(['/recompensas']));
+    obs.subscribe({
+      next: () => this.router.navigate(['/recompensas']),
+      error: (e: any) => { this.error = e.error?.message || 'Error al guardar. Intenta de nuevo.'; this.guardando = false; }
+    });
   }
 }

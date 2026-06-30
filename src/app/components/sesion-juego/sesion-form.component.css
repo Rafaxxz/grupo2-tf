@@ -1,2 +1,43 @@
 @import '../shared.css';
 @import '../form-shared.css';
+
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ff6b6b;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+.form-error mat-icon { font-size: 16px; height: 16px; width: 16px; }
+.btn-guardar:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.input-row input { flex: 1; }
+
+.btn-ahora {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #1a1a2e;
+  border: 1px solid #2a2a3e;
+  border-radius: 8px;
+  color: #aaa;
+  font-size: 12px;
+  padding: 0 14px;
+  height: 42px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.btn-ahora:hover { border-color: #ff4d7d; color: #ff4d7d; }
+.btn-ahora mat-icon { font-size: 16px; width: 16px; height: 16px; }
+
+.opt { font-size: 11px; color: #555; font-weight: 400; }
+.hint { font-size: 11px; color: #555; margin: 4px 0 0; }
+
+.form-actions { margin-top: 8px; }

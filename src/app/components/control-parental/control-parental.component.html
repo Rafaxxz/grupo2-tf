@@ -53,7 +53,10 @@
     <div class="cp-usuarios-section">
       <h2 class="section-title"><mat-icon>people</mat-icon> {{ 'cp.usersStatus' | t }}</h2>
       <div class="usuarios-list">
-        @for (u of usuarios; track u.idUsuario) {
+        @if (cargando) {
+        <p class="empty"><mat-icon>hourglass_top</mat-icon> Cargando...</p>
+      }
+      @for (u of usuarios; track u.idUsuario) {
           <div class="usuario-card" [class.bloqueado]="limiteDeUsuario(u.idUsuario)?.bloqueoActivo">
             <div class="usuario-avatar">{{ u.nombre[0] }}</div>
             <div class="usuario-info">
@@ -78,9 +81,80 @@
             </div>
           </div>
         } @empty {
-          <p class="empty">{{ 'cp.emptyUsers' | t }}</p>
+          @if (!cargando) { <p class="empty">{{ 'cp.emptyUsers' | t }}</p> }
         }
       </div>
     </div>
   </div>
+
+  <!-- ── Actividad en vivo ───────────────────────────────────────────── -->
+  <div class="actividad-section">
+    <h2 class="section-title"><mat-icon>monitor</mat-icon> Actividad en vivo</h2>
+    <p class="section-sub">El agente reporta la ventana activa del hijo cada 10 segundos.</p>
+
+    <div class="actividad-cards">
+      @for (u of usuarios; track u.idUsuario) {
+        <div class="actividad-card" [class.card-bloqueada]="bloqueado[u.idUsuario]">
+
+          <!-- Cabecera: nombre + botón instalar -->
+          <div class="actividad-header">
+            <span class="hijo-name">
+              <mat-icon>person</mat-icon> {{ u.nombre }}
+              @if (bloqueado[u.idUsuario]) {
+                <span class="badge-bloqueado"><mat-icon>lock</mat-icon> Bloqueado</span>
+              }
+            </span>
+            <button class="btn-descargar" (click)="descargarAgente(u.idUsuario)">
+              <mat-icon>download</mat-icon> Instalar agente
+            </button>
+          </div>
+
+          <!-- Actividad en vivo -->
+          @if (actividad[u.idUsuario]; as a) {
+            <div class="actividad-vivo">
+              <span class="dot-live"></span>
+              <span class="ventana-nombre">{{ a.ventana }}</span>
+              <span class="ventana-hora">{{ a.hora }}</span>
+            </div>
+
+            <!-- Acciones -->
+            <div class="acciones">
+              @if (!bloqueado[u.idUsuario]) {
+                <button class="btn-accion btn-bloquear" (click)="enviarComando(u.idUsuario, 'BLOQUEAR')">
+                  <mat-icon>block</mat-icon> Bloquear ahora
+                </button>
+              } @else {
+                <button class="btn-accion btn-desbloquear" (click)="enviarComando(u.idUsuario, 'DESBLOQUEAR')">
+                  <mat-icon>lock_open</mat-icon> Desbloquear
+                </button>
+              }
+
+              <div class="mensaje-row">
+                <input type="text" class="mensaje-input" [(ngModel)]="mensajeTexto[u.idUsuario]"
+                       placeholder="Escribe un aviso..." (keydown.enter)="enviarComando(u.idUsuario, 'MENSAJE', mensajeTexto[u.idUsuario])"/>
+                <button class="btn-accion btn-mensaje"
+                        [disabled]="!mensajeTexto[u.idUsuario]"
+                        (click)="enviarComando(u.idUsuario, 'MENSAJE', mensajeTexto[u.idUsuario])">
+                  <mat-icon>send</mat-icon>
+                </button>
+              </div>
+            </div>
+
+          } @else {
+            <div class="actividad-vivo sin-agente">
+              <mat-icon>cloud_off</mat-icon>
+              <span>Agente no conectado — descarga e instala el agente en el PC del hijo</span>
+            </div>
+          }
+        </div>
+      } @empty {
+        @if (cargando) {
+          <p class="empty"><mat-icon>hourglass_top</mat-icon> Cargando hijos vinculados...</p>
+        } @else {
+          <p class="empty">No hay hijos vinculados.</p>
+        }
+      }
+    </div>
+  </div>
+
 </div>

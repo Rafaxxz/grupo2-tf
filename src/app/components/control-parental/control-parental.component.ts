@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { UsuarioService } from '../../services/usuario.service';
 import { LimiteTiempoService } from '../../services/limite-tiempo.service';
 import { AlertaService } from '../../services/alerta.service';
 import { AuthService } from '../../services/auth.service';
+import { FamiliaService } from '../../services/familia.service';
 import { TranslatePipe } from '../../i18n/translate.pipe';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-control-parental',
@@ -14,33 +16,101 @@ import { TranslatePipe } from '../../i18n/translate.pipe';
   templateUrl: './control-parental.component.html',
   styleUrl: './control-parental.component.css'
 })
-export class ControlParentalComponent implements OnInit {
+export class ControlParentalComponent implements OnInit, OnDestroy {
   usuarios: any[] = [];
   limites: any[] = [];
+  cargando = true;
   form = { usuarioId: 0, tipo: 'diario', minutosMaximos: 120, bloqueoActivo: false, notificar: true };
   exito = '';
   error = '';
+
+  // Actividad en vivo: hijoId → { ventana, hora }
+  actividad:      Record<number, { ventana: string; hora: string }> = {};
+  bloqueado:      Record<number, boolean> = {};
+  mensajeTexto:   Record<number, string>  = {};
+  private sseSource: EventSource | null = null;
+  readonly base = environment.base;
 
   constructor(
     private usuarioSvc: UsuarioService,
     private limiteSvc: LimiteTiempoService,
     private alertaSvc: AlertaService,
+    private familiaSvc: FamiliaService,
     private auth: AuthService
   ) {}
 
   ngOnInit() {
-    const miId = this.auth.getCurrentUserId();
-    this.usuarioSvc.list().subscribe({
-      next: u => {
-        this.usuarios = u.filter((x: any) => x.idUsuario !== miId);
-        // Cargar límites de cada usuario hijo
-        this.usuarios.forEach(u => this.cargarLimitesDeUsuario(u.idUsuario));
-      },
-      error: () => this.error = 'No se pudieron cargar los usuarios'
-    });
-    if (this.auth.isAdmin()) {
+    this.iniciarSSE();
+    if (this.auth.isPadre()) {
+      this.cargarHijos();
+    } else if (this.auth.isAdmin()) {
+      const miId = this.auth.getCurrentUserId();
+      this.usuarioSvc.list().subscribe({
+        next: u => {
+          this.usuarios = u.filter((x: any) => x.idUsuario !== miId);
+          this.cargando = false;
+          this.usuarios.forEach(u => this.cargarLimitesDeUsuario(u.idUsuario));
+        },
+        error: () => { this.error = 'No se pudieron cargar los usuarios'; this.cargando = false; }
+      });
       this.limiteSvc.list().subscribe({ next: l => this.limites = l, error: () => {} });
     }
+  }
+
+  private cargarHijos(intento = 0) {
+    this.familiaSvc.listarHijos().subscribe({
+      next: hijos => {
+        this.usuarios = hijos;
+        this.cargando = false;
+        hijos.forEach(h => {
+          this.cargarLimitesDeUsuario(h.idUsuario!);
+          this.cargarActividad(h.idUsuario!);
+        });
+      },
+      error: () => {
+        if (intento < 2) {
+          setTimeout(() => this.cargarHijos(intento + 1), 2000);
+        } else {
+          this.error = 'No se pudieron cargar los hijos vinculados';
+          this.cargando = false;
+        }
+      }
+    });
+  }
+
+  ngOnDestroy() { this.sseSource?.close(); }
+
+  private iniciarSSE() {
+    if (typeof EventSource === 'undefined') return;
+    this.sseSource = new EventSource(`${environment.base}/api/actividad/stream`);
+    this.sseSource.onmessage = (e) => {
+      const data = JSON.parse(e.data);
+      if (data.ventana  !== undefined) this.actividad[data.hijoId] = { ventana: data.ventana, hora: data.hora };
+      if (data.bloqueado !== undefined) this.bloqueado[data.hijoId] = data.bloqueado;
+    };
+  }
+
+  private cargarActividad(hijoId: number) {
+    fetch(`${environment.base}/api/actividad/actual/${hijoId}`)
+      .then(r => r.json())
+      .then(d => { if (d.ventana) this.actividad[hijoId] = d; })
+      .catch(() => {});
+  }
+
+  descargarAgente(hijoId: number) {
+    window.open(`${environment.base}/api/actividad/instalar/${hijoId}`);
+  }
+
+  enviarComando(hijoId: number, tipo: string, mensaje = '') {
+    fetch(`${environment.base}/api/actividad/comando/${hijoId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tipo, mensaje })
+    }).then(() => {
+      if (tipo === 'BLOQUEAR')   this.bloqueado[hijoId] = true;
+      if (tipo === 'DESBLOQUEAR') this.bloqueado[hijoId] = false;
+      if (tipo === 'MENSAJE')    this.mensajeTexto[hijoId] = '';
+    }).catch(() => {});
   }
 
   cargarLimitesDeUsuario(userId: number) {

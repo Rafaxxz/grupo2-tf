@@ -12,6 +12,7 @@ export class UsuarioService {
   insert(u: Usuario) { return this.http.post<Usuario>(this.url, u); }
   update(id: number, u: Usuario) { return this.http.put<Usuario>(`${this.url}/${id}`, u); }
   delete(id: number) { return this.http.delete(`${this.url}/${id}`, { responseType: 'text' }); }
+  getMe() { return this.http.get<Usuario>(`${this.url}/me`); }
   getByRol(nombre: string) { return this.http.get<Usuario[]>(`${this.url}/userByRol?nombre=${nombre}`); }
   userLastDays() { return this.http.get<Usuario[]>(`${this.url}/userLastDays`); }
 }
