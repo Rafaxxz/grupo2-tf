@@ -53,7 +53,10 @@ export class MensajeListarComponent implements OnInit {
 
   ngOnInit() {
     if (this.auth.isAdmin() || this.auth.isPadre()) {
-      this.usuarioSvc.list().subscribe(d => this.usuarios = d);
+      this.usuarioSvc.list().subscribe(d => {
+        this.usuarios = d;
+        if (!this.seleccionado && this.contactos.length) this.seleccionado = this.contactos[0].idUsuario;
+      });
     }
     this.mensajeSvc.list().subscribe(d => {
       this.mensajes = d;
@@ -66,11 +69,16 @@ export class MensajeListarComponent implements OnInit {
         });
         contactIds.forEach(id =>
           this.usuarioSvc.getById(id).subscribe(u => {
-            if (!this.usuarios.find(x => x.idUsuario === id)) this.usuarios.push(u);
+            if (!this.usuarios.find(x => x.idUsuario === id)) {
+              this.usuarios.push(u);
+              // Seleccionar primer contacto al llegar
+              if (!this.seleccionado) this.seleccionado = u.idUsuario;
+            }
           })
         );
+      } else {
+        if (this.contactos.length) this.seleccionado = this.contactos[0].idUsuario;
       }
-      if (this.contactos.length) this.seleccionado = this.contactos[0].idUsuario;
     });
   }
 
