@@ -4,7 +4,9 @@
       <h1 class="page-title">{{ 'recompensas.title' | t }}</h1>
       <p class="page-sub">{{ 'recompensas.subtitle' | t }}</p>
     </div>
-    <a routerLink="/recompensas/nuevo" class="btn-nuevo">+ {{ 'recompensas.new' | t }}</a>
+    @if (auth.isAdmin()) {
+      <a routerLink="/recompensas/nuevo" class="btn-nuevo">+ {{ 'recompensas.new' | t }}</a>
+    }
   </div>
 
   <div class="catalog-grid">
@@ -18,10 +20,14 @@
         <p class="reward-desc">{{ r.descripcion }}</p>
         <div class="reward-footer">
           <span class="reward-costo"><mat-icon>toll</mat-icon> {{ r.costoPuntos }} {{ 'recompensas.pts' | t }}</span>
-          <div class="reward-btns">
-            <a [routerLink]="['/recompensas/editar', r.idRecompensa]" class="btn-edit"><mat-icon>edit</mat-icon></a>
-            <button (click)="eliminar(r.idRecompensa!)" class="btn-del"><mat-icon>delete</mat-icon></button>
-          </div>
+          @if (auth.isAdmin()) {
+            <div class="reward-btns">
+              <a [routerLink]="['/recompensas/editar', r.idRecompensa]" class="btn-edit"><mat-icon>edit</mat-icon></a>
+              <button type="button" (click)="eliminar(r.idRecompensa!)" class="btn-del"><mat-icon>delete</mat-icon></button>
+            </div>
+          } @else if (auth.isHijo()) {
+            <a routerLink="/canjes/nuevo" class="btn-canjear"><mat-icon>redeem</mat-icon> {{ 'canjes.new' | t }}</a>
+          }
         </div>
       </div>
     }

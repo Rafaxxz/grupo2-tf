@@ -4,7 +4,9 @@
       <h1 class="page-title">{{ 'retos.title' | t }}</h1>
       <p class="page-sub">{{ 'retos.subtitle' | t }}</p>
     </div>
-    <a routerLink="/retos/nuevo" class="btn-nuevo">+ {{ 'retos.new' | t }}</a>
+    @if (auth.isAdmin()) {
+      <a routerLink="/retos/nuevo" class="btn-nuevo">+ {{ 'retos.new' | t }}</a>
+    }
   </div>
 
   <div class="retos-grid">
@@ -23,10 +25,12 @@
           <span class="reto-dif" [style.color]="difColor(r.dificultad || '')">{{ r.dificultad }}</span>
           <span class="reto-dur"><mat-icon>schedule</mat-icon> {{ r.duracionDias }} {{ 'retos.days' | t }}</span>
         </div>
-        <div class="reto-actions">
-          <a [routerLink]="['/retos/editar', r.idReto]" class="btn-edit"><mat-icon>edit</mat-icon></a>
-          <button (click)="eliminar(r.idReto!)" class="btn-del"><mat-icon>delete</mat-icon></button>
-        </div>
+        @if (auth.isAdmin()) {
+          <div class="reto-actions">
+            <a [routerLink]="['/retos/editar', r.idReto]" class="btn-edit"><mat-icon>edit</mat-icon></a>
+            <button type="button" (click)="eliminar(r.idReto!)" class="btn-del"><mat-icon>delete</mat-icon></button>
+          </div>
+        }
       </div>
     }
     @empty { <p class="empty">{{ 'common.empty' | t }}</p> }

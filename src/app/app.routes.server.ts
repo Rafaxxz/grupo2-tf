@@ -26,6 +26,8 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'sesiones',                   renderMode: RenderMode.Client },
   { path: 'logros',                     renderMode: RenderMode.Client },
   { path: 'control-parental',           renderMode: RenderMode.Client },
+  { path: 'control-juegos',             renderMode: RenderMode.Client },
+  { path: 'mis-juegos',                 renderMode: RenderMode.Client },
   { path: 'dashboard',                  renderMode: RenderMode.Client },
   // Todo lo demás → SSR
   { path: '**',                       renderMode: RenderMode.Prerender }

@@ -1,0 +1,116 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'gc.title' | t }}</h1>
+      <p class="page-sub">{{ 'gc.subtitle' | t }}</p>
+    </div>
+  </div>
+
+  <div class="gc-layout">
+    <!-- Formulario -->
+    <div class="gc-form-section">
+      <h2 class="section-title">
+        <mat-icon>videogame_asset</mat-icon>
+        {{ (editando ? 'gc.formEdit' : 'gc.formNew') | t }}
+      </h2>
+      <div class="form-card">
+        <div class="form-group">
+          <label>{{ 'gc.child' | t }} *</label>
+          @if (hijos.length) {
+            <select [(ngModel)]="form.childId" name="hijo">
+              <option [ngValue]="0" disabled>—</option>
+              @for (h of hijos; track h.idUsuario) {
+                <option [ngValue]="h.idUsuario">{{ h.nombre }} ({{ h.username }})</option>
+              }
+            </select>
+          } @else {
+            <input type="number" [(ngModel)]="form.childId" name="hijoId" [placeholder]="'gc.childIdPh' | t" />
+          }
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'gc.game' | t }} *</label>
+          <input [(ngModel)]="form.nombre" name="nombre" [placeholder]="'gc.gamePh' | t" />
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'gc.url' | t }} *</label>
+          <input [(ngModel)]="form.url" name="url" placeholder="https://..." />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>{{ 'gc.from' | t }}</label>
+            <input type="time" [(ngModel)]="form.horaInicio" name="inicio" />
+          </div>
+          <div class="form-group">
+            <label>{{ 'gc.to' | t }}</label>
+            <input type="time" [(ngModel)]="form.horaFin" name="fin" />
+          </div>
+          <div class="form-group">
+            <label>{{ 'gc.maxMin' | t }}</label>
+            <input type="number" [(ngModel)]="form.minutosMaximos" name="min" min="0" />
+          </div>
+        </div>
+
+        <div class="toggle-row">
+          <input type="checkbox" [(ngModel)]="form.bloqueado" id="bloqueado" name="bloqueado" />
+          <label for="bloqueado">{{ 'gc.blockNow' | t }}</label>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-guardar" (click)="guardar()">
+            <mat-icon>save</mat-icon> {{ (editando ? 'common.saveChanges' : 'common.create') | t }}
+          </button>
+          @if (editando) {
+            <button type="button" class="btn-cancelar" (click)="cancelar()">{{ 'common.cancel' | t }}</button>
+          }
+        </div>
+        <p class="gc-hint"><mat-icon>info</mat-icon> {{ 'gc.hint' | t }}</p>
+      </div>
+    </div>
+
+    <!-- Lista -->
+    <div class="gc-list-section">
+      <h2 class="section-title"><mat-icon>list</mat-icon> {{ 'gc.assigned' | t }}</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>{{ 'gc.child' | t }}</th>
+              <th>{{ 'gc.game' | t }}</th>
+              <th>{{ 'gc.schedule' | t }}</th>
+              <th>{{ 'gc.maxMin' | t }}</th>
+              <th>{{ 'common.status' | t }}</th>
+              <th>{{ 'common.actions' | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of reglas; track r.id) {
+              <tr>
+                <td>{{ r.childName || ('#' + r.childId) }}</td>
+                <td>{{ r.nombre }}</td>
+                <td>{{ r.horaInicio && r.horaFin ? (r.horaInicio + ' - ' + r.horaFin) : ('gc.always' | t) }}</td>
+                <td>{{ r.minutosMaximos ? (r.minutosMaximos + ' min') : ('gc.noLimit' | t) }}</td>
+                <td><span class="estado-badge" [class]="estadoClase(r)">{{ estadoTexto(r) }}</span></td>
+                <td>
+                  <div class="row-actions">
+                    <button type="button" class="icon-btn" (click)="toggleBloqueo(r)"
+                      [title]="(r.bloqueado ? 'gc.unblock' : 'gc.block') | t">
+                      <mat-icon>{{ r.bloqueado ? 'lock' : 'lock_open' }}</mat-icon>
+                    </button>
+                    <button type="button" class="icon-btn" (click)="editar(r)"><mat-icon>edit</mat-icon></button>
+                    <button type="button" class="icon-btn danger" (click)="eliminar(r)"><mat-icon>delete</mat-icon></button>
+                  </div>
+                </td>
+              </tr>
+            }
+            @empty {
+              <tr class="empty-row"><td colspan="6">{{ 'gc.empty' | t }}</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
