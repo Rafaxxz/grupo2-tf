@@ -35,6 +35,10 @@
     }
     @if (auth.isAdmin() || auth.isPadre()) {
       <li><a routerLink="/control-parental" routerLinkActive="active"><mat-icon>supervisor_account</mat-icon> {{ 'nav.controlParental' | t }}</a></li>
+      <li><a routerLink="/control-juegos" routerLinkActive="active"><mat-icon>videogame_asset</mat-icon> {{ 'nav.controlJuegos' | t }}</a></li>
+    }
+    @if (auth.isAdmin() || auth.isHijo()) {
+      <li><a routerLink="/mis-juegos" routerLinkActive="active"><mat-icon>stadia_controller</mat-icon> {{ 'nav.misJuegos' | t }}</a></li>
     }
 
     <li class="nav-sep">{{ 'nav.wellbeing' | t }}</li>

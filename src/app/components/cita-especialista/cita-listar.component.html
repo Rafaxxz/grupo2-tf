@@ -27,7 +27,9 @@
             <button class="btn-confirmar" (click)="cambiarEstado(c, 'completada')">{{ 'citas.complete' | t }}</button>
           }
           <a [routerLink]="['/citas/editar', c.idCita]" class="btn-edit"><mat-icon>edit</mat-icon></a>
-          <button (click)="eliminar(c.idCita!)" class="btn-del"><mat-icon>delete</mat-icon></button>
+          @if (auth.isAdmin()) {
+            <button type="button" (click)="eliminar(c.idCita!)" class="btn-del"><mat-icon>delete</mat-icon></button>
+          }
         </div>
       </div>
     }

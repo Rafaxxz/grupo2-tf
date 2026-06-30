@@ -37,7 +37,7 @@
         @if (!esHijo) {
           <div class="logro-actions">
             <a mat-icon-button [routerLink]="['/logros/editar', logro.idLogro]"><mat-icon>edit</mat-icon></a>
-            <button mat-icon-button (click)="eliminar(logro.idLogro!)" class="btn-delete"><mat-icon>delete</mat-icon></button>
+            <button type="button" mat-icon-button (click)="eliminar(logro.idLogro!)" class="btn-delete"><mat-icon>delete</mat-icon></button>
           </div>
         } @else {
           <div class="estado-badge" [class.ok]="logro.desbloqueado">

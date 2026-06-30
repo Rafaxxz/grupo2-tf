@@ -176,7 +176,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Cálculo de altura de barra como porcentaje del máximo
   barAltura(minutos: number): number {
     if (this.maxMinutos === 0) return 0;
     return Math.round((minutos / this.maxMinutos) * 100);

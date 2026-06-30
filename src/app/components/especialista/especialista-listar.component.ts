@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { EspecialistaService } from '../../services/especialista.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { Especialista } from '../../models/especialista.model';
+import { AuthService } from '../../services/auth.service';
 import { TranslateService } from '../../i18n/translate.service';
 import { TranslatePipe } from '../../i18n/translate.pipe';
 
@@ -18,7 +19,7 @@ export class EspecialistaListarComponent implements OnInit {
   especialistas: Especialista[] = [];
   usuarios: any[] = [];
 
-  constructor(private svc: EspecialistaService, private usuarioSvc: UsuarioService, private i18n: TranslateService) {}
+  constructor(private svc: EspecialistaService, private usuarioSvc: UsuarioService, public auth: AuthService, private i18n: TranslateService) {}
 
   ngOnInit() {
     this.usuarioSvc.list().subscribe(u => {
