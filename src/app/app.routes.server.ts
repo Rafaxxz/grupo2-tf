@@ -26,9 +26,41 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'sesiones',                   renderMode: RenderMode.Client },
   { path: 'logros',                     renderMode: RenderMode.Client },
   { path: 'control-parental',           renderMode: RenderMode.Client },
-  { path: 'control-juegos',             renderMode: RenderMode.Client },
-  { path: 'mis-juegos',                 renderMode: RenderMode.Client },
-  { path: 'dashboard',                  renderMode: RenderMode.Client },
-  // Todo lo demás → SSR
-  { path: '**',                       renderMode: RenderMode.Prerender }
+  { path: 'control-juegos',            renderMode: RenderMode.Client },
+  { path: 'mis-juegos',                renderMode: RenderMode.Client },
+  { path: 'dashboard',                 renderMode: RenderMode.Client },
+  // Rutas de gamificación
+  { path: 'recompensas',              renderMode: RenderMode.Client },
+  { path: 'recompensas/nuevo',        renderMode: RenderMode.Client },
+  { path: 'retos',                    renderMode: RenderMode.Client },
+  { path: 'retos/nuevo',              renderMode: RenderMode.Client },
+  { path: 'retos-usuario',            renderMode: RenderMode.Client },
+  { path: 'retos-usuario/nuevo',      renderMode: RenderMode.Client },
+  { path: 'logros-usuario',           renderMode: RenderMode.Client },
+  { path: 'logros-usuario/nuevo',     renderMode: RenderMode.Client },
+  { path: 'logros/nuevo',             renderMode: RenderMode.Client },
+  { path: 'canjes',                   renderMode: RenderMode.Client },
+  { path: 'canjes/nuevo',             renderMode: RenderMode.Client },
+  // Rutas de comunicación
+  { path: 'mensajes',                 renderMode: RenderMode.Client },
+  // Rutas de contenido
+  { path: 'guias',                    renderMode: RenderMode.Client },
+  { path: 'educacion',                renderMode: RenderMode.Client },
+  { path: 'educacion/nuevo',          renderMode: RenderMode.Client },
+  { path: 'especialistas',            renderMode: RenderMode.Client },
+  { path: 'especialistas/nuevo',      renderMode: RenderMode.Client },
+  { path: 'citas',                    renderMode: RenderMode.Client },
+  { path: 'citas/nuevo',              renderMode: RenderMode.Client },
+  // Rutas de gestión (admin)
+  { path: 'usuarios',                 renderMode: RenderMode.Client },
+  { path: 'usuarios/nuevo',           renderMode: RenderMode.Client },
+  { path: 'roles',                    renderMode: RenderMode.Client },
+  { path: 'roles/nuevo',              renderMode: RenderMode.Client },
+  { path: 'juegos',                   renderMode: RenderMode.Client },
+  { path: 'juegos/nuevo',             renderMode: RenderMode.Client },
+  { path: 'categorias',               renderMode: RenderMode.Client },
+  { path: 'categorias/nuevo',         renderMode: RenderMode.Client },
+  { path: 'sesiones/nuevo',           renderMode: RenderMode.Client },
+  // Todo lo demás → también Client (evitar SSR sin localStorage)
+  { path: '**',                       renderMode: RenderMode.Client }
 ];

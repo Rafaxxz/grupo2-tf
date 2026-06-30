@@ -6,11 +6,12 @@ import { CitaEspecialistaService } from '../../services/cita-especialista.servic
 import { EspecialistaService } from '../../services/especialista.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { CitaEspecialista } from '../../models/cita-especialista.model';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-cita-form',
   standalone: true,
-  imports: [FormsModule, RouterLink, MatIconModule],
+  imports: [FormsModule, RouterLink, MatIconModule, TranslatePipe],
   templateUrl: './cita-form.component.html',
   styleUrl: './cita-form.component.css'
 })
