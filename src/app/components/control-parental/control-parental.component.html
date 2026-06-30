@@ -53,7 +53,10 @@
     <div class="cp-usuarios-section">
       <h2 class="section-title"><mat-icon>people</mat-icon> {{ 'cp.usersStatus' | t }}</h2>
       <div class="usuarios-list">
-        @for (u of usuarios; track u.idUsuario) {
+        @if (cargando) {
+        <p class="empty"><mat-icon>hourglass_top</mat-icon> Cargando...</p>
+      }
+      @for (u of usuarios; track u.idUsuario) {
           <div class="usuario-card" [class.bloqueado]="limiteDeUsuario(u.idUsuario)?.bloqueoActivo">
             <div class="usuario-avatar">{{ u.nombre[0] }}</div>
             <div class="usuario-info">
@@ -78,7 +81,7 @@
             </div>
           </div>
         } @empty {
-          <p class="empty">{{ 'cp.emptyUsers' | t }}</p>
+          @if (!cargando) { <p class="empty">{{ 'cp.emptyUsers' | t }}</p> }
         }
       </div>
     </div>
@@ -145,7 +148,11 @@
           }
         </div>
       } @empty {
-        <p class="empty">No hay hijos vinculados.</p>
+        @if (cargando) {
+          <p class="empty"><mat-icon>hourglass_top</mat-icon> Cargando hijos vinculados...</p>
+        } @else {
+          <p class="empty">No hay hijos vinculados.</p>
+        }
       }
     </div>
   </div>

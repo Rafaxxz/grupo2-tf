@@ -19,6 +19,7 @@ import { environment } from '../../../environments/environment.development';
 export class ControlParentalComponent implements OnInit, OnDestroy {
   usuarios: any[] = [];
   limites: any[] = [];
+  cargando = true;
   form = { usuarioId: 0, tipo: 'diario', minutosMaximos: 120, bloqueoActivo: false, notificar: true };
   exito = '';
   error = '';
@@ -41,27 +42,40 @@ export class ControlParentalComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.iniciarSSE();
     if (this.auth.isPadre()) {
-      this.familiaSvc.listarHijos().subscribe({
-        next: hijos => {
-          this.usuarios = hijos;
-          hijos.forEach(h => {
-            this.cargarLimitesDeUsuario(h.idUsuario!);
-            this.cargarActividad(h.idUsuario!);
-          });
-        },
-        error: () => this.error = 'No se pudieron cargar los hijos vinculados'
-      });
+      this.cargarHijos();
     } else if (this.auth.isAdmin()) {
       const miId = this.auth.getCurrentUserId();
       this.usuarioSvc.list().subscribe({
         next: u => {
           this.usuarios = u.filter((x: any) => x.idUsuario !== miId);
+          this.cargando = false;
           this.usuarios.forEach(u => this.cargarLimitesDeUsuario(u.idUsuario));
         },
-        error: () => this.error = 'No se pudieron cargar los usuarios'
+        error: () => { this.error = 'No se pudieron cargar los usuarios'; this.cargando = false; }
       });
       this.limiteSvc.list().subscribe({ next: l => this.limites = l, error: () => {} });
     }
+  }
+
+  private cargarHijos(intento = 0) {
+    this.familiaSvc.listarHijos().subscribe({
+      next: hijos => {
+        this.usuarios = hijos;
+        this.cargando = false;
+        hijos.forEach(h => {
+          this.cargarLimitesDeUsuario(h.idUsuario!);
+          this.cargarActividad(h.idUsuario!);
+        });
+      },
+      error: () => {
+        if (intento < 2) {
+          setTimeout(() => this.cargarHijos(intento + 1), 2000);
+        } else {
+          this.error = 'No se pudieron cargar los hijos vinculados';
+          this.cargando = false;
+        }
+      }
+    });
   }
 
   ngOnDestroy() { this.sseSource?.close(); }
