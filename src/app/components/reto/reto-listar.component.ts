@@ -17,10 +17,14 @@ import { TranslatePipe } from '../../i18n/translate.pipe';
 })
 export class RetoListarComponent implements OnInit {
   retos: Reto[] = [];
+  cargando = true;
   constructor(private svc: RetoService, public auth: AuthService, private i18n: TranslateService) {}
 
   ngOnInit() {
-    this.svc.list().subscribe({ next: d => this.retos = d });
+    this.svc.list().subscribe({
+      next: d => { this.retos = d; this.cargando = false; },
+      error: () => this.cargando = false
+    });
   }
 
   eliminar(id: number) {

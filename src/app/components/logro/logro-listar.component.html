@@ -47,7 +47,7 @@
       </div>
     }
     @empty {
-      <p class="empty">{{ 'common.empty' | t }}</p>
+      <p class="empty">{{ cargando ? 'Cargando...' : ('common.empty' | t) }}</p>
     }
   </div>
 </div>

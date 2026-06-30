@@ -26,6 +26,7 @@ interface LogroConEstado extends Logro {
 export class LogroListarComponent implements OnInit {
   logros: LogroConEstado[] = [];
   esHijo = false;
+  cargando = true;
 
   constructor(
     private logroService: LogroService,
@@ -54,14 +55,17 @@ export class LogroListarComponent implements OnInit {
             desbloqueado: desbloqueadosIds.has(l.idLogro),
             desbloqueadoEn: fechaMap.get(l.idLogro)
           }));
+          this.cargando = false;
         },
         error: () => this.logroService.list().subscribe(d => {
           this.logros = d.map(l => ({ ...l, desbloqueado: false }));
+          this.cargando = false;
         })
       });
     } else {
       this.logroService.list().subscribe({
-        next: data => this.logros = data.map(l => ({ ...l, desbloqueado: false }))
+        next: data => { this.logros = data.map(l => ({ ...l, desbloqueado: false })); this.cargando = false; },
+        error: () => this.cargando = false
       });
     }
   }

@@ -18,10 +18,14 @@ import { TranslatePipe } from '../../i18n/translate.pipe';
 })
 export class RecompensaListarComponent implements OnInit {
   recompensas: Recompensa[] = [];
+  cargando = true;
   constructor(private svc: RecompensaService, public auth: AuthService, private i18n: TranslateService) {}
 
   ngOnInit() {
-    this.svc.list().subscribe({ next: d => this.recompensas = d });
+    this.svc.list().subscribe({
+      next: d => { this.recompensas = d; this.cargando = false; },
+      error: () => this.cargando = false
+    });
   }
 
   eliminar(id: number) {
