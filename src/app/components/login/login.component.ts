@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
 import { TranslateService } from '../../i18n/translate.service';
 import { TranslatePipe } from '../../i18n/translate.pipe';
+import { RolService } from '../../services/rol.service';
+import { Rol } from '../../models/rol.model';
 
 declare const google: any;
 declare const FB: any;
@@ -24,6 +26,18 @@ export class LoginComponent implements OnInit, AfterViewInit {
   error = '';
   loading = false;
 
+  // Registration fields
+  isRegisterMode = false;
+  regUsername = '';
+  regEmail = '';
+  regNombre = '';
+  regPassword = '';
+  regPasswordConfirm = '';
+  regRolName = 'PADRE';
+  regRolId = 2; // 2 = PADRE, 3 = HIJO
+  regSuccess = '';
+  private roles: Rol[] = [];
+
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private backendUrl = 'http://localhost:8080';
 
@@ -31,13 +45,24 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private auth: AuthService,
     private router: Router,
     private http: HttpClient,
-    private i18n: TranslateService
+    private i18n: TranslateService,
+    private rolSvc: RolService
   ) {}
 
   ngOnInit() {
     if (!this.isBrowser) return;
     this.loadScript('https://connect.facebook.net/es_LA/sdk.js', () => {
       FB.init({ appId: '2042414776661375', cookie: true, xfbml: false, version: 'v18.0' });
+    });
+
+    this.rolSvc.list().subscribe({
+      next: (list) => {
+        this.roles = list;
+        this.updateRegRolId();
+      },
+      error: () => {
+        this.updateRegRolId();
+      }
     });
   }
 
@@ -70,6 +95,28 @@ export class LoginComponent implements OnInit, AfterViewInit {
     document.head.appendChild(s);
   }
 
+  toggleMode() {
+    this.isRegisterMode = !this.isRegisterMode;
+    this.error = '';
+    this.regSuccess = '';
+    this.regRolName = 'PADRE';
+    this.updateRegRolId();
+  }
+
+  selectRole(roleName: string) {
+    this.regRolName = roleName;
+    this.updateRegRolId();
+  }
+
+  updateRegRolId() {
+    const found = this.roles.find(r => r.nombre.toUpperCase() === this.regRolName);
+    if (found && found.idRol) {
+      this.regRolId = found.idRol;
+    } else {
+      this.regRolId = this.regRolName === 'PADRE' ? 2 : 3;
+    }
+  }
+
   login() {
     if (!this.username || !this.password) {
       this.error = this.i18n.t('login.errEmpty');
@@ -81,6 +128,71 @@ export class LoginComponent implements OnInit, AfterViewInit {
       next: () => this.router.navigate(['/dashboard']),
       error: () => {
         this.error = this.i18n.t('login.errInvalid');
+        this.loading = false;
+      }
+    });
+  }
+
+  register() {
+    // Validate all fields
+    if (!this.regUsername || !this.regEmail || !this.regNombre || !this.regPassword || !this.regPasswordConfirm) {
+      this.error = this.i18n.t('register.errEmpty');
+      return;
+    }
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.regEmail)) {
+      this.error = this.i18n.t('register.errEmailFormat');
+      return;
+    }
+    // Validate password length
+    if (this.regPassword.length < 4) {
+      this.error = this.i18n.t('register.errPassLength');
+      return;
+    }
+    // Validate password match
+    if (this.regPassword !== this.regPasswordConfirm) {
+      this.error = this.i18n.t('register.errPassMatch');
+      return;
+    }
+
+    this.loading = true;
+    this.error = '';
+
+    const userData = {
+      username: this.regUsername,
+      email: this.regEmail,
+      nombre: this.regNombre,
+      passwordHash: this.regPassword,
+      rolId: this.regRolId,
+      estado: true
+    };
+
+    this.auth.register(userData).subscribe({
+      next: (res) => {
+        if (res.jwttoken) {
+          // Auto-login: token already stored by AuthService
+          this.router.navigate(['/dashboard']);
+        } else {
+          // If backend doesn't return token on register, auto-login manually
+          this.auth.login(this.regUsername, this.regPassword).subscribe({
+            next: () => this.router.navigate(['/dashboard']),
+            error: () => {
+              // Registration succeeded but auto-login failed — switch to login mode
+              this.regSuccess = this.i18n.t('register.success');
+              this.isRegisterMode = false;
+              this.username = this.regUsername;
+              this.loading = false;
+            }
+          });
+        }
+      },
+      error: (err) => {
+        if (err.status === 409) {
+          this.error = this.i18n.t('register.errDuplicate');
+        } else {
+          this.error = this.i18n.t('register.errGeneral');
+        }
         this.loading = false;
       }
     });

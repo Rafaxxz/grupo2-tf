@@ -17,12 +17,16 @@ export class AuthService {
   private url = `${environment.base}/login`;
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
   login(username: string, password: string) {
     return this.http.post<{ jwttoken: string }>(this.url, { username, password }).pipe(
       tap(res => { if (this.isBrowser) localStorage.setItem('token', res.jwttoken); })
     );
+  }
+
+  register(data: { username: string; email: string; nombre: string; passwordHash: string; rolId: number; estado: boolean }) {
+    return this.http.post<any>(`${environment.base}/api/usuarios`, data);
   }
 
   logout() {
@@ -61,6 +65,6 @@ export class AuthService {
   }
 
   isPadre(): boolean { return this.getCurrentRole() === 'PADRE'; }
-  isHijo(): boolean  { return this.getCurrentRole() === 'HIJO'; }
+  isHijo(): boolean { return this.getCurrentRole() === 'HIJO'; }
   isAdmin(): boolean { return this.getCurrentRole() === 'ADMIN'; }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, Renderer2, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { NavComponent } from './components/nav/nav.component';
 import { AuthService } from './services/auth.service';
 
@@ -13,10 +14,21 @@ import { AuthService } from './services/auth.service';
 export class App implements OnInit {
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  constructor(public auth: AuthService, private renderer: Renderer2) {}
+  constructor(
+    public auth: AuthService,
+    private renderer: Renderer2,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.applyTheme();
+    if (this.isBrowser) {
+      this.router.events.pipe(
+        filter(event => event instanceof NavigationEnd)
+      ).subscribe(() => {
+        this.applyTheme();
+      });
+    }
   }
 
   applyTheme() {
