@@ -22,9 +22,17 @@ export class EspecialistaListarComponent implements OnInit {
   constructor(private svc: EspecialistaService, private usuarioSvc: UsuarioService, public auth: AuthService, private i18n: TranslateService) {}
 
   ngOnInit() {
-    this.usuarioSvc.list().subscribe(u => {
-      this.usuarios = u;
-      this.svc.list().subscribe(e => this.especialistas = e);
+    // Los especialistas se cargan siempre; los nombres se resuelven según el rol
+    this.svc.list().subscribe(e => {
+      this.especialistas = e;
+      if (this.auth.isAdmin()) {
+        this.usuarioSvc.list().subscribe(u => this.usuarios = u);
+      } else {
+        // PADRE/HIJO: usuarioSvc.list() es admin-only; resolvemos cada nombre por ID
+        e.forEach(esp => this.usuarioSvc.getById((esp as any).usuarioId).subscribe(u => {
+          if (u && !this.usuarios.find(x => x.idUsuario === u.idUsuario)) this.usuarios.push(u);
+        }));
+      }
     });
   }
 

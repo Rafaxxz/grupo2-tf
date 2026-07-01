@@ -31,12 +31,16 @@ export class CitaListarComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.usuarioSvc.list().subscribe(u => this.usuarios = u);
+    // usuarioSvc.list() es solo-admin; los especialistas los ve cualquier rol
+    if (this.auth.isAdmin()) this.usuarioSvc.list().subscribe(u => this.usuarios = u);
     this.espSvc.list().subscribe(e => this.especialistas = e);
     this.cargar();
   }
 
-  cargar() { this.svc.list().subscribe({ next: d => this.citas = d }); }
+  cargar() {
+    const obs = this.auth.isAdmin() ? this.svc.list() : this.svc.getByUsuario(this.auth.getCurrentUserId());
+    obs.subscribe({ next: d => this.citas = d, error: () => {} });
+  }
 
   nombreUsuario(id: number) { return this.usuarios.find(u => u.idUsuario === id)?.nombre || `Usuario ${id}`; }
   nombreEsp(id: number) {

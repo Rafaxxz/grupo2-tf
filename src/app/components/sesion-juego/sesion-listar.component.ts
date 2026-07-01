@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { forkJoin } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 import { SesionJuegoService } from '../../services/sesion-juego.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { JuegoService } from '../../services/juego.service';
 import { AuthService } from '../../services/auth.service';
+import { FamiliaService } from '../../services/familia.service';
 import { SesionJuego } from '../../models/sesion-juego.model';
 import { TranslatePipe } from '../../i18n/translate.pipe';
 
@@ -27,6 +28,7 @@ export class SesionListarComponent implements OnInit {
     private svc: SesionJuegoService,
     private usuarioSvc: UsuarioService,
     private juegoSvc: JuegoService,
+    private familiaSvc: FamiliaService,
     public auth: AuthService
   ) {}
 
@@ -42,8 +44,27 @@ export class SesionListarComponent implements OnInit {
         next: r => { this.sesiones = r.sesiones; this.juegos = r.juegos; this.cargando = false; },
         error: () => this.cargando = false
       });
+    } else if (this.auth.isPadre()) {
+      // PADRE: sesiones de sus hijos vinculados (monitoreo)
+      this.familiaSvc.listarHijos().subscribe({
+        next: hijos => {
+          this.usuarios = hijos;
+          const sesiones$ = hijos.length
+            ? forkJoin(hijos.map(h => this.svc.porUsuario(h.idUsuario!)))
+            : of([] as SesionJuego[][]);
+          forkJoin({ juegos: this.juegoSvc.list(), sesiones: sesiones$ }).subscribe({
+            next: r => {
+              this.juegos = r.juegos;
+              this.sesiones = ([] as SesionJuego[]).concat(...(r.sesiones as SesionJuego[][]));
+              this.cargando = false;
+            },
+            error: () => this.cargando = false
+          });
+        },
+        error: () => this.cargando = false
+      });
     } else {
-      // ADMIN / PADRE: todas las sesiones
+      // ADMIN: todas las sesiones
       forkJoin({
         usuarios: this.usuarioSvc.list(),
         juegos: this.juegoSvc.list(),
