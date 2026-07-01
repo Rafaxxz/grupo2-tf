@@ -52,16 +52,17 @@ export class MensajeListarComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.auth.isAdmin() || this.auth.isPadre()) {
+    // Solo ADMIN puede listar todos los usuarios; PADRE/HIJO resuelven nombres por contacto
+    if (this.auth.isAdmin()) {
       this.usuarioSvc.list().subscribe(d => {
         this.usuarios = d;
         if (!this.seleccionado && this.contactos.length) this.seleccionado = this.contactos[0].idUsuario;
       });
     }
-    this.mensajeSvc.list().subscribe(d => {
+    this.cargarMensajes().subscribe(d => {
       this.mensajes = d;
-      if (this.auth.isHijo()) {
-        // Hijo solo puede ver sus propios contactos — carga cada uno por ID
+      if (!this.auth.isAdmin()) {
+        // PADRE/HIJO: cargan el nombre de cada contacto por ID (getById permite ambos roles)
         const contactIds = new Set<number>();
         d.forEach(m => {
           if (m.remitenteId !== this.miId)   contactIds.add(m.remitenteId!);
@@ -72,12 +73,10 @@ export class MensajeListarComponent implements OnInit {
             if (!this.usuarios.find(x => x.idUsuario === id)) {
               this.usuarios.push(u);
               // Seleccionar primer contacto al llegar
-              if (!this.seleccionado) this.seleccionado = u.idUsuario;
+              if (!this.seleccionado) this.seleccionado = u.idUsuario ?? null;
             }
           })
         );
-      } else {
-        if (this.contactos.length) this.seleccionado = this.contactos[0].idUsuario;
       }
     });
   }
@@ -93,7 +92,14 @@ export class MensajeListarComponent implements OnInit {
     };
     this.mensajeSvc.insert(m).subscribe(() => {
       this.nuevoMensaje = '';
-      this.mensajeSvc.list().subscribe(d => this.mensajes = d);
+      this.cargarMensajes().subscribe(d => this.mensajes = d);
     });
+  }
+
+  // ADMIN ve todos los mensajes; PADRE/HIJO solo en los que participan
+  private cargarMensajes() {
+    return this.auth.isAdmin()
+      ? this.mensajeSvc.list()
+      : this.mensajeSvc.listMios(this.miId);
   }
 }

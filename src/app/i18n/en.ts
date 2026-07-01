@@ -65,11 +65,6 @@ export const en: Record<string, string> = {
   'registro.errRoles': 'Could not load account types',
   'registro.errGeneral': 'Error creating account. Please try again.',
 
-  // Login: link to register
-  'login.noAccount': 'Don\'t have an account?',
-  'login.register': 'Sign up',
-  'login.registradoOk': 'Account created! You can now sign in.',
-
   // Family
   'familia.title': 'My Family',
   'familia.subtitle': 'Manage the children linked to your account',
@@ -171,6 +166,8 @@ export const en: Record<string, string> = {
   'login.fbCancel': 'Facebook sign in cancelled',
   'login.fbUnavailable': 'Facebook Login unavailable. Try again later.',
   'login.noAccount': 'Don\'t have an account?',
+  'login.register': 'Sign up',
+  'login.registradoOk': 'Account created! You can now sign in.',
   'login.createAccount': 'Create account',
 
   // Register

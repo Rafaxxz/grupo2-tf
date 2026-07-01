@@ -30,17 +30,31 @@ export class CanjeListarComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    forkJoin({
-      usuarios: this.usuarioSvc.list(),
-      recompensas: this.recompensaSvc.list(),
-      canjes: this.svc.list()
-    }).subscribe({
-      next: r => { this.usuarios = r.usuarios; this.recompensas = r.recompensas; this.canjes = r.canjes; },
-      error: () => { this.svc.list().subscribe(d => this.canjes = d); }
-    });
+    if (this.auth.isAdmin()) {
+      forkJoin({
+        usuarios: this.usuarioSvc.list(),
+        recompensas: this.recompensaSvc.list(),
+        canjes: this.svc.list()
+      }).subscribe({
+        next: r => { this.usuarios = r.usuarios; this.recompensas = r.recompensas; this.canjes = r.canjes; },
+        error: () => { this.svc.list().subscribe(d => this.canjes = d); }
+      });
+    } else {
+      // PADRE/HIJO: solo sus propios canjes (usuarioSvc.list es solo-admin)
+      forkJoin({
+        recompensas: this.recompensaSvc.list(),
+        canjes: this.svc.porUsuario(this.auth.getCurrentUserId())
+      }).subscribe({
+        next: r => { this.recompensas = r.recompensas; this.canjes = r.canjes; },
+        error: () => {}
+      });
+    }
   }
 
-  cargar() { this.svc.list().subscribe(d => this.canjes = d); }
+  cargar() {
+    const obs = this.auth.isAdmin() ? this.svc.list() : this.svc.porUsuario(this.auth.getCurrentUserId());
+    obs.subscribe(d => this.canjes = d);
+  }
   nombreUsuario(id: number) { return this.usuarios.find(u => u.idUsuario === id)?.nombre || `#${id}`; }
   nombreRecompensa(id: number) { return this.recompensas.find(r => r.idRecompensa === id)?.nombre || `#${id}`; }
 

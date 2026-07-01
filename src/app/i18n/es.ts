@@ -65,11 +65,6 @@ export const es: Record<string, string> = {
   'registro.errRoles': 'No se pudieron cargar los tipos de cuenta',
   'registro.errGeneral': 'Error al crear la cuenta. Inténtalo de nuevo.',
 
-  // Login: enlace a registro
-  'login.noAccount': '¿No tienes cuenta?',
-  'login.register': 'Regístrate',
-  'login.registradoOk': '¡Cuenta creada! Ya puedes iniciar sesión.',
-
   // Familia
   'familia.title': 'Mi Familia',
   'familia.subtitle': 'Gestiona los hijos vinculados a tu cuenta',
@@ -171,6 +166,8 @@ export const es: Record<string, string> = {
   'login.fbCancel': 'Inicio de sesión con Facebook cancelado',
   'login.fbUnavailable': 'Facebook Login no disponible. Intenta más tarde.',
   'login.noAccount': '¿No tienes cuenta?',
+  'login.register': 'Regístrate',
+  'login.registradoOk': '¡Cuenta creada! Ya puedes iniciar sesión.',
   'login.createAccount': 'Crear cuenta',
 
   // Registro

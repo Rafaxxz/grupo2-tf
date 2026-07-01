@@ -12,6 +12,8 @@ export class MensajeService {
   constructor(private http: HttpClient) {}
 
   list() { return this.http.get<Mensaje[]>(this.url); }
+  // Mensajes en los que el usuario participa (enviados o recibidos) — permitido a PADRE/HIJO/ADMIN
+  listMios(usuarioId: number) { return this.http.get<Mensaje[]>(`${this.url}/usuario/${usuarioId}`); }
   getById(id: number) { return this.http.get<Mensaje>(`${this.url}/${id}`); }
   insert(m: Mensaje) { return this.http.post(`${this.url}/nuevo`, m); }
   update(m: Mensaje) { return this.http.put(`${this.url}/actualiza`, m); }
