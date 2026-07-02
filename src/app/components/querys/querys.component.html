@@ -1,0 +1,19 @@
+<div class="querys-page">
+  <h1 class="page-title"><mat-icon>query_stats</mat-icon> Reportes y consultas</h1>
+  <p class="subtitle">Consultas del sistema representadas en gráficos.</p>
+
+  <div class="grid">
+    @for (card of cards(); track card.titulo) {
+      <div class="card">
+        <h3 class="card-title"><mat-icon>{{ card.icono }}</mat-icon> {{ card.titulo }}</h3>
+        @if (card.data && card.data.labels && card.data.labels.length) {
+          <div class="chart-box">
+            <canvas baseChart [data]="card.data" [type]="card.tipo" [options]="opciones"></canvas>
+          </div>
+        } @else {
+          <div class="empty"><mat-icon>hourglass_empty</mat-icon> Sin datos</div>
+        }
+      </div>
+    }
+  </div>
+</div>

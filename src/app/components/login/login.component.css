@@ -20,6 +20,14 @@
   text-align: center;
 }
 
+.brand-logo {
+  width: 280px;
+  max-width: 80%;
+  height: auto;
+  border-radius: 12px;
+  margin: 0 auto 8px;
+}
+
 .brand-icon {
   background: #1e1e3a;
   border: 1px solid #ff4d7d44;

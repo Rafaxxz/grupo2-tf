@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, Renderer2, inject, signal, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -13,6 +13,7 @@ import { AuthService } from './services/auth.service';
 })
 export class App implements OnInit {
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  loggedIn = signal(false);
 
   constructor(
     public auth: AuthService,
@@ -21,14 +22,15 @@ export class App implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (!this.isBrowser) return;
+    this.loggedIn.set(this.auth.isLoggedIn());
     this.applyTheme();
-    if (this.isBrowser) {
-      this.router.events.pipe(
-        filter(event => event instanceof NavigationEnd)
-      ).subscribe(() => {
-        this.applyTheme();
-      });
-    }
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.loggedIn.set(this.auth.isLoggedIn());
+      this.applyTheme();
+    });
   }
 
   applyTheme() {

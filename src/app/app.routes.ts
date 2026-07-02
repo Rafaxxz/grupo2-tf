@@ -39,6 +39,7 @@ import { LogroUsuarioListarComponent } from './components/logro-usuario/logro-us
 import { LogroUsuarioFormComponent } from './components/logro-usuario/logro-usuario-form.component';
 import { RetoUsuarioListarComponent } from './components/reto-usuario/reto-usuario-listar.component';
 import { RetoUsuarioFormComponent } from './components/reto-usuario/reto-usuario-form.component';
+import { QuerysComponent } from './components/querys/querys.component';
 import { authGuard } from './guards/auth.guard';
 import { bloqueoGuard } from './guards/bloqueo.guard';
 
@@ -52,6 +53,7 @@ export const routes: Routes = [
   { path: 'familia', component: FamiliaComponent, canActivate: g },
   { path: 'perfil',  component: PerfilComponent,  canActivate: g },
 
+  { path: 'querys',                  component: QuerysComponent,             canActivate: g },
   { path: 'dashboard',               component: DashboardComponent,          canActivate: g },
 
   { path: 'logros',                  component: LogroListarComponent,        canActivate: g },

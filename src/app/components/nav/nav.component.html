@@ -1,10 +1,6 @@
 <nav class="sidebar">
   <div class="logo">
-    <span class="logo-icon"><mat-icon>shield</mat-icon></span>
-    <div>
-      <span class="logo-title">{{ 'app.title' | t }}</span>
-      <span class="logo-sub">{{ 'app.subtitle' | t }}</span>
-    </div>
+    <img src="/PlayControlLogo.png" alt="PlayControl" class="logo-img" />
   </div>
 
   <a routerLink="/perfil" class="user-badge" title="{{ 'nav.perfil' | t }}">
@@ -13,13 +9,14 @@
       <span class="user-name">{{ auth.getCurrentUsername() }}</span>
       <span class="user-role">{{ auth.getCurrentRole() }}</span>
     </div>
-    @if (alertasNoLeidas > 0) {
-      <a routerLink="/alertas" class="notif-badge" title="Ver alertas ({{ alertasNoLeidas }} sin leer)">{{ alertasNoLeidas }}</a>
+    @if (alertasNoLeidas() > 0) {
+      <a routerLink="/alertas" class="notif-badge" title="Ver alertas ({{ alertasNoLeidas() }} sin leer)">{{ alertasNoLeidas() }}</a>
     }
   </a>
 
   <ul class="nav-links">
     <li><a routerLink="/dashboard" routerLinkActive="active"><mat-icon>dashboard</mat-icon> {{ 'nav.dashboard' | t }}</a></li>
+    <li><a routerLink="/querys" routerLinkActive="active"><mat-icon>query_stats</mat-icon> Querys</a></li>
 
     @if (auth.isAdmin() || auth.isHijo()) {
       <li class="nav-sep">{{ 'nav.gamification' | t }}</li>
@@ -68,7 +65,7 @@
     @if (auth.isHijo()) {
       <li><a routerLink="/alertas" routerLinkActive="active">
         <mat-icon>notifications</mat-icon> {{ 'nav.alertas' | t }}
-        @if (alertasNoLeidas > 0) { <span class="nav-badge">{{ alertasNoLeidas }}</span> }
+        @if (alertasNoLeidas() > 0) { <span class="nav-badge">{{ alertasNoLeidas() }}</span> }
       </a></li>
     }
     @if (auth.isAdmin() || auth.isPadre()) {
@@ -82,7 +79,7 @@
       <li><a routerLink="/roles" routerLinkActive="active"><mat-icon>admin_panel_settings</mat-icon> {{ 'nav.roles' | t }}</a></li>
       <li><a routerLink="/alertas" routerLinkActive="active">
         <mat-icon>notifications</mat-icon> {{ 'nav.alertas' | t }}
-        @if (alertasNoLeidas > 0) { <span class="nav-badge">{{ alertasNoLeidas }}</span> }
+        @if (alertasNoLeidas() > 0) { <span class="nav-badge">{{ alertasNoLeidas() }}</span> }
       </a></li>
     }
   </ul>

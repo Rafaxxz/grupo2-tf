@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
@@ -14,7 +14,7 @@ import { TranslatePipe } from '../../i18n/translate.pipe';
   styleUrl: './nav.component.css'
 })
 export class NavComponent implements OnInit {
-  alertasNoLeidas = 0;
+  alertasNoLeidas = signal(0);
 
   constructor(
     public auth: AuthService,
@@ -30,9 +30,9 @@ export class NavComponent implements OnInit {
     const userId = this.auth.getCurrentUserId();
     this.alertaSvc.getByUsuario(userId).subscribe({
       next: alertas => {
-        this.alertasNoLeidas = alertas.filter((a: any) => !a.leida).length;
+        this.alertasNoLeidas.set(alertas.filter((a: any) => !a.leida).length);
       },
-      error: () => { this.alertasNoLeidas = 0; }
+      error: () => { this.alertasNoLeidas.set(0); }
     });
   }
 }
