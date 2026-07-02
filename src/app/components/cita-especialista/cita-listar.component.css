@@ -1,0 +1,41 @@
+@import '../shared.css';
+
+.citas-list { display: flex; flex-direction: column; gap: 12px; }
+
+.cita-card {
+  background: #12121f; border: 1px solid #2a2a3e; border-radius: 12px;
+  padding: 16px 20px; display: flex; justify-content: space-between; align-items: center;
+  transition: border-color 0.2s;
+}
+.cita-card:hover { border-color: #ff4d7d22; }
+.cita-card.estado-pendiente { border-left: 3px solid #ff9800; }
+.cita-card.estado-confirmada { border-left: 3px solid #4eca8b; }
+.cita-card.estado-completada { border-left: 3px solid #555; opacity: 0.7; }
+.cita-card.estado-cancelada { border-left: 3px solid #f44336; opacity: 0.6; }
+
+.cita-left { display: flex; align-items: center; gap: 20px; }
+
+.cita-estado-badge {
+  padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.5px; text-transform: capitalize; white-space: nowrap;
+}
+.badge-pendiente { background: #ff980022; color: #ff9800; }
+.badge-confirmada { background: #4eca8b22; color: #4eca8b; }
+.badge-completada { background: #55555522; color: #888; }
+.badge-cancelada { background: #f4433622; color: #f44336; }
+
+.cita-info { display: flex; flex-direction: column; gap: 4px; }
+.cita-info span { font-size: 13px; color: #aaa; display: inline-flex; align-items: center; gap: 6px; }
+.cita-info span mat-icon { font-size: 15px; width: 15px; height: 15px; }
+.cita-usuario { color: #fff !important; font-weight: 600; }
+
+.cita-actions { display: flex; gap: 8px; align-items: center; }
+.btn-confirmar { background: #4eca8b22; color: #4eca8b; border: 1px solid #4eca8b44; border-radius: 6px; padding: 6px 14px; font-size: 12px; cursor: pointer; transition: background 0.2s; }
+.btn-confirmar:hover { background: #4eca8b33; }
+.btn-cancelar { background: #f4433622; color: #f44336; border: 1px solid #f4433644; border-radius: 6px; padding: 6px 14px; font-size: 12px; cursor: pointer; transition: background 0.2s; }
+.btn-cancelar:hover { background: #f4433633; }
+.btn-edit, .btn-del { background: none; border: none; cursor: pointer; color: #555; display: flex; padding: 4px; border-radius: 6px; text-decoration: none; transition: color 0.2s; }
+.btn-edit:hover { color: #fff; }
+.btn-del:hover { color: #f44336; }
+.btn-edit mat-icon, .btn-del mat-icon { font-size: 18px; width: 18px; height: 18px; }
+.empty { color: #666; padding: 24px 0; }

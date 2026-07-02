@@ -1,0 +1,52 @@
+@import '../shared.css';
+@import '../form-shared.css';
+
+.url-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.url-row input {
+  flex: 1;
+  background: #1a1a2e;
+  border: 1px solid #2a2a3e;
+  border-radius: 8px;
+  color: #fff;
+  padding: 12px 14px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+.url-row input:focus { border-color: #ff4d7d88; }
+
+.btn-probar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #1a1a2e;
+  border: 1px solid #2a2a3e;
+  border-radius: 8px;
+  color: #4ecdc4;
+  padding: 11px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-probar:hover { border-color: #4ecdc4; color: #fff; }
+.btn-probar mat-icon { font-size: 16px; height: 16px; width: 16px; }
+
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ff6b6b;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+.form-error mat-icon { font-size: 16px; height: 16px; width: 16px; }
+
+.btn-guardar:disabled { opacity: 0.6; cursor: not-allowed; }

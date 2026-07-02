@@ -1,0 +1,38 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'recompensas.title' | t }}</h1>
+      <p class="page-sub">{{ 'recompensas.subtitle' | t }}</p>
+    </div>
+    @if (auth.isAdmin()) {
+      <a routerLink="/recompensas/nuevo" class="btn-nuevo">+ {{ 'recompensas.new' | t }}</a>
+    }
+  </div>
+
+  <div class="catalog-grid">
+    @for (r of recompensas; track r.idRecompensa) {
+      <div class="reward-card">
+        <div class="reward-top">
+          <span class="reward-tipo">{{ r.tipo | uppercase }}</span>
+          <span class="reward-icon"><mat-icon>{{ tipoIcon(r.tipo) }}</mat-icon></span>
+        </div>
+        <h3 class="reward-nombre">{{ r.nombre }}</h3>
+        <p class="reward-desc">{{ r.descripcion }}</p>
+        <div class="reward-footer">
+          <span class="reward-costo"><mat-icon>toll</mat-icon> {{ r.costoPuntos }} {{ 'recompensas.pts' | t }}</span>
+          @if (auth.isAdmin()) {
+            <div class="reward-btns">
+              <a [routerLink]="['/recompensas/editar', r.idRecompensa]" class="btn-edit"><mat-icon>edit</mat-icon></a>
+              <button type="button" (click)="eliminar(r.idRecompensa!)" class="btn-del"><mat-icon>delete</mat-icon></button>
+            </div>
+          } @else if (auth.isHijo()) {
+            <a routerLink="/canjes/nuevo" class="btn-canjear"><mat-icon>redeem</mat-icon> {{ 'canjes.new' | t }}</a>
+          }
+        </div>
+      </div>
+    }
+    @empty {
+      <p class="empty">{{ cargando ? 'Cargando...' : ('common.empty' | t) }}</p>
+    }
+  </div>
+</div>

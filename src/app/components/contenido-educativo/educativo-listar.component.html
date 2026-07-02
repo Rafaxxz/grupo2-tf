@@ -1,0 +1,38 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'educacion.title' | t }}</h1>
+      <p class="page-sub">{{ 'educacion.subtitle' | t }}</p>
+    </div>
+    @if (auth.isAdmin()) {
+      <a routerLink="/educacion/nuevo" class="btn-nuevo">+ {{ 'educacion.new' | t }}</a>
+    }
+  </div>
+
+  <div class="edu-grid">
+    @for (c of contenidos; track c.idContenido) {
+      <div class="edu-card">
+        <div class="edu-top">
+          <span class="edu-tipo">{{ c.tipo | uppercase }}</span>
+          <span class="edu-icon"><mat-icon>{{ tipoIcon(c.tipo) }}</mat-icon></span>
+        </div>
+        <h3 class="edu-titulo">{{ c.titulo }}</h3>
+        <p class="edu-autor">{{ c.autor }} · {{ c.fuente }}</p>
+        <p class="edu-contenido">{{ c.contenido }}</p>
+        <div class="edu-footer">
+          <span class="edu-fecha">{{ c.publicadoEn | date:'dd/MM/yyyy' }}</span>
+          <div class="edu-btns">
+            @if (c.url) {
+              <a [href]="c.url" target="_blank" class="btn-link"><mat-icon>open_in_new</mat-icon></a>
+            }
+            @if (auth.isAdmin()) {
+              <a [routerLink]="['/educacion/editar', c.idContenido]" class="btn-edit"><mat-icon>edit</mat-icon></a>
+              <button type="button" (click)="eliminar(c.idContenido!)" class="btn-del"><mat-icon>delete</mat-icon></button>
+            }
+          </div>
+        </div>
+      </div>
+    }
+    @empty { <p class="empty">{{ 'common.empty' | t }}</p> }
+  </div>
+</div>

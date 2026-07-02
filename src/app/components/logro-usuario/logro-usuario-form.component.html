@@ -1,0 +1,33 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'logrosUsuario.formNew' | t }}</h1>
+      <p class="page-sub">{{ 'logrosUsuario.subtitle' | t }}</p>
+    </div>
+    <a routerLink="/logros-usuario" class="btn-back"><mat-icon>arrow_back</mat-icon> {{ 'common.back' | t }}</a>
+  </div>
+
+  <div class="form-card">
+    <div class="form-group">
+      <label>{{ 'logrosUsuario.usuario' | t }} *</label>
+      <select [(ngModel)]="item.usuarioId" name="usuario">
+        <option [ngValue]="0" disabled>—</option>
+        @for (u of usuarios; track u.idUsuario) {
+          <option [ngValue]="u.idUsuario">{{ u.nombre }}</option>
+        }
+      </select>
+    </div>
+    <div class="form-group">
+      <label>{{ 'logrosUsuario.logro' | t }} *</label>
+      <select [(ngModel)]="item.logroId" name="logro">
+        <option [ngValue]="0" disabled>—</option>
+        @for (l of logros; track l.idLogro) {
+          <option [ngValue]="l.idLogro">{{ l.nombre }}</option>
+        }
+      </select>
+    </div>
+    <button type="button" class="btn-guardar" (click)="guardar()">
+      <mat-icon>military_tech</mat-icon> {{ 'common.create' | t }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+@import '../shared.css';
+
+.retos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+
+.reto-card {
+  background: #12121f; border: 1px solid #2a2a3e; border-radius: 14px;
+  padding: 20px; display: flex; flex-direction: column; gap: 10px; transition: border-color 0.2s;
+}
+.reto-card:hover { border-color: #ff4d7d44; }
+.reto-card.inactivo { opacity: 0.6; }
+
+.reto-header { display: flex; justify-content: space-between; align-items: center; }
+.reto-tipo { font-size: 10px; letter-spacing: 1.5px; color: #888; background: #1e1e2e; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+.reto-activo { font-size: 12px; color: #888; display: inline-flex; align-items: center; gap: 4px; }
+.reto-activo.on { color: #4eca8b; }
+.reto-activo mat-icon { font-size: 14px; width: 14px; height: 14px; }
+
+.reto-titulo { font-size: 16px; font-weight: 600; color: #fff; margin: 0; }
+.reto-desc { font-size: 13px; color: #888; margin: 0; flex: 1; }
+.reto-meta { display: flex; gap: 16px; align-items: center; }
+.reto-dif { font-size: 13px; font-weight: 600; text-transform: capitalize; }
+.reto-dur { font-size: 13px; color: #888; display: inline-flex; align-items: center; gap: 4px; }
+.reto-dur mat-icon { font-size: 15px; width: 15px; height: 15px; }
+
+.reto-actions { display: flex; gap: 4px; justify-content: flex-end; }
+.btn-edit, .btn-del { background: none; border: none; cursor: pointer; color: #555; display: flex; padding: 4px; border-radius: 6px; text-decoration: none; transition: color 0.2s; }
+.btn-edit:hover { color: #fff; }
+.btn-del:hover { color: #f44336; }
+.btn-edit mat-icon, .btn-del mat-icon { font-size: 18px; width: 18px; height: 18px; }
+.empty { color: #666; padding: 24px 0; }

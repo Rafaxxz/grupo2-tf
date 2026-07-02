@@ -1,0 +1,10 @@
+@if (loggedIn()) {
+  <div class="layout">
+    <app-nav></app-nav>
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+} @else {
+  <router-outlet></router-outlet>
+}

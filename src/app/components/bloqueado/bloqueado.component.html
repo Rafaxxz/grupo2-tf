@@ -1,0 +1,25 @@
+<div class="block-screen">
+  <div class="block-card">
+    <div class="lock-icon"><mat-icon>lock</mat-icon></div>
+
+    @if (remoto) {
+      <h1>Sesión bloqueada</h1>
+      <p class="block-msg">Tu padre ha bloqueado tu sesión remotamente.</p>
+      <p class="block-sub">Espera a que te desbloquee para continuar.</p>
+      <div class="esperando">
+        <span class="dot-espera"></span> Esperando desbloqueo...
+      </div>
+    } @else {
+      <h1>{{ 'bloqueado.title' | t }}</h1>
+      <p class="block-msg">
+        {{ 'bloqueado.msg' | t }}
+        @if (limite) {
+          {{ 'bloqueado.limit' | t }}: <strong>{{ limite.minutosMaximos }} {{ 'bloqueado.minutes' | t }} ({{ limite.tipo }})</strong>.
+        }
+      </p>
+      <p class="block-sub">{{ 'bloqueado.sub' | t }}</p>
+    }
+
+    <button class="btn-salir" (click)="cerrarSesion()">{{ 'bloqueado.logout' | t }}</button>
+  </div>
+</div>

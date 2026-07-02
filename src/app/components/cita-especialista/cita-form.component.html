@@ -1,0 +1,49 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ editando ? 'Editar' : 'Nueva' }} Cita</h1>
+      <p class="page-sub">{{ editando ? 'Modifica la cita' : 'Agenda una nueva cita con un especialista' }}</p>
+    </div>
+    <a routerLink="/citas" class="btn-back"><mat-icon>arrow_back</mat-icon> Volver</a>
+  </div>
+  <div class="form-card">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Usuario *</label>
+        <select [(ngModel)]="cita.usuarioId">
+          <option [value]="0">— Selecciona usuario —</option>
+          @for (u of usuarios; track u.idUsuario) {
+            <option [value]="u.idUsuario">{{ u.nombre }} ({{ u.username }})</option>
+          }
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Especialista *</label>
+        <select [(ngModel)]="cita.especialistaId">
+          <option [value]="0">— Selecciona especialista —</option>
+          @for (e of especialistas; track e.idEspecialista) {
+            <option [value]="e.idEspecialista">{{ nombreEsp(e) }} – {{ e.especialidad }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Fecha y hora *</label>
+        <input type="datetime-local" [(ngModel)]="cita.fechaHora" />
+      </div>
+      <div class="form-group">
+        <label>Estado</label>
+        <select [(ngModel)]="cita.estado">
+          @for (e of estados; track e) { <option [value]="e">{{ e }}</option> }
+        </select>
+      </div>
+    </div>
+    @if (error) { <div class="form-error">{{ error }}</div> }
+
+    <button class="btn-guardar" (click)="guardar()" [disabled]="guardando">
+      <mat-icon>save</mat-icon>
+      {{ guardando ? ('login.connecting' | t) : ((editando ? 'common.saveChanges' : 'citas.book') | t) }}
+    </button>
+  </div>
+</div>

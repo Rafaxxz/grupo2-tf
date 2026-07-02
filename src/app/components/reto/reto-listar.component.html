@@ -1,0 +1,38 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'retos.title' | t }}</h1>
+      <p class="page-sub">{{ 'retos.subtitle' | t }}</p>
+    </div>
+    @if (auth.isAdmin()) {
+      <a routerLink="/retos/nuevo" class="btn-nuevo">+ {{ 'retos.new' | t }}</a>
+    }
+  </div>
+
+  <div class="retos-grid">
+    @for (r of retos; track r.idReto) {
+      <div class="reto-card" [class.inactivo]="!r.activo">
+        <div class="reto-header">
+          <span class="reto-tipo">{{ r.tipo }}</span>
+          <span class="reto-activo" [class.on]="r.activo">
+            <mat-icon>{{ r.activo ? 'check_circle' : 'cancel' }}</mat-icon>
+            {{ (r.activo ? 'common.active' : 'common.inactive') | t }}
+          </span>
+        </div>
+        <h3 class="reto-titulo">{{ r.titulo }}</h3>
+        <p class="reto-desc">{{ r.descripcion }}</p>
+        <div class="reto-meta">
+          <span class="reto-dif" [style.color]="difColor(r.dificultad || '')">{{ r.dificultad }}</span>
+          <span class="reto-dur"><mat-icon>schedule</mat-icon> {{ r.duracionDias }} {{ 'retos.days' | t }}</span>
+        </div>
+        @if (auth.isAdmin()) {
+          <div class="reto-actions">
+            <a [routerLink]="['/retos/editar', r.idReto]" class="btn-edit"><mat-icon>edit</mat-icon></a>
+            <button type="button" (click)="eliminar(r.idReto!)" class="btn-del"><mat-icon>delete</mat-icon></button>
+          </div>
+        }
+      </div>
+    }
+    @empty { <p class="empty">{{ cargando ? 'Cargando...' : ('common.empty' | t) }}</p> }
+  </div>
+</div>

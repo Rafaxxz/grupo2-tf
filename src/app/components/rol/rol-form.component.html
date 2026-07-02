@@ -1,0 +1,19 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ (editando ? 'roles.formEdit' : 'roles.formNew') | t }}</h1>
+      <p class="page-sub">{{ 'roles.subtitle' | t }}</p>
+    </div>
+    <a routerLink="/roles" class="btn-back"><mat-icon>arrow_back</mat-icon> {{ 'common.back' | t }}</a>
+  </div>
+
+  <div class="form-card">
+    <div class="form-group">
+      <label>{{ 'common.name' | t }} *</label>
+      <input [(ngModel)]="rol.nombre" name="nombre" maxlength="20" placeholder="ADMIN, PADRE, HIJO..." />
+    </div>
+    <button type="button" class="btn-guardar" (click)="guardar()">
+      <mat-icon>save</mat-icon> {{ (editando ? 'common.saveChanges' : 'common.create') | t }}
+    </button>
+  </div>
+</div>

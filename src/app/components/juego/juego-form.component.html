@@ -1,0 +1,34 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'juegos.formNew' | t }}</h1>
+      <p class="page-sub">{{ 'juegos.subtitle' | t }}</p>
+    </div>
+    <a routerLink="/juegos" class="btn-back"><mat-icon>arrow_back</mat-icon> {{ 'common.back' | t }}</a>
+  </div>
+
+  <div class="form-card">
+    <div class="form-group">
+      <label>{{ 'common.name' | t }} *</label>
+      <input [(ngModel)]="juego.nombre" name="nombre" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>{{ 'juegos.plataforma' | t }}</label>
+        <input [(ngModel)]="juego.plataforma" name="plataforma" placeholder="PC, PlayStation, Switch..." />
+      </div>
+      <div class="form-group">
+        <label>{{ 'juegos.categoria' | t }}</label>
+        <select [(ngModel)]="juego.categoriaId" name="categoria">
+          <option [ngValue]="undefined">—</option>
+          @for (c of categorias; track c.idCategoria) {
+            <option [ngValue]="c.idCategoria">{{ c.nombre }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <button type="button" class="btn-guardar" (click)="guardar()">
+      <mat-icon>save</mat-icon> {{ 'common.create' | t }}
+    </button>
+  </div>
+</div>

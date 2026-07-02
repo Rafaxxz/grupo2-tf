@@ -1,0 +1,45 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'canjes.title' | t }}</h1>
+      <p class="page-sub">{{ 'canjes.subtitle' | t }}</p>
+    </div>
+    @if (auth.isAdmin() || auth.isHijo()) {
+      <a routerLink="/canjes/nuevo" class="btn-nuevo">+ {{ 'canjes.new' | t }}</a>
+    }
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>{{ 'canjes.usuario' | t }}</th>
+          <th>{{ 'canjes.recompensa' | t }}</th>
+          <th>{{ 'canjes.puntos' | t }}</th>
+          <th>{{ 'canjes.fecha' | t }}</th>
+          @if (auth.isAdmin()) { <th>{{ 'common.actions' | t }}</th> }
+        </tr>
+      </thead>
+      <tbody>
+        @for (c of canjes; track c.idCanje) {
+          <tr>
+            <td>{{ nombreUsuario(c.usuarioId) }}</td>
+            <td>{{ nombreRecompensa(c.recompensaId) }}</td>
+            <td class="puntos">{{ c.puntosUsados || 0 }}</td>
+            <td>{{ c.canjeadoEn ? (c.canjeadoEn | date:'dd/MM/yyyy HH:mm') : '—' }}</td>
+            @if (auth.isAdmin()) {
+              <td>
+                <div class="row-actions">
+                  <button type="button" class="icon-btn danger" (click)="eliminar(c.idCanje!)"><mat-icon>delete</mat-icon></button>
+                </div>
+              </td>
+            }
+          </tr>
+        }
+        @empty {
+          <tr class="empty-row"><td [attr.colspan]="auth.isAdmin() ? 5 : 4">{{ 'common.empty' | t }}</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

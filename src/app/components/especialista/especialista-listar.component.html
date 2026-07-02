@@ -1,0 +1,37 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'especialistas.title' | t }}</h1>
+      <p class="page-sub">{{ 'especialistas.subtitle' | t }}</p>
+    </div>
+    @if (auth.isAdmin()) {
+      <a routerLink="/especialistas/nuevo" class="btn-nuevo">+ {{ 'especialistas.new' | t }}</a>
+    }
+  </div>
+
+  <div class="esp-grid">
+    @for (e of especialistas; track e.idEspecialista) {
+      <div class="esp-card">
+        <div class="esp-top">
+          <span class="esp-modalidad" [class.online]="e.modalidad === 'virtual'">
+            {{ (e.modalidad === 'virtual' ? 'especialistas.online' : 'especialistas.inperson') | t }}
+          </span>
+          @if (e.verificado) { <span class="esp-verificado"><mat-icon>verified</mat-icon> {{ 'especialistas.verified' | t }}</span> }
+        </div>
+        <div class="esp-avatar">{{ nombreUsuario(e.usuarioId!)[0] }}</div>
+        <h3 class="esp-nombre">{{ nombreUsuario(e.usuarioId!) }}</h3>
+        <span class="esp-especialidad">{{ e.especialidad }}</span>
+        <div class="esp-actions">
+          @if (auth.isAdmin() || auth.isPadre()) {
+            <a routerLink="/citas/nuevo" class="btn-agendar">{{ 'especialistas.book' | t }}</a>
+          }
+          @if (auth.isAdmin()) {
+            <a [routerLink]="['/especialistas/editar', e.idEspecialista]" class="btn-edit"><mat-icon>edit</mat-icon></a>
+            <button type="button" (click)="eliminar(e.idEspecialista!)" class="btn-del"><mat-icon>delete</mat-icon></button>
+          }
+        </div>
+      </div>
+    }
+    @empty { <p class="empty">{{ 'especialistas.empty' | t }}</p> }
+  </div>
+</div>

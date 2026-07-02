@@ -1,0 +1,56 @@
+@import '../shared.css';
+
+.juegos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+
+.juego-card {
+  background: #12121f; border: 1px solid #2a2a3e; border-radius: 14px;
+  padding: 20px; display: flex; flex-direction: column; gap: 12px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.juego-card:hover { border-color: #ff4d7d44; transform: translateY(-2px); }
+.juego-card.bloq { opacity: 0.75; }
+.juego-card.activo { border-color: #4eca8b; }
+
+.juego-top { display: flex; justify-content: space-between; align-items: center; }
+.juego-icon {
+  width: 44px; height: 44px; border-radius: 12px; background: #ff4d7d18;
+  display: flex; align-items: center; justify-content: center;
+}
+.juego-icon mat-icon { color: #ff4d7d; font-size: 24px; width: 24px; height: 24px; }
+
+.juego-nombre { font-size: 17px; font-weight: 700; color: #fff; margin: 0; }
+
+.juego-meta { display: flex; flex-direction: column; gap: 6px; }
+.juego-meta span { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #999; }
+.juego-meta mat-icon { font-size: 16px; width: 16px; height: 16px; }
+
+.estado-badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.estado-ok { background: #4eca8b22; color: #4eca8b; }
+.estado-bloqueado { background: #f4433622; color: #f44336; }
+.estado-fuera-horario { background: #ff980022; color: #ff9800; }
+.estado-tiempo-agotado { background: #ff980022; color: #ff9800; }
+
+.btn-play, .btn-stop {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  border: none; border-radius: 8px; padding: 11px; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: background 0.2s; margin-top: auto;
+}
+.btn-play { background: #ff4d7d; color: #fff; }
+.btn-play:hover { background: #e63d6d; }
+.btn-play:disabled { background: #2a2a3e; color: #666; cursor: not-allowed; }
+.btn-stop { background: #f44336; color: #fff; }
+.btn-stop:hover { background: #d63a2f; }
+.btn-play mat-icon, .btn-stop mat-icon { font-size: 18px; width: 18px; height: 18px; }
+
+.jugando {
+  display: flex; align-items: center; gap: 6px;
+  color: #4eca8b; font-size: 13px; font-weight: 600;
+}
+.jugando mat-icon { font-size: 12px; width: 12px; height: 12px; animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: 0.3; } }
+
+.empty-state { grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #555; }
+.empty-state mat-icon { font-size: 48px; width: 48px; height: 48px; display: block; margin: 0 auto 12px; }
+
+body.padre-theme .juego-card { background: #ffffff; border-color: #e0e4f0; }
+body.padre-theme .juego-nombre { color: #1a1a3e; }

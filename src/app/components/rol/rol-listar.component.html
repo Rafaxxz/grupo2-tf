@@ -1,0 +1,38 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ 'roles.title' | t }}</h1>
+      <p class="page-sub">{{ 'roles.subtitle' | t }}</p>
+    </div>
+    <a routerLink="/roles/nuevo" class="btn-nuevo">+ {{ 'roles.new' | t }}</a>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>{{ 'common.id' | t }}</th>
+          <th>{{ 'common.name' | t }}</th>
+          <th>{{ 'common.actions' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of roles; track r.idRol) {
+          <tr>
+            <td>{{ r.idRol }}</td>
+            <td>{{ r.nombre }}</td>
+            <td>
+              <div class="row-actions">
+                <a class="icon-btn" [routerLink]="['/roles/editar', r.idRol]"><mat-icon>edit</mat-icon></a>
+                <button type="button" class="icon-btn danger" (click)="eliminar(r.idRol!)"><mat-icon>delete</mat-icon></button>
+              </div>
+            </td>
+          </tr>
+        }
+        @empty {
+          <tr class="empty-row"><td colspan="3">{{ 'common.empty' | t }}</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

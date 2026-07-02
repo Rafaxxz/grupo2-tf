@@ -1,0 +1,51 @@
+<div class="querys-page">
+  <h1 class="page-title"><mat-icon>query_stats</mat-icon> Reportes y consultas</h1>
+
+  <h2 class="section">Reportes (gráficos)</h2>
+  <div class="grid">
+    @for (card of cards(); track card.titulo) {
+      <div class="card">
+        <h3 class="card-title"><mat-icon>{{ card.icono }}</mat-icon> {{ card.titulo }}</h3>
+        @if (card.data && card.data.labels && card.data.labels.length) {
+          <div class="chart-box">
+            <canvas baseChart [data]="card.data" [type]="card.tipo" [options]="opciones"></canvas>
+          </div>
+        } @else {
+          <div class="empty"><mat-icon>hourglass_empty</mat-icon> Sin datos</div>
+        }
+      </div>
+    }
+  </div>
+
+  <h2 class="section">Consultas (buscar / filtrar)</h2>
+  <div class="grid">
+    @for (c of consultas; track c.titulo) {
+      <div class="card">
+        <h3 class="card-title"><mat-icon>{{ c.icono }}</mat-icon> {{ c.titulo }}</h3>
+        <div class="search-row">
+          <input type="text" [(ngModel)]="c.valor" [placeholder]="c.placeholder" (keydown.enter)="buscar(c)" />
+          <button (click)="buscar(c)"><mat-icon>search</mat-icon> Buscar</button>
+        </div>
+        @if (c.buscado) {
+          @if (c.resultados.length) {
+            <div class="table-box">
+              <table>
+                <thead>
+                  <tr>@for (col of c.columnas; track col) { <th>{{ col }}</th> }</tr>
+                </thead>
+                <tbody>
+                  @for (fila of c.resultados; track $index) {
+                    <tr>@for (col of c.columnas; track col) { <td>{{ fila[col] }}</td> }</tr>
+                  }
+                </tbody>
+              </table>
+              <p class="count">{{ c.resultados.length }} resultado(s)</p>
+            </div>
+          } @else {
+            <div class="empty"><mat-icon>search_off</mat-icon> Sin resultados</div>
+          }
+        }
+      </div>
+    }
+  </div>
+</div>

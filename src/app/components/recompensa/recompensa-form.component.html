@@ -1,0 +1,43 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ (editando ? 'recompensas.formEdit' : 'recompensas.formNew') | t }}</h1>
+      <p class="page-sub">{{ (editando ? 'recompensas.formEditSub' : 'recompensas.formNewSub') | t }}</p>
+    </div>
+    <a routerLink="/recompensas" class="btn-back"><mat-icon>arrow_back</mat-icon> {{ 'common.back' | t }}</a>
+  </div>
+  <div class="form-card">
+    <div class="form-row">
+      <div class="form-group">
+        <label>{{ 'recompensas.fName' | t }} *</label>
+        <input [(ngModel)]="recompensa.nombre" name="nombre" [placeholder]="'recompensas.fNamePh' | t" />
+      </div>
+      <div class="form-group">
+        <label>{{ 'recompensas.fType' | t }} *</label>
+        <select [(ngModel)]="recompensa.tipo" name="tipo">
+          @for (t of tipos; track t) { <option [value]="t">{{ t }}</option> }
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>{{ 'recompensas.fDesc' | t }}</label>
+      <textarea [(ngModel)]="recompensa.descripcion" name="desc" rows="3" [placeholder]="'recompensas.fDescPh' | t"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>{{ 'recompensas.fCost' | t }}</label>
+        <input type="number" [(ngModel)]="recompensa.costoPuntos" name="costo" min="0" />
+      </div>
+      <div class="form-group">
+        <label>{{ 'recompensas.fUrl' | t }}</label>
+        <input [(ngModel)]="recompensa.recursoUrl" name="url" placeholder="https://..." />
+      </div>
+    </div>
+    @if (error) {
+      <p class="form-error"><mat-icon>error_outline</mat-icon> {{ error }}</p>
+    }
+    <button class="btn-guardar" (click)="guardar()" [disabled]="guardando">
+      <mat-icon>save</mat-icon> {{ guardando ? 'Guardando...' : ((editando ? 'common.saveChanges' : 'recompensas.create') | t) }}
+    </button>
+  </div>
+</div>

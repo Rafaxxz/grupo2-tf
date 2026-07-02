@@ -1,0 +1,16 @@
+@import '../shared.css';
+@import '../table.css';
+
+.filtro-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.filtro-bar label { color: #888; font-size: 13px; }
+.filtro-bar select {
+  background: #1a1a2e;
+  border: 1px solid #2a2a3e;
+  border-radius: 8px;
+  color: #fff;
+  padding: 9px 14px;
+  font-size: 14px;
+  outline: none;
+}
+body.padre-theme .filtro-bar select { background: #ffffff; border-color: #d0d6e8; color: #1a1a3e; }
+body.padre-theme .filtro-bar label { color: #5a6480; }

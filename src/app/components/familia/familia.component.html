@@ -1,0 +1,60 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title"><mat-icon>family_restroom</mat-icon> {{ 'familia.title' | t }}</h1>
+      <p class="page-sub">{{ 'familia.subtitle' | t }}</p>
+    </div>
+  </div>
+
+  <!-- Vincular hijo -->
+  <div class="card vincular-card">
+    <h3><mat-icon>person_add</mat-icon> {{ 'familia.vincularTitle' | t }}</h3>
+    <p class="card-hint">{{ 'familia.vincularHint' | t }}</p>
+    <div class="vincular-row">
+      <div class="input-wrap">
+        <mat-icon>email</mat-icon>
+        <input type="email" [(ngModel)]="hijoEmail" [placeholder]="'familia.emailPh' | t" (keydown.enter)="vincular()" />
+      </div>
+      <button class="btn-vincular" (click)="vincular()" [disabled]="vinculando">
+        <mat-icon>link</mat-icon>
+        {{ vinculando ? ('familia.vinculando' | t) : ('familia.vincularBtn' | t) }}
+      </button>
+    </div>
+    @if (error)  { <p class="msg-error"><mat-icon>error_outline</mat-icon> {{ error }}</p> }
+    @if (exito)  { <p class="msg-ok"><mat-icon>check_circle</mat-icon> {{ exito }}</p> }
+  </div>
+
+  <!-- Lista de hijos -->
+  <div class="card">
+    <h3><mat-icon>groups</mat-icon> {{ 'familia.hijosTitle' | t }}</h3>
+
+    @if (cargando) {
+      <p class="empty">{{ 'familia.cargando' | t }}</p>
+    } @else if (hijos.length === 0) {
+      <div class="empty-state">
+        <mat-icon>child_care</mat-icon>
+        <p>{{ 'familia.sinHijos' | t }}</p>
+      </div>
+    } @else {
+      <div class="hijos-grid">
+        @for (h of hijos; track h.idUsuario) {
+          <div class="hijo-card">
+            <div class="hijo-avatar">{{ h.nombre.charAt(0).toUpperCase() }}</div>
+            <div class="hijo-info">
+              <span class="hijo-nombre">{{ h.nombre }}</span>
+              <span class="hijo-user">&#64;{{ h.username }}</span>
+              <span class="hijo-email">{{ h.email }}</span>
+            </div>
+            <div class="hijo-puntos">
+              <mat-icon>stars</mat-icon>
+              <span>{{ h.puntosTotales ?? 0 }} pts</span>
+            </div>
+            <button class="btn-desvincular" (click)="desvincular(h)" title="{{ 'familia.desvincularBtn' | t }}">
+              <mat-icon>link_off</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

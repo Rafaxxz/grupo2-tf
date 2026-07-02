@@ -1,0 +1,70 @@
+<div class="chat-wrapper" [class.tema-hijo]="esHijo" [class.tema-padre]="esPadre">
+
+  <!-- Cabecera con badge de rol -->
+  <header class="chat-header">
+    <div class="chat-title">
+      <mat-icon>smart_toy</mat-icon>
+      <span>PlayBot</span>
+    </div>
+    <div class="chat-header-right">
+      <span class="rol-badge" [class.badge-padre]="esPadre" [class.badge-hijo]="esHijo">
+        <mat-icon>{{ esPadre ? 'shield' : 'sports_esports' }}</mat-icon>
+        {{ rol || 'USUARIO' }}
+      </span>
+      <button class="btn-limpiar" type="button" title="Limpiar pantalla"
+              (click)="limpiarPantalla()" [disabled]="mensajes.length === 0">
+        <mat-icon>delete_sweep</mat-icon>
+      </button>
+    </div>
+  </header>
+
+  <!-- Zona de mensajes -->
+  <div #scrollBox class="chat-body">
+
+    <div *ngIf="cargandoHistorial" class="estado-info">
+      <div class="spinner"></div>
+      <span>Cargando conversación...</span>
+    </div>
+
+    <div *ngIf="!cargandoHistorial && mensajes.length === 0" class="estado-info vacio">
+      <mat-icon>chat</mat-icon>
+      <p>{{ esPadre
+        ? 'Hola 👋 Soy PlayBot. Pregúntame sobre límites de tiempo, alertas o reportes de tus hijos.'
+        : '¡Hola! 🎮 Soy PlayBot. Pregúntame sobre tus juegos, retos y cómo ganar más puntos.' }}</p>
+    </div>
+
+    <div *ngFor="let m of mensajes"
+         class="burbuja-row"
+         [class.row-user]="m.from === 'user'"
+         [class.row-ia]="m.from === 'ia'">
+      <div class="burbuja"
+           [class.b-user]="m.from === 'user'"
+           [class.b-ia]="m.from === 'ia'"
+           [class.b-error]="m.error">
+        <div class="burbuja-text">{{ m.text }}</div>
+        <div class="burbuja-hora">{{ m.hora | date:'shortTime' }}</div>
+      </div>
+    </div>
+
+    <!-- Spinner mientras la IA responde -->
+    <div *ngIf="cargando" class="burbuja-row row-ia">
+      <div class="burbuja b-ia escribiendo">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <footer class="chat-input">
+    <textarea
+      [(ngModel)]="entrada"
+      (keydown)="onKeydown($event)"
+      [disabled]="cargando"
+      rows="1"
+      placeholder="Escribe tu mensaje... (Enter para enviar)"></textarea>
+    <button class="btn-enviar" type="button" (click)="enviar()"
+            [disabled]="cargando || !entrada.trim()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </footer>
+</div>
