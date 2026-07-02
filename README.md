@@ -21,6 +21,7 @@ El proyecto se divide en dos aplicaciones:
 - [Puesta en marcha](#puesta-en-marcha)
 - [Roles y permisos](#roles-y-permisos)
 - [Módulos del sistema](#módulos-del-sistema)
+- [Chatbot con IA (Google Gemini)](#chatbot-con-ia-google-gemini)
 - [Endpoints principales](#endpoints-principales)
 - [Internacionalización (ES / EN)](#internacionalización-es--en)
 - [Estructura del frontend](#estructura-del-frontend)
@@ -115,7 +116,54 @@ según el rol del token.
 - **Catálogo de juego:** Categorías, Juegos y Sesiones de juego.
 - **Bienestar:** Especialistas, Citas, Guías y Contenido educativo.
 - **Familia:** Mensajería interna entre miembros.
+- **Asistente IA (PlayBot):** Chatbot con Google Gemini para padres e hijos (ver sección siguiente).
 - **Administración:** Usuarios y Roles.
+
+---
+
+## Chatbot con IA (Google Gemini)
+
+**PlayBot** es un asistente conversacional integrado que usa la API de **Google Gemini**
+(endpoint `generateContent`). Está disponible para los roles **PADRE** e **HIJO** en la
+ruta protegida `/chatbot` (enlace "PlayBot" en el menú lateral).
+
+**Características:**
+
+- **Prompt de sistema según el rol:** tono profesional para el PADRE (límites de tiempo,
+  alertas, reportes) y tono amigable/gamificado para el HIJO (juegos, retos, recompensas,
+  mencionando sus puntos).
+- **Memoria conversacional (multi-turn):** envía a Gemini las **últimas 6 interacciones**
+  del usuario como contexto.
+- **Historial persistido** en la tabla `chat_historial` (entidad `ChatHistorial`), listable
+  por usuario y ordenado por fecha descendente.
+- **Manejo de rate limit:** si Gemini responde `429`/`503`, el backend devuelve un `503`
+  con un mensaje claro ("el asistente está muy solicitado…") en vez de un `500` genérico.
+- **Respuestas rápidas:** `thinkingBudget: 0` (desactiva el razonamiento del modelo) y
+  `maxOutputTokens` para respuestas breves y ahorro de cuota.
+- **UI:** burbujas (usuario a la derecha, IA a la izquierda), envío con Enter, auto-scroll,
+  spinner de carga, badge/tema visual distinto según rol y botón para limpiar la pantalla
+  (sin borrar el historial en BD).
+
+**Configuración de la API key (backend):** la clave se lee de la variable de entorno
+`GEMINI_API_KEY` (nunca hardcodeada en el código). En `application.properties`:
+
+```properties
+gemini.api.key=${GEMINI_API_KEY:}
+gemini.model=gemini-3.1-flash-lite
+```
+
+Obtén una key gratuita en **Google AI Studio** (https://aistudio.google.com/apikey) y
+defínela como variable de entorno antes de arrancar el backend.
+
+**Endpoints:**
+
+| Método | Ruta | Descripción |
+|---|---|---|
+| `POST` | `/api/chatbot/preguntar` | Recibe `{ idUsuario, mensaje }`, responde según el rol y guarda la interacción. |
+| `GET` | `/api/chatbot/historial/{idUsuario}` | Historial completo del usuario (orden descendente). |
+
+**Archivos del frontend:** `services/chatbot.service.ts`, `models/chat.model.ts`,
+`components/chatbot/` (`.ts` / `.html` / `.css`).
 
 ---
 
@@ -135,6 +183,7 @@ según el rol del token.
 | Retos por usuario | `/api/retos-usuario` | CRUD + `por-usuario`, `por-completado`, `dashboard` |
 | Canjes | `/api/canjes` | CRUD + `por-usuario`, `balance`, `puntos-gastados` |
 | Mensajes | `/api/mensajes` | `GET`, `POST /nuevo`, `conversacion`, `no-leidos/{id}` |
+| Chatbot IA | `/api/chatbot` | `POST /preguntar`, `GET /historial/{idUsuario}` |
 | Alertas | `/alertas` | `GET`, `POST`, `usuario/{id}`, `no-leidas` |
 | Límites de tiempo | `/limites` | CRUD + `usuario/{id}`, `bloqueados` |
 | Especialistas | `/api/especialistas` | CRUD + `verificados` |

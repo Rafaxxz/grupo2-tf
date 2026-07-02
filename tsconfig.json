@@ -21,10 +21,7 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
-  "files": [
-    "src/ws.d.ts"
-  ],
-
+  "files": [],
   "references": [
     {
       "path": "./tsconfig.app.json"
